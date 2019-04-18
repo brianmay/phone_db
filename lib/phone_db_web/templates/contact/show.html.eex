@@ -1,0 +1,23 @@
+<h1>Show Contact</h1>
+
+<ul>
+
+  <li>
+    <strong>Phone number:</strong>
+    <%= @contact.phone_number %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @contact.name %>
+  </li>
+
+  <li>
+    <strong>Action:</strong>
+    <%= @contact.action %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.contact_path(@conn, :edit, @contact) %></span>
+<span><%= link "Back", to: Routes.contact_path(@conn, :index) %></span>
