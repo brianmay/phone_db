@@ -11,8 +11,7 @@ config :logger, level: :warn
 
 # Configure your database
 config :phone_db, PhoneDb.Repo,
-  username: "postgres",
-  password: "postgres",
   database: "phone_db_test",
-  hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+import_config "dev.secret.exs"
