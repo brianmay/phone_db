@@ -65,10 +65,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Configure your database
-config :phone_db, PhoneDb.Repo,
-  database: "phone_db_dev",
-  pool_size: 10
-
-import_config "dev.secret.exs"
