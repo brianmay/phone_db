@@ -6,6 +6,7 @@ defmodule PhoneDb.Contacts.Contact do
     field :action, :string
     field :name, :string
     field :phone_number, :string
+    has_many :phone_calls, PhoneDb.Contacts.PhoneCall
 
     timestamps()
   end
