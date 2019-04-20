@@ -13,5 +13,3 @@ config :logger, level: :warn
 config :phone_db, PhoneDb.Repo,
   database: "phone_db_test",
   pool: Ecto.Adapters.SQL.Sandbox
-
-import_config "dev.secret.exs"
