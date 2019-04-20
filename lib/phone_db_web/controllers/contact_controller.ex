@@ -3,6 +3,7 @@ defmodule PhoneDbWeb.ContactController do
 
   alias PhoneDb.Contacts
   alias PhoneDb.Contacts.Contact
+  alias PhoneDb.Repo
 
   @actions [
     {"Allow", "allow"},
@@ -32,7 +33,7 @@ defmodule PhoneDbWeb.ContactController do
   end
 
   def show(conn, %{"id" => id}) do
-    contact = Contacts.get_contact!(id)
+    contact = Contacts.get_contact!(id) |> Repo.preload(:phone_calls)
     render(conn, "show.html", contact: contact)
   end
 

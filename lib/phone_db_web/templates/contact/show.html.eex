@@ -21,3 +21,20 @@
 
 <span><%= link "Edit", to: Routes.contact_path(@conn, :edit, @contact) %></span>
 <span><%= link "Back", to: Routes.contact_path(@conn, :index) %></span>
+
+<table>
+  <thead>
+    <tr>
+      <th>Time/Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for phone_call <- @contact.phone_calls do %>
+    <tr>
+      <td><%= format_timestamp(phone_call.inserted_at) %></td>
+      <td><%= phone_call.action %></td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

@@ -1,6 +1,7 @@
 defmodule PhoneDb.Contacts.PhoneCall do
   use Ecto.Schema
   import Ecto.Changeset
+  @timestamps_opts [type: :utc_datetime, usec: true]
 
   schema "phone_calls" do
     field :action, :string
