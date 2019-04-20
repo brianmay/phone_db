@@ -7,7 +7,7 @@ defmodule PhoneDb.Repo.Migrations.CreateContacts do
       add :name, :string, null: true
       add :action, :string, null: false
 
-      timestamps()
+      timestamps(type: :timestamptz)
     end
 
     create unique_index(:contacts, [:phone_number])

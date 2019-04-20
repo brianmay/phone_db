@@ -6,7 +6,7 @@ defmodule PhoneDb.Repo.Migrations.CreatePhoneCalls do
       add :action, :string, null: false
       add :contact_id, references(:contacts), null: false
 
-      timestamps()
+      timestamps(type: :timestamptz)
     end
   end
 end
