@@ -51,8 +51,7 @@ defmodule PhoneDb.PhoneCallsTest do
     test "create_phone_call/1 with valid data creates a phone_call" do
       contact = contact_fixture()
 
-      assert {:ok, %PhoneCall{} = phone_call} =
-               Contacts.create_phone_call(@valid_attrs, contact)
+      assert {:ok, %PhoneCall{} = phone_call} = Contacts.create_phone_call(@valid_attrs, contact)
 
       assert phone_call.action == "some action"
     end
@@ -74,8 +73,7 @@ defmodule PhoneDb.PhoneCallsTest do
     test "update_phone_call/2 with invalid data returns error changeset" do
       phone_call = phone_call_fixture()
 
-      assert {:error, %Ecto.Changeset{}} =
-               Contacts.update_phone_call(phone_call, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Contacts.update_phone_call(phone_call, @invalid_attrs)
 
       assert phone_call == Contacts.get_phone_call!(phone_call.id)
     end
@@ -89,6 +87,49 @@ defmodule PhoneDb.PhoneCallsTest do
     test "change_phone_call/1 returns a phone_call changeset" do
       phone_call = phone_call_fixture()
       assert %Ecto.Changeset{} = Contacts.change_phone_call(phone_call)
+    end
+
+    test "incoming_phone_call/1 creates a contact and a phone_call" do
+      action = Contacts.incoming_phone_call("0312345678")
+      assert action == "allow"
+
+      contacts = Contacts.list_contacts()
+      assert length(contacts) == 1
+      contact = hd(contacts)
+
+      assert contact.phone_number == "0312345678"
+      assert contact.action == "allow"
+
+      phone_calls = Contacts.list_phone_calls()
+      assert length(phone_calls) == 1
+      phone_call = hd(phone_calls)
+
+      assert phone_call.contact_id == contact.id
+      assert phone_call.action == "allow"
+    end
+
+    test "incoming_phone_call/1 for existing contact creates phone_call" do
+      {:ok, contact} =
+        PhoneDb.Contacts.create_contact(%{
+          action: "voicemail",
+          name: "Idiot",
+          phone_number: "0312345678"
+        })
+
+      action = Contacts.incoming_phone_call("0312345678")
+      assert action == "voicemail"
+
+      contacts = Contacts.list_contacts()
+      assert length(contacts) == 1
+      listed_contact = hd(contacts)
+      assert listed_contact.id == contact.id
+
+      phone_calls = Contacts.list_phone_calls()
+      assert length(phone_calls) == 1
+      phone_call = hd(phone_calls)
+
+      assert phone_call.contact_id == contact.id
+      assert phone_call.action == "voicemail"
     end
   end
 end
