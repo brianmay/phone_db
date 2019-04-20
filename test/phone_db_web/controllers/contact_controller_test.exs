@@ -90,4 +90,21 @@ defmodule PhoneDbWeb.ContactControllerTest do
     contact = fixture(:contact)
     {:ok, contact: contact}
   end
+
+  describe "phone call index" do
+    test "lists all phone calls", %{conn: conn} do
+      conn = get(conn, Routes.phone_call_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Phone Calls"
+    end
+  end
+
+  describe "incoming call returns an action" do
+    test "lists all phone calls", %{conn: conn} do
+      url = Routes.api_path(conn, :incoming_call)
+      data = %{"phone_number" => "0312345678"}
+      conn = post(conn, url, data)
+      assert json_response(conn, 200) == %{"action" => "allow"}
+    end
+  end
+
 end
