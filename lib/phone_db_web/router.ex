@@ -17,6 +17,7 @@ defmodule PhoneDbWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/phone_calls", PhoneCallController, :index
     resources "/contacts", ContactController
   end
 

@@ -2,6 +2,7 @@ defmodule PhoneDb.PhoneCallsTest do
   use PhoneDb.DataCase
 
   alias PhoneDb.Contacts
+  alias PhoneDb.Repo
 
   describe "phone_calls" do
     alias PhoneDb.Contacts.PhoneCall
@@ -39,7 +40,7 @@ defmodule PhoneDb.PhoneCallsTest do
     end
 
     test "list_phone_calls/0 returns all phone_calls" do
-      phone_call = phone_call_fixture()
+      phone_call = phone_call_fixture() |> Repo.preload(:contact)
       assert Contacts.list_phone_calls() == [phone_call]
     end
 

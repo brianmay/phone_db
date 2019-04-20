@@ -113,7 +113,7 @@ defmodule PhoneDb.Contacts do
 
   """
   def list_phone_calls do
-    Repo.all(PhoneCall)
+    Repo.all(PhoneCall) |> Repo.preload(:contact)
   end
 
   @doc """
