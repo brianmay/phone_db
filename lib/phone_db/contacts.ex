@@ -52,7 +52,7 @@ defmodule PhoneDb.Contacts do
   """
   def create_contact(attrs \\ %{}) do
     %Contact{}
-    |> Contact.changeset(attrs)
+    |> Contact.create_changeset(attrs)
     |> Repo.insert()
   end
 

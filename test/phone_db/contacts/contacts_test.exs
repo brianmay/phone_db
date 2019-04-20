@@ -49,7 +49,7 @@ defmodule PhoneDb.ContactsTest do
       assert {:ok, %Contact{} = contact} = Contacts.update_contact(contact, @update_attrs)
       assert contact.action == "some updated action"
       assert contact.name == "some updated name"
-      assert contact.phone_number == "some updated phone_number"
+      assert contact.phone_number == "some phone_number"
     end
 
     test "update_contact/2 with invalid data returns error changeset" do
