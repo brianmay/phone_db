@@ -219,6 +219,10 @@ defmodule PhoneDb.Contacts do
       end
 
     {:ok, _} = create_phone_call(%{action: contact.action}, contact)
-    contact.action
+
+    %{
+      action: contact.action,
+      name: contact.name
+    }
   end
 end

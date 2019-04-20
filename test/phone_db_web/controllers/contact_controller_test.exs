@@ -103,7 +103,8 @@ defmodule PhoneDbWeb.ContactControllerTest do
       url = Routes.api_path(conn, :incoming_call)
       data = %{"phone_number" => "0312345678"}
       conn = post(conn, url, data)
-      assert json_response(conn, 200) == %{"action" => "allow"}
+      expected = %{"action" => "allow", "name" => nil}
+      assert json_response(conn, 200) == expected
     end
   end
 end
