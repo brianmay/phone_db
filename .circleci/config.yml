@@ -76,9 +76,6 @@ jobs:
 
       - store_test_results:
           path: _build/test/lib/phone_db
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
 
   deploy-beta:
     docker:
