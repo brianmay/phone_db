@@ -7,7 +7,11 @@ defmodule PhoneDb.ContactsTest do
     alias PhoneDb.Contacts.Contact
 
     @valid_attrs %{action: "some action", name: "some name", phone_number: "some phone_number"}
-    @update_attrs %{action: "some updated action", name: "some updated name", phone_number: "some updated phone_number"}
+    @update_attrs %{
+      action: "some updated action",
+      name: "some updated name",
+      phone_number: "some updated phone_number"
+    }
     @invalid_attrs %{action: nil, name: nil, phone_number: nil}
 
     def contact_fixture(attrs \\ %{}) do

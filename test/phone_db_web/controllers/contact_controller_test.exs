@@ -4,7 +4,11 @@ defmodule PhoneDbWeb.ContactControllerTest do
   alias PhoneDb.Contacts
 
   @create_attrs %{action: "some action", name: "some name", phone_number: "some phone_number"}
-  @update_attrs %{action: "some updated action", name: "some updated name", phone_number: "some updated phone_number"}
+  @update_attrs %{
+    action: "some updated action",
+    name: "some updated name",
+    phone_number: "some updated phone_number"
+  }
   @invalid_attrs %{action: nil, name: nil, phone_number: nil}
 
   def fixture(:contact) do
@@ -75,6 +79,7 @@ defmodule PhoneDbWeb.ContactControllerTest do
     test "deletes chosen contact", %{conn: conn, contact: contact} do
       conn = delete(conn, Routes.contact_path(conn, :delete, contact))
       assert redirected_to(conn) == Routes.contact_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.contact_path(conn, :show, contact))
       end

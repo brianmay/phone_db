@@ -6,7 +6,7 @@ defmodule PhoneDbWeb.ContactController do
 
   @actions [
     {"Allow", "allow"},
-    {"Voicemail", "voicemail"},
+    {"Voicemail", "voicemail"}
   ]
 
   def index(conn, _params) do
