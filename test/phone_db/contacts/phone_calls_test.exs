@@ -1,7 +1,7 @@
 defmodule PhoneDb.PhoneCallsTest do
   use PhoneDb.DataCase
 
-  alias PhoneDb.PhoneCalls
+  alias PhoneDb.Contacts
 
   describe "phone_calls" do
     alias PhoneDb.Contacts.PhoneCall
@@ -33,40 +33,40 @@ defmodule PhoneDb.PhoneCallsTest do
       {:ok, phone_call} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> PhoneCalls.create_phone_call(contact)
+        |> Contacts.create_phone_call(contact)
 
       phone_call
     end
 
     test "list_phone_calls/0 returns all phone_calls" do
       phone_call = phone_call_fixture()
-      assert PhoneCalls.list_phone_calls() == [phone_call]
+      assert Contacts.list_phone_calls() == [phone_call]
     end
 
     test "get_phone_call!/1 returns the phone_call with given id" do
       phone_call = phone_call_fixture()
-      assert PhoneCalls.get_phone_call!(phone_call.id) == phone_call
+      assert Contacts.get_phone_call!(phone_call.id) == phone_call
     end
 
     test "create_phone_call/1 with valid data creates a phone_call" do
       contact = contact_fixture()
 
       assert {:ok, %PhoneCall{} = phone_call} =
-               PhoneCalls.create_phone_call(@valid_attrs, contact)
+               Contacts.create_phone_call(@valid_attrs, contact)
 
       assert phone_call.action == "some action"
     end
 
     test "create_phone_call/1 with invalid data returns error changeset" do
       contact = contact_fixture()
-      assert {:error, %Ecto.Changeset{}} = PhoneCalls.create_phone_call(@invalid_attrs, contact)
+      assert {:error, %Ecto.Changeset{}} = Contacts.create_phone_call(@invalid_attrs, contact)
     end
 
     test "update_phone_call/2 with valid data updates the phone_call" do
       phone_call = phone_call_fixture()
 
       assert {:ok, %PhoneCall{} = phone_call} =
-               PhoneCalls.update_phone_call(phone_call, @update_attrs)
+               Contacts.update_phone_call(phone_call, @update_attrs)
 
       assert phone_call.action == "some updated action"
     end
@@ -75,20 +75,20 @@ defmodule PhoneDb.PhoneCallsTest do
       phone_call = phone_call_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
-               PhoneCalls.update_phone_call(phone_call, @invalid_attrs)
+               Contacts.update_phone_call(phone_call, @invalid_attrs)
 
-      assert phone_call == PhoneCalls.get_phone_call!(phone_call.id)
+      assert phone_call == Contacts.get_phone_call!(phone_call.id)
     end
 
     test "delete_phone_call/1 deletes the phone_call" do
       phone_call = phone_call_fixture()
-      assert {:ok, %PhoneCall{}} = PhoneCalls.delete_phone_call(phone_call)
-      assert_raise Ecto.NoResultsError, fn -> PhoneCalls.get_phone_call!(phone_call.id) end
+      assert {:ok, %PhoneCall{}} = Contacts.delete_phone_call(phone_call)
+      assert_raise Ecto.NoResultsError, fn -> Contacts.get_phone_call!(phone_call.id) end
     end
 
     test "change_phone_call/1 returns a phone_call changeset" do
       phone_call = phone_call_fixture()
-      assert %Ecto.Changeset{} = PhoneCalls.change_phone_call(phone_call)
+      assert %Ecto.Changeset{} = Contacts.change_phone_call(phone_call)
     end
   end
 end
