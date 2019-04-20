@@ -106,5 +106,4 @@ defmodule PhoneDbWeb.ContactControllerTest do
       assert json_response(conn, 200) == %{"action" => "allow"}
     end
   end
-
 end
