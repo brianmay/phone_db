@@ -8,7 +8,7 @@ defmodule PhoneDb.PhoneCallsTest do
 
     @valid_attrs %{action: "some action"}
     @update_attrs %{
-      action: "some updated action",
+      action: "some updated action"
     }
     @invalid_attrs %{action: nil}
 
@@ -18,15 +18,18 @@ defmodule PhoneDb.PhoneCallsTest do
         name: "some name",
         phone_number: "some phone_number"
       }
+
       {:ok, contact} =
         attrs
         |> Enum.into(valid_attrs)
         |> PhoneDb.Contacts.create_contact()
+
       contact
     end
 
     def phone_call_fixture(attrs \\ %{}) do
       contact = contact_fixture()
+
       {:ok, phone_call} =
         attrs
         |> Enum.into(@valid_attrs)
@@ -47,7 +50,10 @@ defmodule PhoneDb.PhoneCallsTest do
 
     test "create_phone_call/1 with valid data creates a phone_call" do
       contact = contact_fixture()
-      assert {:ok, %PhoneCall{} = phone_call} = PhoneCalls.create_phone_call(@valid_attrs, contact)
+
+      assert {:ok, %PhoneCall{} = phone_call} =
+               PhoneCalls.create_phone_call(@valid_attrs, contact)
+
       assert phone_call.action == "some action"
     end
 
@@ -58,13 +64,19 @@ defmodule PhoneDb.PhoneCallsTest do
 
     test "update_phone_call/2 with valid data updates the phone_call" do
       phone_call = phone_call_fixture()
-      assert {:ok, %PhoneCall{} = phone_call} = PhoneCalls.update_phone_call(phone_call, @update_attrs)
+
+      assert {:ok, %PhoneCall{} = phone_call} =
+               PhoneCalls.update_phone_call(phone_call, @update_attrs)
+
       assert phone_call.action == "some updated action"
     end
 
     test "update_phone_call/2 with invalid data returns error changeset" do
       phone_call = phone_call_fixture()
-      assert {:error, %Ecto.Changeset{}} = PhoneCalls.update_phone_call(phone_call, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               PhoneCalls.update_phone_call(phone_call, @invalid_attrs)
+
       assert phone_call == PhoneCalls.get_phone_call!(phone_call.id)
     end
 

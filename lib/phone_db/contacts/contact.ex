@@ -15,6 +15,6 @@ defmodule PhoneDb.Contacts.Contact do
   def changeset(contact, attrs) do
     contact
     |> cast(attrs, [:phone_number, :name, :action])
-    |> validate_required([:phone_number, :name, :action])
+    |> validate_required([:phone_number, :action])
   end
 end

@@ -6,6 +6,8 @@ defmodule PhoneDb.PhoneCalls do
   import Ecto.Query, warn: false
   alias PhoneDb.Repo
 
+  alias PhoneDb.Contacts
+  alias PhoneDb.Contacts.Contact
   alias PhoneDb.Contacts.PhoneCall
 
   @doc """
@@ -101,5 +103,29 @@ defmodule PhoneDb.PhoneCalls do
   """
   def change_phone_call(%PhoneCall{} = phone_call) do
     PhoneCall.changeset(phone_call, %{})
+  end
+
+  @doc """
+  Record a phone call and return required action.
+
+  ## Examples
+
+      iex> incoming_phone_call("12345768")
+      "voicemail"
+
+  """
+  def incoming_phone_call(phone_number) do
+    contact =
+      case Repo.get_by(Contact, phone_number: phone_number) do
+        nil ->
+          {:ok, contact} = Contacts.create_contact(%{phone_number: phone_number, action: "allow"})
+          contact
+
+        contact ->
+          contact
+      end
+
+    {:ok, _} = create_phone_call(%{action: contact.action}, contact)
+    contact.action
   end
 end

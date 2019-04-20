@@ -20,8 +20,8 @@ defmodule PhoneDbWeb.Router do
     resources "/contacts", ContactController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", PhoneDbWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", PhoneDbWeb do
+    pipe_through :api
+    post "/incoming_call", ApiController, :incoming_call
+  end
 end
