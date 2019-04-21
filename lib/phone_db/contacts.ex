@@ -19,7 +19,7 @@ defmodule PhoneDb.Contacts do
 
   """
   def list_contacts do
-    Repo.all(Contact)
+    Contact |> order_by(:name) |> Repo.all()
   end
 
   @doc """
