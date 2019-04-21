@@ -75,22 +75,6 @@ defmodule PhoneDb.Contacts do
   end
 
   @doc """
-  Deletes a Contact.
-
-  ## Examples
-
-      iex> delete_contact(contact)
-      {:ok, %Contact{}}
-
-      iex> delete_contact(contact)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_contact(%Contact{} = contact) do
-    Repo.delete(contact)
-  end
-
-  @doc """
   Returns an `%Ecto.Changeset{}` for tracking contact changes.
 
   ## Examples
@@ -149,22 +133,6 @@ defmodule PhoneDb.Contacts do
     |> Ecto.build_assoc(:phone_calls)
     |> PhoneCall.changeset(attrs)
     |> Repo.insert()
-  end
-
-  @doc """
-  Deletes a PhoneCall.
-
-  ## Examples
-
-      iex> delete_phone_call(phone_call)
-      {:ok, %PhoneCall{}}
-
-      iex> delete_phone_call(phone_call)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_phone_call(%PhoneCall{} = phone_call) do
-    Repo.delete(phone_call)
   end
 
   @doc """

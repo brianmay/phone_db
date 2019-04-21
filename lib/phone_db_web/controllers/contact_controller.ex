@@ -56,13 +56,4 @@ defmodule PhoneDbWeb.ContactController do
         render(conn, "edit.html", contact: contact, changeset: changeset, actions: @actions)
     end
   end
-
-  def delete(conn, %{"id" => id}) do
-    contact = Contacts.get_contact!(id)
-    {:ok, _contact} = Contacts.delete_contact(contact)
-
-    conn
-    |> put_flash(:info, "Contact deleted successfully.")
-    |> redirect(to: Routes.contact_path(conn, :index))
-  end
 end

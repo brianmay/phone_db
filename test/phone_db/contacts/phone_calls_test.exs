@@ -59,12 +59,6 @@ defmodule PhoneDb.PhoneCallsTest do
       assert {:error, %Ecto.Changeset{}} = Contacts.create_phone_call(@invalid_attrs, contact)
     end
 
-    test "delete_phone_call/1 deletes the phone_call" do
-      phone_call = phone_call_fixture()
-      assert {:ok, %PhoneCall{}} = Contacts.delete_phone_call(phone_call)
-      assert_raise Ecto.NoResultsError, fn -> Contacts.get_phone_call!(phone_call.id) end
-    end
-
     test "incoming_phone_call/1 creates a contact and a phone_call" do
       response = Contacts.incoming_phone_call("0312345678")
       assert response == %{

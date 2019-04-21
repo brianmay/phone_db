@@ -58,12 +58,6 @@ defmodule PhoneDb.ContactsTest do
       assert contact == Contacts.get_contact!(contact.id)
     end
 
-    test "delete_contact/1 deletes the contact" do
-      contact = contact_fixture()
-      assert {:ok, %Contact{}} = Contacts.delete_contact(contact)
-      assert_raise Ecto.NoResultsError, fn -> Contacts.get_contact!(contact.id) end
-    end
-
     test "change_contact/1 returns a contact changeset" do
       contact = contact_fixture()
       assert %Ecto.Changeset{} = Contacts.change_contact(contact)

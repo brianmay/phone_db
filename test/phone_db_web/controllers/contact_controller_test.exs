@@ -73,19 +73,6 @@ defmodule PhoneDbWeb.ContactControllerTest do
     end
   end
 
-  describe "delete contact" do
-    setup [:create_contact]
-
-    test "deletes chosen contact", %{conn: conn, contact: contact} do
-      conn = delete(conn, Routes.contact_path(conn, :delete, contact))
-      assert redirected_to(conn) == Routes.contact_path(conn, :index)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.contact_path(conn, :show, contact))
-      end
-    end
-  end
-
   defp create_contact(_) do
     contact = fixture(:contact)
     {:ok, contact: contact}

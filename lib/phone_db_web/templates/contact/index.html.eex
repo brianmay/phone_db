@@ -20,7 +20,6 @@
       <td>
         <%= link "Show", to: Routes.contact_path(@conn, :show, contact) %>
         <%= link "Edit", to: Routes.contact_path(@conn, :edit, contact) %>
-        <%= link "Delete", to: Routes.contact_path(@conn, :delete, contact), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>
 <% end %>
