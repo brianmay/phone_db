@@ -152,24 +152,6 @@ defmodule PhoneDb.Contacts do
   end
 
   @doc """
-  Updates a phone_call.
-
-  ## Examples
-
-      iex> update_phone_call(phone_call, %{field: new_value})
-      {:ok, %PhoneCall{}}
-
-      iex> update_phone_call(phone_call, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_phone_call(%PhoneCall{} = phone_call, attrs) do
-    phone_call
-    |> PhoneCall.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
   Deletes a PhoneCall.
 
   ## Examples
@@ -183,19 +165,6 @@ defmodule PhoneDb.Contacts do
   """
   def delete_phone_call(%PhoneCall{} = phone_call) do
     Repo.delete(phone_call)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking phone_call changes.
-
-  ## Examples
-
-      iex> change_phone_call(phone_call)
-      %Ecto.Changeset{source: %PhoneCall{}}
-
-  """
-  def change_phone_call(%PhoneCall{} = phone_call) do
-    PhoneCall.changeset(phone_call, %{})
   end
 
   @doc """

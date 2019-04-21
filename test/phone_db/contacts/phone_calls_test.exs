@@ -8,9 +8,6 @@ defmodule PhoneDb.PhoneCallsTest do
     alias PhoneDb.Contacts.PhoneCall
 
     @valid_attrs %{action: "some action"}
-    @update_attrs %{
-      action: "some updated action"
-    }
     @invalid_attrs %{action: nil}
 
     def contact_fixture(attrs \\ %{}) do
@@ -62,32 +59,10 @@ defmodule PhoneDb.PhoneCallsTest do
       assert {:error, %Ecto.Changeset{}} = Contacts.create_phone_call(@invalid_attrs, contact)
     end
 
-    test "update_phone_call/2 with valid data updates the phone_call" do
-      phone_call = phone_call_fixture()
-
-      assert {:ok, %PhoneCall{} = phone_call} =
-               Contacts.update_phone_call(phone_call, @update_attrs)
-
-      assert phone_call.action == "some updated action"
-    end
-
-    test "update_phone_call/2 with invalid data returns error changeset" do
-      phone_call = phone_call_fixture()
-
-      assert {:error, %Ecto.Changeset{}} = Contacts.update_phone_call(phone_call, @invalid_attrs)
-
-      assert phone_call == Contacts.get_phone_call!(phone_call.id)
-    end
-
     test "delete_phone_call/1 deletes the phone_call" do
       phone_call = phone_call_fixture()
       assert {:ok, %PhoneCall{}} = Contacts.delete_phone_call(phone_call)
       assert_raise Ecto.NoResultsError, fn -> Contacts.get_phone_call!(phone_call.id) end
-    end
-
-    test "change_phone_call/1 returns a phone_call changeset" do
-      phone_call = phone_call_fixture()
-      assert %Ecto.Changeset{} = Contacts.change_phone_call(phone_call)
     end
 
     test "incoming_phone_call/1 creates a contact and a phone_call" do
