@@ -19,6 +19,14 @@ defmodule PhoneDbWeb.UserControllerTest do
     username: "some updated username"
   }
   @invalid_attrs %{is_admin: nil, is_phone: nil, is_trusted: nil, username: nil}
+  @password_attrs %{
+    password: "some password",
+    password_confirmation: "some password"
+  }
+  @invalid_password_attrs %{
+    password: "some password",
+    password_confirmation: "some other password"
+  }
 
   def fixture(:token) do
     {:ok, user} =
@@ -90,6 +98,20 @@ defmodule PhoneDbWeb.UserControllerTest do
       token = fixture(:token)
       conn = put_req_header(conn, "authorization", "bearer: " <> token)
       conn = put(conn, Routes.user_path(conn, :update, user))
+      response(conn, 401)
+    end
+
+    test "edit user password", %{conn: conn, user: user} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = get(conn, Routes.user_path(conn, :password_edit, user))
+      response(conn, 401)
+    end
+
+    test "update user password", %{conn: conn, user: user} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = put(conn, Routes.user_path(conn, :password_update, user))
       response(conn, 401)
     end
 
@@ -183,6 +205,43 @@ defmodule PhoneDbWeb.UserControllerTest do
 
       conn = put(conn, Routes.user_path(conn, :update, user), user: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit User"
+    end
+  end
+
+  describe "edit password" do
+    setup [:create_user]
+
+    test "renders form for editing chosen user", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
+      conn = get(conn, Routes.user_path(conn, :password_edit, user))
+      assert html_response(conn, 200) =~ "Change User Password"
+    end
+  end
+
+  describe "update password" do
+    setup [:create_user]
+
+    test "redirects when data is valid", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
+      conn = put(conn, Routes.user_path(conn, :password_update, user), user: @password_attrs)
+      assert redirected_to(conn) == Routes.user_path(conn, :show, user)
+
+      conn = get(conn, Routes.user_path(conn, :show, user))
+      assert html_response(conn, 200) =~ "Show User"
+    end
+
+    test "renders errors when data is invalid", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
+      conn =
+        put(conn, Routes.user_path(conn, :password_update, user), user: @invalid_password_attrs)
+
+      assert html_response(conn, 200) =~ "Change User Password"
     end
   end
 

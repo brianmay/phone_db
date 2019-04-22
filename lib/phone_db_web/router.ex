@@ -52,6 +52,8 @@ defmodule PhoneDbWeb.Router do
     pipe_through [:browser, :auth, :ensure_admin]
 
     resources "/users", UserController
+    get "/users/:id/password", UserController, :password_edit
+    put "/users/:id/password", UserController, :password_update
   end
 
   scope "/api", PhoneDbWeb do

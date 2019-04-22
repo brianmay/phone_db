@@ -51,6 +51,26 @@ defmodule PhoneDbWeb.UserController do
     end
   end
 
+  def password_edit(conn, %{"id" => id}) do
+    user = Users.get_user!(id)
+    changeset = Users.change_password(user)
+    render(conn, "password.html", user: user, changeset: changeset)
+  end
+
+  def password_update(conn, %{"id" => id, "user" => user_params}) do
+    user = Users.get_user!(id)
+
+    case Users.update_password(user, user_params) do
+      {:ok, user} ->
+        conn
+        |> put_flash(:info, "User updated successfully.")
+        |> redirect(to: Routes.user_path(conn, :show, user))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "password.html", user: user, changeset: changeset)
+    end
+  end
+
   def delete(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     {:ok, _user} = Users.delete_user(user)

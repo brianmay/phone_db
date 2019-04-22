@@ -74,6 +74,24 @@ defmodule PhoneDb.Users do
   end
 
   @doc """
+  Updates a user's password.
+
+  ## Examples
+
+      iex> update_password(user, %{field: new_value})
+      {:ok, %User{}}
+
+      iex> update_password(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_password(%User{} = user, attrs) do
+    user
+    |> User.password_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Deletes a User.
 
   ## Examples
@@ -100,6 +118,19 @@ defmodule PhoneDb.Users do
   """
   def change_user(%User{} = user) do
     User.update_changeset(user, %{})
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+
+      iex> change_password(user)
+      %Ecto.Changeset{source: %User{}}
+
+  """
+  def change_password(%User{} = user) do
+    User.password_changeset(user, %{})
   end
 
   @doc """
