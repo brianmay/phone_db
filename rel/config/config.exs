@@ -10,4 +10,4 @@ config :phone_db, PhoneDbWeb.Endpoint,
 
 config :phone_db, PhoneDb.Users.Guardian,
   issuer: "phone_db",
-  secret_key: System.get_env("GUADIAN_SECRET")
+  secret_key: System.get_env("GUARDIAN_SECRET")
