@@ -2,10 +2,38 @@ defmodule PhoneDbWeb.UserControllerTest do
   use PhoneDbWeb.ConnCase
 
   alias PhoneDb.Users
+  alias PhoneDb.Users.Guardian
 
-  @create_attrs %{is_admin: true, is_phone: true, is_trusted: true, password: "some password", password_confirmation: "some password", username: "some username"}
-  @update_attrs %{is_admin: false, is_phone: false, is_trusted: false, username: "some updated username"}
+  @create_attrs %{
+    is_admin: true,
+    is_phone: true,
+    is_trusted: true,
+    password: "some password",
+    password_confirmation: "some password",
+    username: "some username"
+  }
+  @update_attrs %{
+    is_admin: false,
+    is_phone: false,
+    is_trusted: false,
+    username: "some updated username"
+  }
   @invalid_attrs %{is_admin: nil, is_phone: nil, is_trusted: nil, username: nil}
+
+  def fixture(:admin_token) do
+    {:ok, user} =
+      Users.create_user(%{
+        is_admin: true,
+        is_phone: false,
+        is_trusted: false,
+        password: "some password",
+        password_confirmation: "some password",
+        username: "admin"
+      })
+
+    {:ok, token, _} = Guardian.encode_and_sign(user, %{}, token_type: :access)
+    token
+  end
 
   def fixture(:user) do
     {:ok, user} = Users.create_user(@create_attrs)
@@ -14,6 +42,9 @@ defmodule PhoneDbWeb.UserControllerTest do
 
   describe "index" do
     test "lists all users", %{conn: conn} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = get(conn, Routes.user_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Users"
     end
@@ -21,6 +52,9 @@ defmodule PhoneDbWeb.UserControllerTest do
 
   describe "new user" do
     test "renders form", %{conn: conn} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = get(conn, Routes.user_path(conn, :new))
       assert html_response(conn, 200) =~ "New User"
     end
@@ -28,6 +62,9 @@ defmodule PhoneDbWeb.UserControllerTest do
 
   describe "create user" do
     test "redirects to show when data is valid", %{conn: conn} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = post(conn, Routes.user_path(conn, :create), user: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
@@ -38,6 +75,9 @@ defmodule PhoneDbWeb.UserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = post(conn, Routes.user_path(conn, :create), user: @invalid_attrs)
       assert html_response(conn, 200) =~ "New User"
     end
@@ -47,6 +87,9 @@ defmodule PhoneDbWeb.UserControllerTest do
     setup [:create_user]
 
     test "renders form for editing chosen user", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = get(conn, Routes.user_path(conn, :edit, user))
       assert html_response(conn, 200) =~ "Edit User"
     end
@@ -56,6 +99,9 @@ defmodule PhoneDbWeb.UserControllerTest do
     setup [:create_user]
 
     test "redirects when data is valid", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = put(conn, Routes.user_path(conn, :update, user), user: @update_attrs)
       assert redirected_to(conn) == Routes.user_path(conn, :show, user)
 
@@ -64,6 +110,9 @@ defmodule PhoneDbWeb.UserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = put(conn, Routes.user_path(conn, :update, user), user: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit User"
     end
@@ -73,8 +122,12 @@ defmodule PhoneDbWeb.UserControllerTest do
     setup [:create_user]
 
     test "deletes chosen user", %{conn: conn, user: user} do
+      token = fixture(:admin_token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+
       conn = delete(conn, Routes.user_path(conn, :delete, user))
       assert redirected_to(conn) == Routes.user_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.user_path(conn, :show, user))
       end

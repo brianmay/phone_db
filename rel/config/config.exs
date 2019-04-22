@@ -7,3 +7,7 @@ config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: port],
   url: [host: "localhost", port: port],
   secret_key_base: System.get_env("SECRET_KEY_BASE") || default_secret_key_base
+
+config :phone_db, PhoneDb.Users.Guardian,
+  issuer: "phone_db",
+  secret_key: System.get_env("GUADIAN_SECRET")

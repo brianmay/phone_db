@@ -101,4 +101,30 @@ defmodule PhoneDb.Users do
   def change_user(%User{} = user) do
     User.update_changeset(user, %{})
   end
+
+  @doc """
+  Tests if user is can be authenticated with given password.
+
+  ## Examples
+
+      iex> authenticate_user(user, "password")
+      {:ok, %Ecto.Changeset{source: %User{}}}
+
+  """
+  def authenticate_user(username, plain_text_password) do
+    query = from u in User, where: u.username == ^username
+
+    case Repo.one(query) do
+      nil ->
+        Bcrypt.no_user_verify()
+        {:error, :invalid_credentials}
+
+      user ->
+        if Bcrypt.verify_pass(plain_text_password, user.password_hash) do
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
+  end
 end

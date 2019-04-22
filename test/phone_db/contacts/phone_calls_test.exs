@@ -61,10 +61,11 @@ defmodule PhoneDb.PhoneCallsTest do
 
     test "incoming_phone_call/1 creates a contact and a phone_call" do
       response = Contacts.incoming_phone_call("0312345678")
+
       assert response == %{
-        action: "allow",
-        name: nil,
-      }
+               action: "allow",
+               name: nil
+             }
 
       contacts = Contacts.list_contacts()
       assert length(contacts) == 1
@@ -91,10 +92,11 @@ defmodule PhoneDb.PhoneCallsTest do
         })
 
       response = Contacts.incoming_phone_call("0312345678")
+
       assert response == %{
-        action: "voicemail",
-        name: "Idiot",
-      }
+               action: "voicemail",
+               name: "Idiot"
+             }
 
       contacts = Contacts.list_contacts()
       assert length(contacts) == 1

@@ -18,8 +18,22 @@ defmodule PhoneDb.Users.User do
   @doc false
   def create_changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :password,  :password_confirmation, :is_admin, :is_trusted, :is_phone])
-    |> validate_required([:username, :password, :password_confirmation, :is_admin, :is_trusted, :is_phone])
+    |> cast(attrs, [
+      :username,
+      :password,
+      :password_confirmation,
+      :is_admin,
+      :is_trusted,
+      :is_phone
+    ])
+    |> validate_required([
+      :username,
+      :password,
+      :password_confirmation,
+      :is_admin,
+      :is_trusted,
+      :is_phone
+    ])
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password)
     |> unique_constraint(:username)
@@ -38,7 +52,7 @@ defmodule PhoneDb.Users.User do
   @doc false
   def password_changeset(user, attrs) do
     user
-    |> cast(attrs, [:password,  :password_confirmation])
+    |> cast(attrs, [:password, :password_confirmation])
     |> validate_required([:password, :password_confirmation])
     |> validate_length(:password, min: 8)
     |> validate_confirmation(:password)
@@ -46,7 +60,9 @@ defmodule PhoneDb.Users.User do
     |> put_change(:password_confirmation, nil)
   end
 
-  defp put_password_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+  defp put_password_hash(
+         %Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset
+       ) do
     change(changeset, Bcrypt.add_hash(password))
   end
 

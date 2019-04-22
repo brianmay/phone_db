@@ -13,3 +13,7 @@ config :logger, level: :warn
 config :phone_db, PhoneDb.Repo,
   database: "phone_db_test",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :phone_db, PhoneDb.Users.Guardian,
+  issuer: "phone_db",
+  secret_key: "/q7S9SP028A/BbWqkiisc5qZXbBWQFg8+GSTkflTAfRw/K9jCzJKWpSWvWUEoUU4"
