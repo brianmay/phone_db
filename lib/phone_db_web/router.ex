@@ -18,6 +18,11 @@ defmodule PhoneDbWeb.Router do
     plug Guardian.Plug.EnsureAuthenticated
   end
 
+  pipeline :ensure_admin do
+    plug Guardian.Plug.EnsureAuthenticated
+    plug PhoneDb.Users.CheckAdmin
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
 
@@ -41,6 +46,11 @@ defmodule PhoneDbWeb.Router do
 
     get "/phone_calls", PhoneCallController, :index
     resources "/contacts", ContactController
+  end
+
+  scope "/", PhoneDbWeb do
+    pipe_through [:browser, :auth, :ensure_admin]
+
     resources "/users", UserController
   end
 

@@ -20,6 +20,21 @@ defmodule PhoneDbWeb.UserControllerTest do
   }
   @invalid_attrs %{is_admin: nil, is_phone: nil, is_trusted: nil, username: nil}
 
+  def fixture(:token) do
+    {:ok, user} =
+      Users.create_user(%{
+        is_admin: false,
+        is_phone: false,
+        is_trusted: false,
+        password: "some password",
+        password_confirmation: "some password",
+        username: "admin"
+      })
+
+    {:ok, token, _} = Guardian.encode_and_sign(user, %{}, token_type: :access)
+    token
+  end
+
   def fixture(:admin_token) do
     {:ok, user} =
       Users.create_user(%{
@@ -38,6 +53,59 @@ defmodule PhoneDbWeb.UserControllerTest do
   def fixture(:user) do
     {:ok, user} = Users.create_user(@create_attrs)
     user
+  end
+
+  describe "non admin user" do
+    setup [:create_user]
+
+    test "lists all users", %{conn: conn} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = get(conn, Routes.user_path(conn, :index))
+      response(conn, 401)
+    end
+
+    test "new user", %{conn: conn} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = get(conn, Routes.user_path(conn, :new))
+      response(conn, 401)
+    end
+
+    test "create user", %{conn: conn} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = put(conn, Routes.user_path(conn, :new))
+      response(conn, 401)
+    end
+
+    test "edit user", %{conn: conn, user: user} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = get(conn, Routes.user_path(conn, :edit, user))
+      response(conn, 401)
+    end
+
+    test "update user", %{conn: conn, user: user} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = put(conn, Routes.user_path(conn, :update, user))
+      response(conn, 401)
+    end
+
+    test "show user", %{conn: conn, user: user} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = get(conn, Routes.user_path(conn, :edit, user))
+      response(conn, 401)
+    end
+
+    test "delete user", %{conn: conn, user: user} do
+      token = fixture(:token)
+      conn = put_req_header(conn, "authorization", "bearer: " <> token)
+      conn = delete(conn, Routes.user_path(conn, :delete, user))
+      response(conn, 401)
+    end
   end
 
   describe "index" do

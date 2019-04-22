@@ -17,6 +17,19 @@ defmodule PhoneDbWeb.ApiControllerTest do
     user
   end
 
+  def fixture(:phone_user) do
+    {:ok, user} =
+      Users.create_user(%{
+        is_admin: false,
+        is_phone: true,
+        is_trusted: false,
+        password: "some password",
+        password_confirmation: "some password",
+        username: "user"
+      })
+
+    user
+  end
 
   defp using_basic_auth(conn, username, password) do
     header_content = "Basic " <> Base.encode64("#{username}:#{password}")
@@ -31,8 +44,18 @@ defmodule PhoneDbWeb.ApiControllerTest do
       json_response(conn, 401)
     end
 
-    test "as phone user succeeds", %{conn: conn} do
+    test "as normal user fails", %{conn: conn} do
       fixture(:user)
+      conn = using_basic_auth(conn, "user", "some password")
+
+      url = Routes.api_path(conn, :incoming_call)
+      data = %{"phone_number" => "0312345678"}
+      conn = post(conn, url, data)
+      json_response(conn, 401)
+    end
+
+    test "as phone user succeeds", %{conn: conn} do
+      fixture(:phone_user)
       conn = using_basic_auth(conn, "user", "some password")
 
       url = Routes.api_path(conn, :incoming_call)
