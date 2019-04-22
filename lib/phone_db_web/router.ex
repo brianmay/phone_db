@@ -19,6 +19,7 @@ defmodule PhoneDbWeb.Router do
     get "/", PageController, :index
     get "/phone_calls", PhoneCallController, :index
     resources "/contacts", ContactController
+    resources "/users", UserController
   end
 
   scope "/api", PhoneDbWeb do

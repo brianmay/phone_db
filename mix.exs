@@ -44,7 +44,8 @@ defmodule PhoneDb.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:distillery, "~> 2.0"},
-      {:calendar, "~> 0.17"}
+      {:calendar, "~> 0.17"},
+      {:bcrypt_elixir, "~> 2.0"}
     ]
   end
 

@@ -1,0 +1,39 @@
+<h1>New User</h1>
+
+<%= form_for @changeset, Routes.user_path(@conn, :create), fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>oops, something went wrong! please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :username %>
+  <%= text_input f, :username %>
+  <%= error_tag f, :username %>
+
+  <%= label f, :password %>
+  <%= password_input f, :password %>
+  <%= error_tag f, :password %>
+
+  <%= label f, :password_confirmation %>
+  <%= password_input f, :password_confirmation %>
+  <%= error_tag f, :password_confirmation %>
+
+  <%= label f, :is_admin %>
+  <%= checkbox f, :is_admin %>
+  <%= error_tag f, :is_admin %>
+
+  <%= label f, :is_trusted %>
+  <%= checkbox f, :is_trusted %>
+  <%= error_tag f, :is_trusted %>
+
+  <%= label f, :is_phone %>
+  <%= checkbox f, :is_phone %>
+  <%= error_tag f, :is_phone %>
+
+  <div>
+    <%= submit "save" %>
+  </div>
+<% end %>
+
+<span><%= link "Back", to: Routes.user_path(@conn, :index) %></span>
