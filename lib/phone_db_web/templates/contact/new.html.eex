@@ -1,5 +1,27 @@
 <h1>New Contact</h1>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.contact_path(@conn, :create)) %>
+<%= form_for @changeset, Routes.contact_path(@conn, :create), fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :phone_number %>
+  <%= text_input f, :phone_number %>
+  <%= error_tag f, :phone_number %>
+
+  <%= label f, :name %>
+  <%= text_input f, :name %>
+  <%= error_tag f, :name %>
+
+  <%= label f, :action %>
+  <%= select f, :action, @actions %>
+  <%= error_tag f, :action %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>
 
 <span><%= link "Back", to: Routes.contact_path(@conn, :index) %></span>
