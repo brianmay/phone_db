@@ -21,6 +21,14 @@ defmodule PhoneDb.UsersTest do
       username: "some updated username"
     }
     @invalid_attrs %{is_admin: nil, is_phone: nil, is_trusted: nil, username: nil}
+    @password_attrs %{
+      password: "some other password",
+      password_confirmation: "some other password"
+    }
+    @invalid_password_attrs %{
+      password: "some password",
+      password_confirmation: "some other password"
+    }
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -70,6 +78,19 @@ defmodule PhoneDb.UsersTest do
       assert user == Users.get_user!(user.id)
     end
 
+    test "update_password/2 with valid data updates the user" do
+      user = user_fixture()
+      assert {:ok, %User{} = user} = Users.update_password(user, @password_attrs)
+      {:ok, _} = Bcrypt.check_pass(user, "some other password")
+    end
+
+    test "update_password/2 with invalid data returns error changeset" do
+      user = user_fixture()
+      assert {:error, %Ecto.Changeset{}} = Users.update_password(user, @invalid_password_attrs)
+      assert user == Users.get_user!(user.id)
+      {:ok, _} = Bcrypt.check_pass(user, "some password")
+    end
+
     test "delete_user/1 deletes the user" do
       user = user_fixture()
       assert {:ok, %User{}} = Users.delete_user(user)
@@ -79,6 +100,11 @@ defmodule PhoneDb.UsersTest do
     test "change_user/1 returns a user changeset" do
       user = user_fixture()
       assert %Ecto.Changeset{} = Users.change_user(user)
+    end
+
+    test "change_password/1 returns a user changeset" do
+      user = user_fixture()
+      assert %Ecto.Changeset{} = Users.change_password(user)
     end
 
     test "authenticate_user/2 returns success" do
