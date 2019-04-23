@@ -129,9 +129,9 @@ defmodule PhoneDb.Contacts do
 
   """
   def create_phone_call(attrs, contact) do
-    contact
-    |> Ecto.build_assoc(:phone_calls)
+    %PhoneCall{}
     |> PhoneCall.changeset(attrs)
+    |> Ecto.Changeset.change(contact_id: contact.id)
     |> Repo.insert()
   end
 
