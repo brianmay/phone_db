@@ -13,7 +13,7 @@ config :phone_db,
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "3fE3LsvhBSnIXVFsJA4ck3Hs3bYfMcAQ6KOUx1Qya8LdQQpIxuW3oTCfijiH6LFp",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: PhoneDbWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2],
   live_view: [
