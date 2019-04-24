@@ -12,11 +12,28 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><%= link "Get Started", to: Routes.page_path(@conn, :index) %></li>
+            <% user = Guardian.Plug.current_resource(@conn) %>
+            <%= if is_nil(user) do %>
+              <li>Not logged in</li>
+              <li>
+                <%= link "Login", to: Routes.session_path(@conn, :login) %>
+              </li>
+            <% else %>
+                <%= user.username %>
+              <li>
+                <%= link "List Contacts", to: Routes.contact_path(@conn, :index) %>
+              </li>
+              <li>
+                <%= link "List Phone Calls", to: Routes.phone_call_path(@conn, :index) %>
+              </li>
+              <li>
+                <%= link "Logout", to: Routes.session_path(@conn, :logout), method: :post %>
+              </li>
+            <% end %>
           </ul>
         </nav>
         <div class="phx-logo">
-          Phone DB
+          <%= link "Phone DB", to: Routes.page_path(@conn, :index) %>
         </div>
       </section>
     </header>

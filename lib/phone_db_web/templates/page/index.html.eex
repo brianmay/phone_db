@@ -7,7 +7,8 @@
   <article class="column">
     <h2>Resources</h2>
     <ul>
-      <%= if @user do %>
+      <% user = Guardian.Plug.current_resource(@conn) %>
+      <%= if not is_nil(user) do %>
         <li>
           <%= link "List Contacts", to: Routes.contact_path(@conn, :index) %>
         </li>

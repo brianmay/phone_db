@@ -8,7 +8,7 @@ defmodule PhoneDbWeb.ListContactLive do
 
   def render(assigns) do
     ~L"""
-    -<h1>Listing Contacts</h1>
+    <h1>Listing Contacts</h1>
 
     <form phx-change="search"><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
 
