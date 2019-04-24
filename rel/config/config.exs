@@ -4,7 +4,7 @@ port = String.to_integer(System.get_env("PORT") || "4000")
 
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: port],
-  url: [host: "localhost", port: port],
+  url: [host: System.get_env("HOST"), port: port],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   live_view: [
     signing_salt: System.get_env("SIGNING_SALT")
