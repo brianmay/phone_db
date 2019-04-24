@@ -64,10 +64,10 @@ defmodule PhoneDbWeb.ListContactLive do
     """
   end
 
-  def mount(_session, socket) do
+  def mount(session, socket) do
     {:ok,
      assign(socket,
-       query: nil,
+       query: session.query,
        sort_by: "name",
        sort_order: :asc,
        page: 1,
