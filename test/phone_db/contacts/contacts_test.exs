@@ -28,6 +28,11 @@ defmodule PhoneDb.ContactsTest do
       assert Contacts.list_contacts() == [contact]
     end
 
+    test "count_contacts/0 counts all contacts" do
+      contact_fixture()
+      assert Contacts.count_contacts() == 1
+    end
+
     test "get_contact!/1 returns the contact with given id" do
       contact = contact_fixture()
       assert Contacts.get_contact!(contact.id) == contact

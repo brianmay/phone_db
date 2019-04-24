@@ -9,6 +9,22 @@ defmodule PhoneDb.Contacts do
   alias PhoneDb.Contacts.Contact
   alias PhoneDb.Contacts.PhoneCall
 
+  defp contacts_query(order_by, query) do
+    q = Contact |> order_by(^order_by)
+
+    case query do
+      nil ->
+        q
+
+      "" ->
+        q
+
+      _ ->
+        query = "%#{String.replace(query, "%", "\\%")}%"
+        where(q, [c], ilike(c.phone_number, ^query) or ilike(c.name, ^query))
+    end
+  end
+
   @doc """
   Returns the list of contacts.
 
@@ -18,8 +34,26 @@ defmodule PhoneDb.Contacts do
       [%Contact{}, ...]
 
   """
-  def list_contacts do
-    Contact |> order_by(:name) |> Repo.all()
+  def list_contacts(order_by \\ [{:asc, :name}], query \\ nil, page_number \\ 1, page_size \\ 100) do
+    offset = page_size * (page_number - 1)
+
+    contacts_query(order_by, query)
+    |> limit([_], ^page_size)
+    |> offset([_], ^offset)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the count of contacts.
+
+  ## Examples
+
+      iex> count_contacts()
+      10
+
+  """
+  def count_contacts(query \\ nil) do
+    contacts_query([], query) |> select([c], count(c.id)) |> Repo.one()
   end
 
   @doc """

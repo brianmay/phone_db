@@ -15,7 +15,10 @@ config :phone_db, PhoneDbWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "3fE3LsvhBSnIXVFsJA4ck3Hs3bYfMcAQ6KOUx1Qya8LdQQpIxuW3oTCfijiH6LFp",
   render_errors: [view: PhoneDbWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: System.get_env("SIGNING_SALT")
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -24,6 +27,10 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :phone_db, PhoneDb.Users.Guardian,
+  issuer: "phone_db",
+  secret_key: System.get_env("GUARDIAN_SECRET")
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

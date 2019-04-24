@@ -65,7 +65,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-config :phone_db, PhoneDb.Users.Guardian,
-  issuer: "phone_db",
-  secret_key: System.get_env("GUARDIAN_SECRET")

@@ -42,6 +42,8 @@ defmodule PhoneDbWeb do
       import PhoneDbWeb.ErrorHelpers
       import PhoneDbWeb.Gettext
       alias PhoneDbWeb.Router.Helpers, as: Routes
+
+      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
     end
   end
 
@@ -50,6 +52,7 @@ defmodule PhoneDbWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

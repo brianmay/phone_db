@@ -5,14 +5,15 @@ defmodule PhoneDbWeb.ContactController do
   alias PhoneDb.Contacts.Contact
   alias PhoneDb.Repo
 
+  alias Phoenix.LiveView
+
   @actions [
     {"Allow", "allow"},
     {"Voicemail", "voicemail"}
   ]
 
   def index(conn, _params) do
-    contacts = Contacts.list_contacts()
-    render(conn, "index.html", contacts: contacts)
+    LiveView.Controller.live_render(conn, PhoneDbWeb.ListContactLive, session: %{})
   end
 
   def new(conn, _params) do
