@@ -1,0 +1,28 @@
+<h1>Show Default</h1>
+
+<ul>
+
+  <li>
+    <strong>Order:</strong>
+    <%= @default.order %>
+  </li>
+
+  <li>
+    <strong>Regexp:</strong>
+    <%= @default.regexp %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @default.name %>
+  </li>
+
+  <li>
+    <strong>Action:</strong>
+    <%= @default.action %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.default_path(@conn, :edit, @default) %></span>
+<span><%= link "Back", to: Routes.default_path(@conn, :index) %></span>

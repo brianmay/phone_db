@@ -1,4 +1,4 @@
-defmodule PhoneDb.ContactsTest do
+defmodule PhoneDb.Contacts.ContactsTest do
   use PhoneDb.DataCase
 
   alias PhoneDb.Contacts

@@ -179,21 +179,171 @@ defmodule PhoneDb.Contacts do
 
   """
   def incoming_phone_call(phone_number) do
-    contact =
-      case Repo.get_by(Contact, phone_number: phone_number) do
-        nil ->
-          {:ok, contact} = create_contact(%{phone_number: phone_number, action: "allow"})
-          contact
-
-        contact ->
-          contact
-      end
-
+    contact = get_contact_for_phone_number(phone_number)
     {:ok, _} = create_phone_call(%{action: contact.action}, contact)
 
     %{
       action: contact.action,
       name: contact.name
     }
+  end
+
+  alias PhoneDb.Contacts.Default
+
+  @doc """
+  Returns the list of defaults.
+
+  ## Examples
+
+      iex> list_defaults()
+      [%Default{}, ...]
+
+  """
+  def list_defaults do
+    Repo.all(Default, order_by: :order)
+  end
+
+  @doc """
+  Gets a single default.
+
+  Raises `Ecto.NoResultsError` if the Default does not exist.
+
+  ## Examples
+
+      iex> get_default!(123)
+      %Default{}
+
+      iex> get_default!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_default!(id), do: Repo.get!(Default, id)
+
+  @doc """
+  Creates a default.
+
+  ## Examples
+
+      iex> create_default(%{field: value})
+      {:ok, %Default{}}
+
+      iex> create_default(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_default(attrs \\ %{}) do
+    %Default{}
+    |> Default.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a default.
+
+  ## Examples
+
+      iex> update_default(default, %{field: new_value})
+      {:ok, %Default{}}
+
+      iex> update_default(default, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_default(%Default{} = default, attrs) do
+    default
+    |> Default.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Default.
+
+  ## Examples
+
+      iex> delete_default(default)
+      {:ok, %Default{}}
+
+      iex> delete_default(default)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_default(%Default{} = default) do
+    Repo.delete(default)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking default changes.
+
+  ## Examples
+
+      iex> change_default(default)
+      %Ecto.Changeset{source: %Default{}}
+
+  """
+  def change_default(%Default{} = default) do
+    Default.changeset(default, %{})
+  end
+
+  @doc """
+  Search defaults for a phone number
+
+  ## Examples
+
+      iex> search_defaults("12345768")
+      %Default{}
+
+  """
+  def search_defaults(phone_number) do
+    defaults = list_defaults()
+
+    Enum.find(defaults, fn d ->
+      case Regex.compile(d.regexp) do
+        {:error, reason} ->
+          IO.puts("Invalid regexp #{d.regexp} ignored: #{reason}")
+          false
+
+        {:ok, regex} ->
+          Regex.run(regex, phone_number) != nil
+      end
+    end)
+  end
+
+  @doc """
+  Get or create contact for phone number
+
+  ## Examples
+
+      iex> get_contact_for_phone_number("12345768")
+      %Contact{}
+
+  """
+  def get_contact_for_phone_number(phone_number) do
+    case Repo.get_by(Contact, phone_number: phone_number) do
+      nil ->
+        create_contact_for_phone_number(phone_number)
+
+      contact ->
+        contact
+    end
+  end
+
+  @doc """
+  Create new contact for phone number
+
+  ## Examples
+
+      iex> create_contact_for_phone_number("12345768")
+      %Contact{}
+
+  """
+  def create_contact_for_phone_number(phone_number) do
+    values =
+      case search_defaults(phone_number) do
+        nil -> %{phone_number: phone_number, action: "allow"}
+        default -> %{phone_number: phone_number, action: default.action, name: default.name}
+      end
+
+    {:ok, contact} = create_contact(values)
+    contact
   end
 end

@@ -1,0 +1,5 @@
+<h1>Edit Default</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.default_path(@conn, :update, @default)) %>
+
+<span><%= link "Back", to: Routes.default_path(@conn, :index) %></span>

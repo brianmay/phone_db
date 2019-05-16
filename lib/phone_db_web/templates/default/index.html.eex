@@ -1,0 +1,32 @@
+<h1>Listing Defaults</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Order</th>
+      <th>Regexp</th>
+      <th>Name</th>
+      <th>Action</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for default <- @defaults do %>
+    <tr>
+      <td><%= default.order %></td>
+      <td><%= default.regexp %></td>
+      <td><%= default.name %></td>
+      <td><%= default.action %></td>
+
+      <td>
+        <%= link "Show", to: Routes.default_path(@conn, :show, default) %>
+        <%= link "Edit", to: Routes.default_path(@conn, :edit, default) %>
+        <%= link "Delete", to: Routes.default_path(@conn, :delete, default), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Default", to: Routes.default_path(@conn, :new) %></span>

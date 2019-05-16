@@ -1,4 +1,4 @@
-defmodule PhoneDb.PhoneCallsTest do
+defmodule PhoneDb.Contacts.PhoneCallsTest do
   use PhoneDb.DataCase
 
   alias PhoneDb.Contacts
@@ -59,6 +59,61 @@ defmodule PhoneDb.PhoneCallsTest do
       assert {:error, %Ecto.Changeset{}} = Contacts.create_phone_call(@invalid_attrs, contact)
     end
 
+    test "create_contact_for_phone_number/1 without default" do
+      contact = Contacts.create_contact_for_phone_number("0312345678")
+      assert contact.phone_number == "0312345678"
+      assert contact.action == "allow"
+      assert contact.name == nil
+    end
+
+    test "create_contact_for_phone_number/1 with default" do
+      {:ok, _} =
+        Contacts.create_default(%{
+          action: "some action",
+          name: "some name",
+          order: 42,
+          regexp: "^03"
+        })
+
+      contact = Contacts.create_contact_for_phone_number("0312345678")
+      assert contact.phone_number == "0312345678"
+      assert contact.action == "some action"
+      assert contact.name == "some name"
+    end
+
+    test "get_contact_for_phone_number/1 for existing contact" do
+      {:ok, contact} =
+        PhoneDb.Contacts.create_contact(%{
+          action: "voicemail",
+          name: "Idiot",
+          phone_number: "0312345678"
+        })
+
+      assert contact == Contacts.get_contact_for_phone_number("0312345678")
+    end
+
+    test "get_contact_for_phone_number/1 for new contact without default" do
+      contact = Contacts.get_contact_for_phone_number("0312345678")
+      assert contact.phone_number == "0312345678"
+      assert contact.action == "allow"
+      assert contact.name == nil
+    end
+
+    test "get_contact_for_phone_number/1 for new contact with default" do
+      {:ok, _} =
+        Contacts.create_default(%{
+          action: "some action",
+          name: "some name",
+          order: 42,
+          regexp: "^03"
+        })
+
+      contact = Contacts.get_contact_for_phone_number("0312345678")
+      assert contact.phone_number == "0312345678"
+      assert contact.action == "some action"
+      assert contact.name == "some name"
+    end
+
     test "incoming_phone_call/1 creates a contact and a phone_call" do
       response = Contacts.incoming_phone_call("0312345678")
 
@@ -81,6 +136,38 @@ defmodule PhoneDb.PhoneCallsTest do
 
       assert phone_call.contact_id == contact.id
       assert phone_call.action == "allow"
+    end
+
+    test "incoming_phone_call/1 creates a contact and a phone_call using default" do
+      {:ok, _} =
+        Contacts.create_default(%{
+          action: "some action",
+          name: "some name",
+          order: 42,
+          regexp: "^03"
+        })
+
+      response = Contacts.incoming_phone_call("0312345678")
+
+      assert response == %{
+               action: "some action",
+               name: "some name"
+             }
+
+      contacts = Contacts.list_contacts()
+      assert length(contacts) == 1
+      contact = hd(contacts)
+
+      assert contact.phone_number == "0312345678"
+      assert contact.action == "some action"
+      assert contact.name == "some name"
+
+      phone_calls = Contacts.list_phone_calls()
+      assert length(phone_calls) == 1
+      phone_call = hd(phone_calls)
+
+      assert phone_call.contact_id == contact.id
+      assert phone_call.action == "some action"
     end
 
     test "incoming_phone_call/1 for existing contact creates phone_call" do

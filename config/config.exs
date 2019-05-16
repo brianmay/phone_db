@@ -8,7 +8,11 @@
 use Mix.Config
 
 config :phone_db,
-  ecto_repos: [PhoneDb.Repo]
+  ecto_repos: [PhoneDb.Repo],
+  actions: [
+    {"Allow", "allow"},
+    {"Voicemail", "voicemail"}
+  ]
 
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,

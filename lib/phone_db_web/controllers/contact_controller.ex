@@ -7,10 +7,7 @@ defmodule PhoneDbWeb.ContactController do
 
   alias Phoenix.LiveView
 
-  @actions [
-    {"Allow", "allow"},
-    {"Voicemail", "voicemail"}
-  ]
+  @actions Application.get_env(:phone_db, :actions)
 
   def index(conn, params) do
     LiveView.Controller.live_render(conn, PhoneDbWeb.ListContactLive,
