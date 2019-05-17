@@ -8,8 +8,9 @@ defmodule PhoneDb.ContactsTest do
   describe "actions" do
     test "show_action/0 returns correct values" do
       Enum.each(@actions, fn {word, key} ->
-          assert word == Contacts.show_action(key)
+        assert word == Contacts.show_action(key)
       end)
+
       assert "Unknown (abc)" == Contacts.show_action("abc")
     end
   end
