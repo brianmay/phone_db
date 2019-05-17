@@ -353,12 +353,15 @@ defmodule PhoneDb.Contacts do
   Convert action into user friendly display value.
   """
   def show_action(action) do
-    {word, _} =
+    result =
       Enum.find(@actions, fn
-        {_, action} -> true
+        {_, ^action} -> true
         _ -> false
       end)
 
-    word
+    case result do
+      {word, _} -> word
+      _ -> "Unknown (#{action})"
+    end
   end
 end
