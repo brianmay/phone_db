@@ -17,7 +17,7 @@
       <td><%= format_timestamp(phone_call.inserted_at) %></td>
       <td><%= phone_call.contact.name %></td>
       <td><%= phone_call.contact.phone_number %></td>
-      <td><%= phone_call.action %></td>
+      <td><%= Contacts.show_action phone_call.action %></td>
 
       <td>
         <%= link "Show", to: Routes.contact_path(@conn, :show, phone_call.contact) %>

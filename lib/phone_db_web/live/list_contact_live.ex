@@ -33,7 +33,7 @@ defmodule PhoneDbWeb.ListContactLive do
           <tr>
             <td><%= row.phone_number %></td>
             <td><%= row.name %></td>
-            <td><%= row.action %></td>
+            <td><%= Contacts.show_action row.action %></td>
             <td>
               <%= link "Show", to: Routes.contact_path(@socket, :show, row) %>
               <%= link "Edit", to: Routes.contact_path(@socket, :edit, row) %>

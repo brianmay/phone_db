@@ -9,6 +9,8 @@ defmodule PhoneDb.Contacts do
   alias PhoneDb.Contacts.Contact
   alias PhoneDb.Contacts.PhoneCall
 
+  @actions Application.get_env(:phone_db, :actions)
+
   defp contacts_query(order_by, query) do
     q = Contact |> order_by(^order_by)
 
@@ -345,5 +347,18 @@ defmodule PhoneDb.Contacts do
 
     {:ok, contact} = create_contact(values)
     contact
+  end
+
+  @doc """
+  Convert action into user friendly display value.
+  """
+  def show_action(action) do
+    {word, _} =
+      Enum.find(@actions, fn
+        {_, action} -> true
+        _ -> false
+      end)
+
+    word
   end
 end

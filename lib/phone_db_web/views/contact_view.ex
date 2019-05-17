@@ -1,5 +1,6 @@
 defmodule PhoneDbWeb.ContactView do
   use PhoneDbWeb, :view
+  alias PhoneDb.Contacts
 
   def format_timestamp(nil) do
     nil

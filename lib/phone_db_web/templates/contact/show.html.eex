@@ -14,7 +14,7 @@
 
   <li>
     <strong>Action:</strong>
-    <%= @contact.action %>
+    <%= Contacts.show_action @contact.action %>
   </li>
 
 </ul>
@@ -33,7 +33,7 @@
 <%= for phone_call <- @contact.phone_calls do %>
     <tr>
       <td><%= format_timestamp(phone_call.inserted_at) %></td>
-      <td><%= phone_call.action %></td>
+      <td><%= Contacts.show_action phone_call.action %></td>
     </tr>
 <% end %>
   </tbody>
