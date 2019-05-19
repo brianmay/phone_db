@@ -350,7 +350,7 @@ defmodule PhoneDb.Contacts do
   end
 
   @doc """
-  Convert action into user friendly display value.
+  Convert action into user friendly display value
   """
   def show_action(action) do
     result =
@@ -363,5 +363,21 @@ defmodule PhoneDb.Contacts do
       {word, _} -> word
       _ -> "Unknown (#{action})"
     end
+  end
+
+  @doc """
+  Get phone call statistics from list of contacts
+  """
+  def get_phone_call_stats_for_contacts(contacts) do
+    contact_ids = Enum.map(contacts, fn c -> c.id end)
+
+    query =
+      from p in PhoneCall,
+        group_by: [p.contact_id],
+        join: c in Contact,
+        where: c.id == p.contact_id and c.id in ^contact_ids,
+        select: {p.contact_id, count(p.id)}
+
+    Repo.all(query) |> Enum.into(%{})
   end
 end

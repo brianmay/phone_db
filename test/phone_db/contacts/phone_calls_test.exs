@@ -197,5 +197,24 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
       assert phone_call.contact_id == contact.id
       assert phone_call.action == "voicemail"
     end
+
+    test "get_phone_call_stats_for_contacts/1 returns valid results" do
+      contact1 = Contacts.get_contact_for_phone_number("0312345678")
+      contact2 = Contacts.get_contact_for_phone_number("0387654321")
+
+      Contacts.incoming_phone_call("0312345678")
+      Contacts.incoming_phone_call("0312345678")
+      Contacts.incoming_phone_call("0312345678")
+      Contacts.incoming_phone_call("0387654321")
+      Contacts.incoming_phone_call("0387654321")
+
+      contacts = Contacts.list_contacts()
+      results = Contacts.get_phone_call_stats_for_contacts(contacts)
+
+      assert results == %{
+               contact1.id => 3,
+               contact2.id => 2
+             }
+    end
   end
 end

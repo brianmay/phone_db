@@ -25,15 +25,19 @@ defmodule PhoneDbWeb.ListContactLive do
             Action <%= sort_order_icon("action", @sort_by, @sort_order) %>
           </th>
           <th>
+            Calls
+          </th>
+          <th>
           </th>
         </tr>
       </thead>
       <tbody>
-        <%= for row <- rows(assigns) do %>
+        <%= for row <- @contacts do %>
           <tr>
             <td><%= row.phone_number %></td>
             <td><%= row.name %></td>
             <td><%= Contacts.show_action row.action %></td>
+            <td><%= @stats[row.id] %></td>
             <td>
               <%= link "Show", to: Routes.contact_path(@socket, :show, row) %>
               <%= link "Edit", to: Routes.contact_path(@socket, :edit, row) %>
@@ -72,35 +76,36 @@ defmodule PhoneDbWeb.ListContactLive do
        sort_order: :asc,
        page: 1,
        page_size: 10
-     )}
+     )
+     |> load_data()}
   end
 
   def handle_event("search", %{"query" => query}, socket) do
-    {:noreply, assign(socket, query: query, page: 1)}
+    {:noreply, assign(socket, query: query, page: 1) |> load_data()}
   end
 
   # When the column that is used for sorting is clicked again, we reverse the sort order
   def handle_event("sort", column, %{assigns: %{sort_by: sort_by, sort_order: :asc}} = socket)
       when column == sort_by do
-    {:noreply, assign(socket, sort_by: sort_by, sort_order: :desc)}
+    {:noreply, assign(socket, sort_by: sort_by, sort_order: :desc) |> load_data()}
   end
 
   def handle_event("sort", column, %{assigns: %{sort_by: sort_by, sort_order: :desc}} = socket)
       when column == sort_by do
-    {:noreply, assign(socket, sort_by: sort_by, sort_order: :asc)}
+    {:noreply, assign(socket, sort_by: sort_by, sort_order: :asc) |> load_data()}
   end
 
   # A new column has been clicked
   def handle_event("sort", column, socket) do
-    {:noreply, assign(socket, sort_by: column)}
+    {:noreply, assign(socket, sort_by: column) |> load_data()}
   end
 
   def handle_event("goto-page", page, socket) do
-    {:noreply, assign(socket, page: String.to_integer(page))}
+    {:noreply, assign(socket, page: String.to_integer(page)) |> load_data()}
   end
 
   def handle_event("change-page-size", %{"page_size" => page_size}, socket) do
-    {:noreply, assign(socket, page_size: String.to_integer(page_size), page: 1)}
+    {:noreply, assign(socket, page_size: String.to_integer(page_size), page: 1) |> load_data()}
   end
 
   defp rows(%{
@@ -129,4 +134,14 @@ defmodule PhoneDbWeb.ListContactLive do
   defp sort_order_icon(column, sort_by, :asc) when column == sort_by, do: "▲"
   defp sort_order_icon(column, sort_by, :desc) when column == sort_by, do: "▼"
   defp sort_order_icon(_, _, _), do: ""
+
+  defp load_data(socket) do
+    contacts = rows(socket.assigns)
+    stats = Contacts.get_phone_call_stats_for_contacts(contacts)
+
+    socket
+    |> assign(:contacts, contacts)
+    |> assign(:stats, stats)
+    |> assign(:number_of_pages, number_of_pages(socket.assigns))
+  end
 end
