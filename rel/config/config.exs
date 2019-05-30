@@ -13,3 +13,12 @@ config :phone_db, PhoneDbWeb.Endpoint,
 config :phone_db, PhoneDb.Users.Guardian,
   issuer: "phone_db",
   secret_key: System.get_env("GUARDIAN_SECRET")
+
+config :paddle, Paddle,
+  host: System.get_env("LDAP_SERVER"),
+  base: System.get_env("LDAP_BASE_DN"),
+  account_subdn: "",
+  port: 389,
+  ssl: false,
+  username: System.get_env("LDAP_USERNAME"),
+  password: System.get_env("LDAP_USER_PASSWORD")

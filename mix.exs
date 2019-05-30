@@ -48,7 +48,8 @@ defmodule PhoneDb.MixProject do
       {:guardian, "~> 1.2"},
       {:bcrypt_elixir, "~> 2.0"},
       {:basic_auth, "~> 2.2"},
-      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"}
+      {:phoenix_live_view, github: "phoenixframework/phoenix_live_view"},
+      {:paddle, "~> 0.1.0"}
     ]
   end
 

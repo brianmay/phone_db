@@ -12,7 +12,8 @@ config :phone_db,
   actions: [
     {"Allow", "allow"},
     {"Voicemail", "voicemail"}
-  ]
+  ],
+  sync_services: [PhoneDb.Contacts.Ldap]
 
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,
@@ -23,6 +24,17 @@ config :phone_db, PhoneDbWeb.Endpoint,
   live_view: [
     signing_salt: System.get_env("SIGNING_SALT")
   ]
+
+config :paddle, Paddle,
+  host: System.get_env("LDAP_SERVER"),
+  base: System.get_env("LDAP_BASE_DN"),
+  account_subdn: "",
+  port: 389,
+  ssl: false,
+  username: System.get_env("LDAP_USERNAME"),
+  password: System.get_env("LDAP_USER_PASSWORD"),
+  timeout: 1000,
+  schema_files: ["../../core.schema"]
 
 # Configures Elixir's Logger
 config :logger, :console,

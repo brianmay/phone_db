@@ -9,7 +9,14 @@ defmodule PhoneDb.Contacts do
   alias PhoneDb.Contacts.Contact
   alias PhoneDb.Contacts.PhoneCall
 
+  @sync_services Application.get_env(:phone_db, :sync_services)
   @actions Application.get_env(:phone_db, :actions)
+
+  defp sync_contact(%Contact{} = contact) do
+    Enum.each(@sync_services, fn service ->
+      service.update_contact(contact)
+    end)
+  end
 
   defp contacts_query(order_by, query) do
     q = Contact |> order_by(^order_by)
@@ -87,9 +94,17 @@ defmodule PhoneDb.Contacts do
 
   """
   def create_contact(attrs \\ %{}) do
-    %Contact{}
-    |> Contact.create_changeset(attrs)
-    |> Repo.insert()
+    result =
+      %Contact{}
+      |> Contact.create_changeset(attrs)
+      |> Repo.insert()
+
+    case result do
+      {:ok, contact} -> sync_contact(contact)
+      {:error, _} -> nil
+    end
+
+    result
   end
 
   @doc """
@@ -105,9 +120,17 @@ defmodule PhoneDb.Contacts do
 
   """
   def update_contact(%Contact{} = contact, attrs) do
-    contact
-    |> Contact.changeset(attrs)
-    |> Repo.update()
+    result =
+      contact
+      |> Contact.changeset(attrs)
+      |> Repo.update()
+
+    case result do
+      {:ok, contact} -> sync_contact(contact)
+      {:error, _} -> nil
+    end
+
+    result
   end
 
   @doc """

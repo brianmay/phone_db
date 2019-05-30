@@ -1,7 +1,8 @@
 use Mix.Config
 
-# We don't run a server during test. If one is required,
-# you can enable the server option below.
+config :phone_db,
+  sync_services: []
+
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: 4002],
   server: false
