@@ -62,7 +62,7 @@ defmodule PhoneDb.Contacts do
 
   defp phone_call_order(q, [{dir, :action} | tail]) do
     q
-    |> order_by([p, c], {^dir, c.action})
+    |> order_by([p, c], {^dir, p.action})
     |> phone_call_order(tail)
   end
 
