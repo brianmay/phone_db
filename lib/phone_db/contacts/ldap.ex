@@ -31,6 +31,7 @@ defmodule PhoneDb.Contacts.Ldap do
   defp include_contact_in_ldap?(%Contact{} = contact) do
     cond do
       contact.name == nil -> false
+      contact.phone_number == "anonymous" -> false
       contact.action != "allow" -> false
       true -> true
     end
