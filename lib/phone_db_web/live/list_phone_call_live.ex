@@ -40,7 +40,12 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
             <td><%= format_timestamp(row.inserted_at) %></td>
             <td><%= row.contact.phone_number %></td>
             <td><%= row.contact.name %></td>
-            <td><%= Contacts.show_action row.action %></td>
+            <td>
+                <%= Contacts.show_action row.action %>
+                <%= if row.action != row.contact.action do %>
+                    (<%= Contacts.show_action row.contact.action %>)
+                <% end %>
+            </td>
             <td><%= @stats[row.contact.id] %></td>
             <td>
               <%= link "Show", to: Routes.contact_path(@socket, :show, row.contact) %>
