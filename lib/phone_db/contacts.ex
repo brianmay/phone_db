@@ -44,7 +44,7 @@ defmodule PhoneDb.Contacts do
 
   defp phone_call_order(q, [{dir, :inserted_at} | tail]) do
     q
-    |> order_by([p, c], {^dir, c.inserted_at})
+    |> order_by([p, c], {^dir, p.inserted_at})
     |> phone_call_order(tail)
   end
 
