@@ -34,6 +34,57 @@ defmodule PhoneDb.Contacts do
     end
   end
 
+  defp phone_call_order(q, []), do: q
+
+  defp phone_call_order(q, [{dir, :id} | tail]) do
+    q
+    |> order_by([p, c], {^dir, p.id})
+    |> phone_call_order(tail)
+  end
+
+  defp phone_call_order(q, [{dir, :inserted_at} | tail]) do
+    q
+    |> order_by([p, c], {^dir, c.inserted_at})
+    |> phone_call_order(tail)
+  end
+
+  defp phone_call_order(q, [{dir, :phone_number} | tail]) do
+    q
+    |> order_by([p, c], {^dir, c.phone_number})
+    |> phone_call_order(tail)
+  end
+
+  defp phone_call_order(q, [{dir, :name} | tail]) do
+    q
+    |> order_by([p, c], {^dir, c.name})
+    |> phone_call_order(tail)
+  end
+
+  defp phone_call_order(q, [{dir, :action} | tail]) do
+    q
+    |> order_by([p, c], {^dir, c.action})
+    |> phone_call_order(tail)
+  end
+
+  defp phone_calls_query(order_by, query) do
+    q =
+      PhoneCall
+      |> join(:inner, [p], c in Contact, on: p.contact_id == c.id)
+      |> phone_call_order(order_by)
+
+    case query do
+      nil ->
+        q
+
+      "" ->
+        q
+
+      _ ->
+        query = "%#{String.replace(query, "%", "\\%")}%"
+        where(q, [p, c], ilike(c.phone_number, ^query) or ilike(c.name, ^query))
+    end
+  end
+
   @doc """
   Returns the list of contacts.
 
@@ -43,7 +94,7 @@ defmodule PhoneDb.Contacts do
       [%Contact{}, ...]
 
   """
-  def list_contacts(order_by \\ [{:asc, :name}], query \\ nil, page_number \\ 1, page_size \\ 100) do
+  def list_contacts(order_by \\ [{:desc, :id}], query \\ nil, page_number \\ 1, page_size \\ 100) do
     offset = page_size * (page_number - 1)
 
     contacts_query(order_by, query)
@@ -152,11 +203,35 @@ defmodule PhoneDb.Contacts do
   ## Examples
 
       iex> list_phone_calls()
-      [%PhoneCall{}, ...]
+      [%Contact{}, ...]
 
   """
-  def list_phone_calls do
-    Repo.all(PhoneCall) |> Repo.preload(:contact)
+  def list_phone_calls(
+        order_by \\ [{:asc, :id}],
+        query \\ nil,
+        page_number \\ 1,
+        page_size \\ 100
+      ) do
+    offset = page_size * (page_number - 1)
+
+    phone_calls_query(order_by, query)
+    |> limit([_], ^page_size)
+    |> offset([_], ^offset)
+    |> preload([p, c], contact: c)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the count of phone_calls.
+
+  ## Examples
+
+      iex> count_phone_calls()
+      10
+
+  """
+  def count_phone_calls(query \\ nil) do
+    phone_calls_query([], query) |> select([c], count(c.id)) |> Repo.one()
   end
 
   @doc """
@@ -393,6 +468,22 @@ defmodule PhoneDb.Contacts do
   """
   def get_phone_call_stats_for_contacts(contacts) do
     contact_ids = Enum.map(contacts, fn c -> c.id end)
+
+    query =
+      from p in PhoneCall,
+        group_by: [p.contact_id],
+        join: c in Contact,
+        where: c.id == p.contact_id and c.id in ^contact_ids,
+        select: {p.contact_id, count(p.id)}
+
+    Repo.all(query) |> Enum.into(%{})
+  end
+
+  @doc """
+  Get phone call statistics from list of phone calls
+  """
+  def get_phone_call_stats_for_phone_calls(phone_calls) do
+    contact_ids = Enum.map(phone_calls, fn c -> c.contact_id end) |> Enum.uniq()
 
     query =
       from p in PhoneCall,

@@ -216,5 +216,31 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
                contact2.id => 2
              }
     end
+
+    test "get_phone_call_stats_for_phone_calls/1 returns valid results" do
+      contact1 = Contacts.get_contact_for_phone_number("0312345678")
+      contact2 = Contacts.get_contact_for_phone_number("0387654321")
+
+      Contacts.incoming_phone_call("0312345678")
+      Contacts.incoming_phone_call("0312345678")
+      Contacts.incoming_phone_call("0312345678")
+      Contacts.incoming_phone_call("0387654321")
+      Contacts.incoming_phone_call("0387654321")
+
+      phone_calls = Contacts.list_phone_calls([{:asc, :id}]) |> Enum.take(2)
+      results = Contacts.get_phone_call_stats_for_phone_calls(phone_calls)
+
+      assert results == %{
+               contact1.id => 3
+             }
+
+      phone_calls = Contacts.list_phone_calls()
+      results = Contacts.get_phone_call_stats_for_phone_calls(phone_calls)
+
+      assert results == %{
+               contact1.id => 3,
+               contact2.id => 2
+             }
+    end
   end
 end
