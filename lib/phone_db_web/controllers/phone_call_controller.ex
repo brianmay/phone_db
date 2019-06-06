@@ -1,7 +1,6 @@
 defmodule PhoneDbWeb.PhoneCallController do
   use PhoneDbWeb, :controller
 
-  alias PhoneDb.Contacts
   alias Phoenix.LiveView
 
   def index(conn, params) do
