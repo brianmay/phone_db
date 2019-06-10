@@ -15,6 +15,8 @@ config :phone_db,
   ],
   sync_services: [PhoneDb.Contacts.Ldap]
 
+config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL")
+
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,
   url: [host: "localhost"],

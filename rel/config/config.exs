@@ -2,6 +2,9 @@ use Mix.Config
 
 port = String.to_integer(System.get_env("PORT") || "4000")
 
+config :phone_db, PhoneDb.Repo,
+  url: System.get_env("DATABASE_URL")
+
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: port],
   url: [host: System.get_env("HOST"), port: port],
