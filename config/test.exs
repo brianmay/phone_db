@@ -3,6 +3,8 @@ use Mix.Config
 config :phone_db,
   sync_services: []
 
+config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL_TEST")
+
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: 4002],
   server: false
