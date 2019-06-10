@@ -50,6 +50,11 @@ config :phone_db, PhoneDb.Users.Guardian,
   issuer: "phone_db",
   secret_key: System.get_env("GUARDIAN_SECRET")
 
+if System.get_env("IPV6") != nil do
+  config :phone_db, PhoneDb.Repo, socket_options: [:inet6]
+  config :paddle, Paddle, ipv6: true
+end
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

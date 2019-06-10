@@ -25,3 +25,8 @@ config :paddle, Paddle,
   ssl: false,
   username: System.get_env("LDAP_USERNAME"),
   password: System.get_env("LDAP_USER_PASSWORD")
+
+if System.get_env("IPV6") != nil do
+  config :phone_db, PhoneDb.Repo, socket_options: [:inet6]
+  config :paddle, Paddle, ipv6: true
+end
