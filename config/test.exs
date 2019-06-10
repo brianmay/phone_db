@@ -3,8 +3,6 @@ use Mix.Config
 config :phone_db,
   sync_services: []
 
-config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL_TEST")
-
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: 4002],
   server: false
@@ -14,8 +12,8 @@ config :logger, level: :warn
 
 # Configure your database
 config :phone_db, PhoneDb.Repo,
-  database: "phone_db_test",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  url: System.get_env("DATABASE_URL_TEST")
 
 config :phone_db, PhoneDb.Users.Guardian,
   issuer: "phone_db",
