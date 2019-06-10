@@ -19,6 +19,7 @@ config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL")
 
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,
+  http: [port: 4000, ip: {0, 0, 0, 0, 0, 0, 0, 0}],
   url: [host: "localhost"],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: PhoneDbWeb.ErrorView, accepts: ~w(html json)],

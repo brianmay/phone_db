@@ -6,7 +6,7 @@ config :phone_db, PhoneDb.Repo,
   url: System.get_env("DATABASE_URL")
 
 config :phone_db, PhoneDbWeb.Endpoint,
-  http: [port: port],
+  http: [port: port, ip: {0, 0, 0, 0, 0, 0, 0, 0}],
   url: [host: System.get_env("HOST"), port: port],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   live_view: [
