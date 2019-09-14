@@ -52,7 +52,7 @@ defmodule PhoneDbWeb.ListContactLive do
         <%= if page == @page do %>
           <strong><%= page %></strong>
         <% else %>
-          <a href="#" phx-click="goto-page" phx-value=<%= page %>><%= page %></a>
+          <a href="#" phx-click="goto-page" phx-value-page=<%= page %>><%= page %></a>
         <% end %>
       <% end %>
     </nav>
@@ -100,7 +100,7 @@ defmodule PhoneDbWeb.ListContactLive do
     {:noreply, assign(socket, sort_by: column) |> load_data()}
   end
 
-  def handle_event("goto-page", page, socket) do
+  def handle_event("goto-page", %{"page" => page}, socket) do
     {:noreply, assign(socket, page: String.to_integer(page)) |> load_data()}
   end
 

@@ -1,9 +1,8 @@
-use Mix.Config
+import Config
 
 port = String.to_integer(System.get_env("PORT") || "4000")
 
-config :phone_db, PhoneDb.Repo,
-  url: System.get_env("DATABASE_URL")
+config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL")
 
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [port: port, ip: {0, 0, 0, 0, 0, 0, 0, 0}],
@@ -11,7 +10,8 @@ config :phone_db, PhoneDbWeb.Endpoint,
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   live_view: [
     signing_salt: System.get_env("SIGNING_SALT")
-  ]
+  ],
+  server: true
 
 config :phone_db, PhoneDb.Users.Guardian,
   issuer: "phone_db",
