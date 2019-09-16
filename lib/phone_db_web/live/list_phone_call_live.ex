@@ -15,16 +15,16 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
     <table>
       <thead>
         <tr>
-          <th phx-click="sort" phx-value="time">
+          <th phx-click="sort" phx-value-column="time">
             Time <%= sort_order_icon("time", @sort_by, @sort_order) %>
           </th>
-          <th phx-click="sort" phx-value="phone_number">
+          <th phx-click="sort" phx-value-column="phone_number">
             Phone Number <%= sort_order_icon("phone_number", @sort_by, @sort_order) %>
           </th>
-          <th phx-click="sort" phx-value="name">
+          <th phx-click="sort" phx-value-column="name">
             Name <%= sort_order_icon("name", @sort_by, @sort_order) %>
           </th>
-          <th phx-click="sort" phx-value="action">
+          <th phx-click="sort" phx-value-column="action">
             Action <%= sort_order_icon("action", @sort_by, @sort_order) %>
           </th>
           <th>
@@ -94,18 +94,18 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
   end
 
   # When the column that is used for sorting is clicked again, we reverse the sort order
-  def handle_event("sort", column, %{assigns: %{sort_by: sort_by, sort_order: :asc}} = socket)
+  def handle_event("sort", %{"column" => column}, %{assigns: %{sort_by: sort_by, sort_order: :asc}} = socket)
       when column == sort_by do
     {:noreply, assign(socket, sort_by: sort_by, sort_order: :desc) |> load_data()}
   end
 
-  def handle_event("sort", column, %{assigns: %{sort_by: sort_by, sort_order: :desc}} = socket)
+  def handle_event("sort", %{"column" => column}, %{assigns: %{sort_by: sort_by, sort_order: :desc}} = socket)
       when column == sort_by do
     {:noreply, assign(socket, sort_by: sort_by, sort_order: :asc) |> load_data()}
   end
 
   # A new column has been clicked
-  def handle_event("sort", column, socket) do
+  def handle_event("sort", %{"column" => column}, socket) do
     {:noreply, assign(socket, sort_by: column) |> load_data()}
   end
 
