@@ -12,6 +12,9 @@ defmodule PhoneDbWeb.ListContactLive do
 
     <form phx-change="search"><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
 
+    <%= inspect @sort_by %>
+    <%= inspect @sort_order %>
+
     <table>
       <thead>
         <tr>
