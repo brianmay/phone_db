@@ -25,18 +25,4 @@
       <% end %>
     </ul>
   </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        No help is available.
-      </li>
-      <li>
-        Panic.
-      </li>
-      <li>
-        Panic again.
-      </li>
-    </ul>
-  </article>
 </section>
