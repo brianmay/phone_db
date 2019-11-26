@@ -25,6 +25,8 @@ defmodule PhoneDbWeb.SessionControllerTest do
   end
 
   describe "anonymous access" do
+    setup [:create_user]
+
     test "login as anonymous", %{conn: conn} do
       conn = get(conn, Routes.session_path(conn, :login))
       assert html_response(conn, 200) =~ "Login Page"
@@ -37,6 +39,51 @@ defmodule PhoneDbWeb.SessionControllerTest do
 
     test "list phone calls", %{conn: conn} do
       conn = get(conn, Routes.phone_call_path(conn, :index))
+      response(conn, 401)
+    end
+
+    test "lists all users", %{conn: conn} do
+      conn = get(conn, Routes.user_path(conn, :index))
+      response(conn, 401)
+    end
+
+    test "new user", %{conn: conn} do
+      conn = get(conn, Routes.user_path(conn, :new))
+      response(conn, 401)
+    end
+
+    test "create user", %{conn: conn} do
+      conn = put(conn, Routes.user_path(conn, :new))
+      response(conn, 401)
+    end
+
+    test "edit user", %{conn: conn, user: user} do
+      conn = get(conn, Routes.user_path(conn, :edit, user))
+      response(conn, 401)
+    end
+
+    test "update user", %{conn: conn, user: user} do
+      conn = put(conn, Routes.user_path(conn, :update, user))
+      response(conn, 401)
+    end
+
+    test "edit user password", %{conn: conn, user: user} do
+      conn = get(conn, Routes.user_path(conn, :password_edit, user))
+      response(conn, 401)
+    end
+
+    test "update user password", %{conn: conn, user: user} do
+      conn = put(conn, Routes.user_path(conn, :password_update, user))
+      response(conn, 401)
+    end
+
+    test "show user", %{conn: conn, user: user} do
+      conn = get(conn, Routes.user_path(conn, :edit, user))
+      response(conn, 401)
+    end
+
+    test "delete user", %{conn: conn, user: user} do
+      conn = delete(conn, Routes.user_path(conn, :delete, user))
       response(conn, 401)
     end
   end
@@ -62,5 +109,10 @@ defmodule PhoneDbWeb.SessionControllerTest do
       conn = post(conn, Routes.session_path(conn, :logout))
       assert redirected_to(conn) == Routes.session_path(conn, :new)
     end
+  end
+
+  defp create_user(_) do
+    user = fixture(:user)
+    {:ok, user: user}
   end
 end
