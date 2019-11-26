@@ -36,7 +36,7 @@ defmodule PhoneDbWeb.UserControllerTest do
         is_trusted: false,
         password: "some password",
         password_confirmation: "some password",
-        username: "admin"
+        username: "user"
       })
 
     {:ok, token, _} = Guardian.encode_and_sign(user, %{}, token_type: :access)
