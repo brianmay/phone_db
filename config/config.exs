@@ -15,11 +15,13 @@ config :phone_db,
   ],
   sync_services: [PhoneDb.Contacts.Ldap]
 
-config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL")
+config :phone_db, PhoneDb.Repo,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,
-  http: [port: 4000, ip: {0, 0, 0, 0, 0, 0, 0, 0}],
+  http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
   url: [host: "localhost"],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: PhoneDbWeb.ErrorView, accepts: ~w(html json)],
@@ -52,7 +54,6 @@ config :phone_db, PhoneDb.Users.Guardian,
   secret_key: System.get_env("GUARDIAN_SECRET")
 
 if System.get_env("IPV6") != nil do
-  config :phone_db, PhoneDb.Repo, socket_options: [:inet6]
   config :paddle, Paddle, ipv6: true
 end
 
