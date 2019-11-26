@@ -85,12 +85,20 @@ defmodule PhoneDbWeb.ListContactLive do
   end
 
   # When the column that is used for sorting is clicked again, we reverse the sort order
-  def handle_event("sort", %{"column" => column}, %{assigns: %{sort_by: sort_by, sort_order: :asc}} = socket)
+  def handle_event(
+        "sort",
+        %{"column" => column},
+        %{assigns: %{sort_by: sort_by, sort_order: :asc}} = socket
+      )
       when column == sort_by do
     {:noreply, assign(socket, sort_by: sort_by, sort_order: :desc) |> load_data()}
   end
 
-  def handle_event("sort", %{"column" => column}, %{assigns: %{sort_by: sort_by, sort_order: :desc}} = socket)
+  def handle_event(
+        "sort",
+        %{"column" => column},
+        %{assigns: %{sort_by: sort_by, sort_order: :desc}} = socket
+      )
       when column == sort_by do
     {:noreply, assign(socket, sort_by: sort_by, sort_order: :asc) |> load_data()}
   end

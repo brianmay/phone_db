@@ -1,7 +1,6 @@
 import Config
 
-config :phone_db, PhoneDb.Repo,
-  url: System.get_env("DATABASE_URL")
+config :phone_db, PhoneDb.Repo, url: System.get_env("DATABASE_URL")
 
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
