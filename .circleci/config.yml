@@ -12,9 +12,6 @@ jobs:
         environment:
           DATABASE_URL_TEST: postgresql://root@localhost/circle_test?sslmode=disable
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/postgres:9.6.2
         environment:
           POSTGRES_USER: root
@@ -58,15 +55,17 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-          docker build \
-            --file "Dockerfile" \
-            --tag "brianmay/phone_db:latest" \
-            --build-arg "BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
-            --build-arg "VCS_REF=$CIRCLE_SHA1" \
-            .
-          docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
-          docker push "brianmay/phone_db:latest"
+      - run:
+          name: Build and upload docker image
+          command:
+            docker build \
+              --file "Dockerfile" \
+              --tag "brianmay/phone_db:latest" \
+              --build-arg "BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
+              --build-arg "VCS_REF=$CIRCLE_SHA1" \
+              .
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
+            docker push "brianmay/phone_db:latest"
 
   verify-version:
     docker:
