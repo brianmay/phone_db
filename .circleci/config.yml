@@ -57,7 +57,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build and upload docker image
-          command:
+          command: |
             docker build \
               --file "Dockerfile" \
               --tag "brianmay/phone_db:latest" \
