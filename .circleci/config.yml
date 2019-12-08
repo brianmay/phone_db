@@ -77,7 +77,7 @@ jobs:
     docker:
       - image: circleci/python:3.7
     steps:
-      - checkout # check out the code in the project directory
+      - checkout
       - setup_remote_docker
       - run:
           name: Build and upload docker image
