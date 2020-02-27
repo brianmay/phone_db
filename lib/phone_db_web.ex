@@ -43,7 +43,7 @@ defmodule PhoneDbWeb do
       import PhoneDbWeb.Gettext
       alias PhoneDbWeb.Router.Helpers, as: Routes
 
-      import Phoenix.LiveView, only: [live_render: 2, live_render: 3]
+      import Phoenix.LiveView.Helpers
     end
   end
 

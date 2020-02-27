@@ -11,7 +11,7 @@ defmodule PhoneDbWeb.ContactController do
 
   def index(conn, params) do
     LiveView.Controller.live_render(conn, PhoneDbWeb.ListContactLive,
-      session: %{query: Map.get(params, "query")}
+      session: %{"query" => Map.get(params, "query")}
     )
   end
 
