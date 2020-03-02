@@ -36,7 +36,7 @@ defmodule PhoneDb.UsersTest do
         |> Enum.into(@create_attrs)
         |> Users.create_user()
 
-      user
+      %{user | password: nil}
     end
 
     test "list_users/0 returns all users" do
