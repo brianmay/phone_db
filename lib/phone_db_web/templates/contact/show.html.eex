@@ -13,6 +13,11 @@
   </li>
 
   <li>
+    <strong>Comments:</strong>
+    <%= @contact.comments %>
+  </li>
+
+  <li>
     <strong>Action:</strong>
     <%= Contacts.show_action @contact.action %>
   </li>

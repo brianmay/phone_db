@@ -6,10 +6,16 @@ defmodule PhoneDb.Contacts.ContactsTest do
   describe "contacts" do
     alias PhoneDb.Contacts.Contact
 
-    @valid_attrs %{action: "some action", name: "some name", phone_number: "some phone_number"}
+    @valid_attrs %{
+      action: "some action",
+      name: "some name",
+      comments: "some comments",
+      phone_number: "some phone_number"
+    }
     @update_attrs %{
       action: "some updated action",
       name: "some updated name",
+      comments: "some updated comments",
       phone_number: "some updated phone_number"
     }
     @invalid_attrs %{action: nil, name: nil, phone_number: nil}
@@ -42,6 +48,7 @@ defmodule PhoneDb.Contacts.ContactsTest do
       assert {:ok, %Contact{} = contact} = Contacts.create_contact(@valid_attrs)
       assert contact.action == "some action"
       assert contact.name == "some name"
+      assert contact.comments == "some comments"
       assert contact.phone_number == "some phone_number"
     end
 
@@ -54,6 +61,7 @@ defmodule PhoneDb.Contacts.ContactsTest do
       assert {:ok, %Contact{} = contact} = Contacts.update_contact(contact, @update_attrs)
       assert contact.action == "some updated action"
       assert contact.name == "some updated name"
+      assert contact.comments == "some updated comments"
       assert contact.phone_number == "some phone_number"
     end
 

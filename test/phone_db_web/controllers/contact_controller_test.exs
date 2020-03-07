@@ -5,10 +5,16 @@ defmodule PhoneDbWeb.ContactControllerTest do
   alias PhoneDb.Users
   alias PhoneDb.Users.Guardian
 
-  @create_attrs %{action: "some action", name: "some name", phone_number: "some phone_number"}
+  @create_attrs %{
+    action: "some action",
+    name: "some name",
+    comments: "some comments",
+    phone_number: "some phone_number"
+  }
   @update_attrs %{
     action: "some updated action",
     name: "some updated name",
+    comments: "some updated comments",
     phone_number: "some updated phone_number"
   }
   @invalid_attrs %{action: nil, name: nil, phone_number: nil}

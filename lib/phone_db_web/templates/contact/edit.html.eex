@@ -13,6 +13,10 @@
   <%= text_input f, :name %>
   <%= error_tag f, :name %>
 
+  <%= label f, :comments %>
+  <%= text_input f, :comments %>
+  <%= error_tag f, :comments %>
+
   <%= label f, :action %>
   <%= select f, :action, @actions %>
   <%= error_tag f, :action %>
