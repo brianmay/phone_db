@@ -121,7 +121,7 @@ defmodule PhoneDb.Users do
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user changes.
+  Returns an `%Ecto.Changeset{}` for tracking password changes.
 
   ## Examples
 
