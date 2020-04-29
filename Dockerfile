@@ -20,7 +20,7 @@ RUN apk update && \
   apk upgrade --no-cache && \
   apk add --no-cache \
     nodejs \
-    yarn \
+    npm \
     git \
     build-base && \
   mix local.rebar --force && \
@@ -38,8 +38,8 @@ RUN mix deps.compile
 COPY assets /opt/app/assets/
 RUN \
   cd /opt/app/assets && \
-  yarn install && \
-  yarn deploy && \
+  npm install && \
+  npm run deploy && \
   cd .. && \
   mix phx.digest;
 
