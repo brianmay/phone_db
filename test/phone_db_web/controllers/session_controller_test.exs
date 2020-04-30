@@ -34,57 +34,57 @@ defmodule PhoneDbWeb.SessionControllerTest do
 
     test "list contacts", %{conn: conn} do
       conn = get(conn, Routes.contact_path(conn, :index))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "list phone calls", %{conn: conn} do
       conn = get(conn, Routes.phone_call_path(conn, :index))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "lists all users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "new user", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :new))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "create user", %{conn: conn} do
       conn = put(conn, Routes.user_path(conn, :new))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "edit user", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_path(conn, :edit, user))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "update user", %{conn: conn, user: user} do
       conn = put(conn, Routes.user_path(conn, :update, user))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "edit user password", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_path(conn, :password_edit, user))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "update user password", %{conn: conn, user: user} do
       conn = put(conn, Routes.user_path(conn, :password_update, user))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "show user", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_path(conn, :edit, user))
-      response(conn, 401)
+      response(conn, 302)
     end
 
     test "delete user", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))
-      response(conn, 401)
+      response(conn, 302)
     end
   end
 

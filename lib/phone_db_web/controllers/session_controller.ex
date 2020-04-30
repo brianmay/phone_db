@@ -7,14 +7,15 @@ defmodule PhoneDbWeb.SessionController do
   def new(conn, _) do
     changeset = Users.change_user(%User{})
     maybe_user = Guardian.Plug.current_resource(conn)
+    next = conn.query_params["next"]
 
     if maybe_user do
       redirect(conn, to: Routes.page_path(conn, :index))
     else
       render(conn, "new.html",
         changeset: changeset,
-        action: Routes.session_path(conn, :login),
-        active: "index"
+        action: Routes.session_path(conn, :login, next: next),
+        active: "index",
       )
     end
   end
@@ -31,10 +32,17 @@ defmodule PhoneDbWeb.SessionController do
   end
 
   defp login_reply({:ok, user}, conn) do
+    next =
+      case conn.query_params["next"] do
+        "" -> Routes.page_path(conn, :index)
+        nil -> Routes.page_path(conn, :index)
+        next -> next
+      end
+
     conn
     |> put_flash(:info, "Welcome back!")
     |> Guardian.Plug.sign_in(user)
-    |> redirect(to: Routes.page_path(conn, :index))
+    |> redirect(to: next)
   end
 
   defp login_reply({:error, _reason}, conn) do
