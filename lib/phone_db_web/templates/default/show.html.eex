@@ -24,5 +24,5 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.default_path(@conn, :edit, @default) %></span>
-<span><%= link "Back", to: Routes.default_path(@conn, :index) %></span>
+<span><%= link "Edit", to: Routes.default_path(@conn, :edit, @default), class: "btn btn-secondary" %></span>
+<span><%= link "Back", to: Routes.default_path(@conn, :index), class: "btn btn-secondary" %></span>

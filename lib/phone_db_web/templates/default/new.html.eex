@@ -1,5 +1,3 @@
 <h1>New Default</h1>
 
 <%= render "form.html", Map.put(assigns, :action, Routes.default_path(@conn, :create)) %>
-
-<span><%= link "Back", to: Routes.default_path(@conn, :index) %></span>

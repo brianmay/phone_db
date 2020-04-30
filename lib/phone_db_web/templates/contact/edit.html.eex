@@ -3,27 +3,19 @@
 <%= form_for @changeset, Routes.contact_path(@conn, :update, @contact), fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+        <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
   Phone number: <%= @contact.phone_number %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
-
-  <%= label f, :comments %>
-  <%= text_input f, :comments %>
-  <%= error_tag f, :comments %>
-
-  <%= label f, :action %>
-  <%= select f, :action, @actions %>
-  <%= error_tag f, :action %>
+  <%= text_input_field(f, :name) %>
+  <%= text_input_field(f, :comments) %>
+  <%= select_field(f, :action, @actions) %>
 
   <div>
-    <%= submit "Save" %>
+      <span><%= submit "Save", class: "btn btn-primary" %></span>
+      <span><%= link "Back", to: Routes.contact_path(@conn, :index), class: "btn btn-secondary" %></span>
   </div>
 <% end %>
 
-<span><%= link "Back", to: Routes.contact_path(@conn, :index) %></span>

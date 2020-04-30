@@ -49,7 +49,7 @@ config :phone_db, PhoneDbWeb.Endpoint,
 config :phone_db, PhoneDbWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/.*(js|css|scss|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/phone_db_web/{live,views}/.*(ex)$",
       ~r"lib/phone_db_web/templates/.*(eex)$"

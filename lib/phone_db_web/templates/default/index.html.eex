@@ -1,7 +1,7 @@
 <h1>Listing Defaults</h1>
 
-<table>
-  <thead>
+<table class="table table-hover">
+  <thead class="thead-dark">
     <tr>
       <th>Order</th>
       <th>Regexp</th>
@@ -20,13 +20,13 @@
       <td><%= default.action %></td>
 
       <td>
-        <%= link "Show", to: Routes.default_path(@conn, :show, default) %>
-        <%= link "Edit", to: Routes.default_path(@conn, :edit, default) %>
-        <%= link "Delete", to: Routes.default_path(@conn, :delete, default), method: :delete, data: [confirm: "Are you sure?"] %>
+          <span><%= link "Show", to: Routes.default_path(@conn, :show, default), class: "btn btn-secondary" %></span>
+          <span><%= link "Edit", to: Routes.default_path(@conn, :edit, default), class: "btn btn-secondary" %></span>
+          <span><%= link "Delete", to: Routes.default_path(@conn, :delete, default), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></span>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<span><%= link "New Default", to: Routes.default_path(@conn, :new) %></span>
+<span><%= link "New Default", to: Routes.default_path(@conn, :new), class: "btn btn-secondary" %></span>

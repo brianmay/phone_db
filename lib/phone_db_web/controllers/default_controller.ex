@@ -8,12 +8,12 @@ defmodule PhoneDbWeb.DefaultController do
 
   def index(conn, _params) do
     defaults = Contacts.list_defaults()
-    render(conn, "index.html", defaults: defaults)
+    render(conn, "index.html", defaults: defaults, active: "defaults")
   end
 
   def new(conn, _params) do
     changeset = Contacts.change_default(%Default{})
-    render(conn, "new.html", changeset: changeset, actions: @actions)
+    render(conn, "new.html", changeset: changeset, actions: @actions, active: "defaults")
   end
 
   def create(conn, %{"default" => default_params}) do
@@ -24,19 +24,25 @@ defmodule PhoneDbWeb.DefaultController do
         |> redirect(to: Routes.default_path(conn, :show, default))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, actions: @actions)
+        render(conn, "new.html", changeset: changeset, actions: @actions, active: "defaults")
     end
   end
 
   def show(conn, %{"id" => id}) do
     default = Contacts.get_default!(id)
-    render(conn, "show.html", default: default)
+    render(conn, "show.html", default: default, active: "defaults")
   end
 
   def edit(conn, %{"id" => id}) do
     default = Contacts.get_default!(id)
     changeset = Contacts.change_default(default)
-    render(conn, "edit.html", default: default, changeset: changeset, actions: @actions)
+
+    render(conn, "edit.html",
+      default: default,
+      changeset: changeset,
+      actions: @actions,
+      active: "defaults"
+    )
   end
 
   def update(conn, %{"id" => id, "default" => default_params}) do
@@ -49,7 +55,12 @@ defmodule PhoneDbWeb.DefaultController do
         |> redirect(to: Routes.default_path(conn, :show, default))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", default: default, changeset: changeset, actions: @actions)
+        render(conn, "edit.html",
+          default: default,
+          changeset: changeset,
+          actions: @actions,
+          active: "defaults"
+        )
     end
   end
 

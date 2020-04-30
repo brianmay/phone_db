@@ -6,12 +6,12 @@ defmodule PhoneDbWeb.UserController do
 
   def index(conn, _params) do
     users = Users.list_users()
-    render(conn, "index.html", users: users)
+    render(conn, "index.html", users: users, active: "users")
   end
 
   def new(conn, _params) do
     changeset = Users.change_user(%User{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, active: "users")
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -22,19 +22,19 @@ defmodule PhoneDbWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, active: "users")
     end
   end
 
   def show(conn, %{"id" => id}) do
     user = Users.get_user!(id)
-    render(conn, "show.html", user: user)
+    render(conn, "show.html", user: user, active: "users")
   end
 
   def edit(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     changeset = Users.change_user(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, "edit.html", user: user, changeset: changeset, active: "users")
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
@@ -47,14 +47,14 @@ defmodule PhoneDbWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+        render(conn, "edit.html", user: user, changeset: changeset, active: "users")
     end
   end
 
   def password_edit(conn, %{"id" => id}) do
     user = Users.get_user!(id)
     changeset = Users.change_password(user)
-    render(conn, "password.html", user: user, changeset: changeset)
+    render(conn, "password.html", user: user, changeset: changeset, active: "users")
   end
 
   def password_update(conn, %{"id" => id, "user" => user_params}) do
@@ -67,7 +67,7 @@ defmodule PhoneDbWeb.UserController do
         |> redirect(to: Routes.user_path(conn, :show, user))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "password.html", user: user, changeset: changeset)
+        render(conn, "password.html", user: user, changeset: changeset, active: "users")
     end
   end
 
@@ -77,6 +77,6 @@ defmodule PhoneDbWeb.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: Routes.user_path(conn, :index))
+    |> redirect(to: Routes.user_path(conn, :index), active: "users")
   end
 end

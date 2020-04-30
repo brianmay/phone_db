@@ -11,7 +11,11 @@ defmodule PhoneDbWeb.SessionController do
     if maybe_user do
       redirect(conn, to: Routes.page_path(conn, :index))
     else
-      render(conn, "new.html", changeset: changeset, action: Routes.session_path(conn, :login))
+      render(conn, "new.html",
+        changeset: changeset,
+        action: Routes.session_path(conn, :login),
+        active: "index"
+      )
     end
   end
 
@@ -33,9 +37,9 @@ defmodule PhoneDbWeb.SessionController do
     |> redirect(to: Routes.page_path(conn, :index))
   end
 
-  defp login_reply({:error, reason}, conn) do
+  defp login_reply({:error, _reason}, conn) do
     conn
-    |> put_flash(:error, to_string(reason))
+    |> put_flash(:danger, "Invalid credentials")
     |> new(%{})
   end
 end

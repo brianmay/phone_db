@@ -17,7 +17,7 @@ defmodule PhoneDbWeb.ContactController do
 
   def new(conn, _params) do
     changeset = Contacts.change_contact(%Contact{})
-    render(conn, "new.html", changeset: changeset, actions: @actions)
+    render(conn, "new.html", changeset: changeset, actions: @actions, active: "contacts")
   end
 
   def create(conn, %{"contact" => contact_params}) do
@@ -28,19 +28,25 @@ defmodule PhoneDbWeb.ContactController do
         |> redirect(to: Routes.contact_path(conn, :show, contact))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, actions: @actions)
+        render(conn, "new.html", changeset: changeset, actions: @actions, active: "contacts")
     end
   end
 
   def show(conn, %{"id" => id}) do
     contact = Contacts.get_contact!(id) |> Repo.preload(:phone_calls)
-    render(conn, "show.html", contact: contact)
+    render(conn, "show.html", contact: contact, active: "contacts")
   end
 
   def edit(conn, %{"id" => id}) do
     contact = Contacts.get_contact!(id)
     changeset = Contacts.change_contact(contact)
-    render(conn, "edit.html", contact: contact, changeset: changeset, actions: @actions)
+
+    render(conn, "edit.html",
+      contact: contact,
+      changeset: changeset,
+      actions: @actions,
+      active: "contacts"
+    )
   end
 
   def update(conn, %{"id" => id, "contact" => contact_params}) do
@@ -53,7 +59,12 @@ defmodule PhoneDbWeb.ContactController do
         |> redirect(to: Routes.contact_path(conn, :show, contact))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", contact: contact, changeset: changeset, actions: @actions)
+        render(conn, "edit.html",
+          contact: contact,
+          changeset: changeset,
+          actions: @actions,
+          active: "contacts"
+        )
     end
   end
 end

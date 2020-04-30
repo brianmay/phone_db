@@ -12,8 +12,8 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
 
     <form phx-change="search"><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
 
-    <table>
-      <thead>
+    <table class="table table-hover">
+      <thead class="thead-dark">
         <tr>
           <th phx-click="sort" phx-value-column="time">
             Time <%= sort_order_icon("time", @sort_by, @sort_order) %>
@@ -48,8 +48,8 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
             </td>
             <td><%= @stats[row.contact.id] %></td>
             <td>
-              <%= link "Show", to: Routes.contact_path(@socket, :show, row.contact) %>
-              <%= link "Edit", to: Routes.contact_path(@socket, :edit, row.contact) %>
+              <%= link "Show", to: Routes.contact_path(@socket, :show, row.contact), class: "btn btn-secondary" %>
+              <%= link "Edit", to: Routes.contact_path(@socket, :edit, row.contact), class: "btn btn-secondary" %>
             </td>
           </tr>
         <% end %>
@@ -84,7 +84,8 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
        sort_by: "time",
        sort_order: :desc,
        page: 1,
-       page_size: 10
+       page_size: 10,
+       active: "phone_calls"
      )
      |> load_data()}
   end

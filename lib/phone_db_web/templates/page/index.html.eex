@@ -1,14 +1,8 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Phone DB" %></h1>
-  <p>A database of phone numbers for automatic filtering of calls.</p>
-</section>
+<h1><%= gettext "Welcome to %{name}!", name: "Phone DB" %></h1>
+<p>A database of phone numbers for automatic filtering of calls.</p>
 
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
+<%= if PhoneDb.Auth.user_signed_in?(@conn) do %>
     <ul>
-      <% user = Guardian.Plug.current_resource(@conn) %>
-      <%= if not is_nil(user) do %>
         <li>
           <%= link "List Contacts", to: Routes.contact_path(@conn, :index) %>
         </li>
@@ -18,11 +12,7 @@
         <li>
           <%= link "Logout", to: Routes.session_path(@conn, :logout), method: :post %>
         </li>
-      <% else %>
-        <li>
-          <%= link "Login", to: Routes.session_path(@conn, :login) %>
-        </li>
-      <% end %>
     </ul>
-  </article>
-</section>
+<% else %>
+    Please <%= link("Login", to: Routes.session_path(@conn, :login)) %>.
+<% end %>

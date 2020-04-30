@@ -1,27 +1,17 @@
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+        <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
-  <%= label f, :order %>
-  <%= number_input f, :order %>
-  <%= error_tag f, :order %>
-
-  <%= label f, :regexp %>
-  <%= text_input f, :regexp %>
-  <%= error_tag f, :regexp %>
-
-  <%= label f, :name %>
-  <%= text_input f, :name %>
-  <%= error_tag f, :name %>
-
-  <%= label f, :action %>
-  <%= select f, :action, @actions %>
-  <%= error_tag f, :action %>
+  <%= number_input_field(f, :order) %>
+  <%= text_input_field(f, :regexp) %>
+  <%= text_input_field(f, :name) %>
+  <%= select_field(f, :action, @actions) %>
 
   <div>
-    <%= submit "Save" %>
+      <span><%= submit "Save", class: "btn btn-primary" %></span>
+      <span><%= link "Back", to: Routes.default_path(@conn, :index), class: "btn btn-secondary" %></span>
   </div>
 <% end %>
