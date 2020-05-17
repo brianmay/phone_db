@@ -13,7 +13,9 @@ config :phone_db,
     {"Allow", "allow"},
     {"Voicemail", "voicemail"}
   ],
-  sync_services: [PhoneDb.Contacts.Ldap]
+  sync_services: [PhoneDb.Contacts.Ldap],
+  build_date: System.get_env("BUILD_DATE"),
+  vcs_ref: System.get_env("VCS_REF")
 
 config :phone_db, PhoneDb.Repo,
   url: System.get_env("DATABASE_URL"),

@@ -43,6 +43,12 @@ RUN \
   cd .. && \
   mix phx.digest;
 
+# Setup access to version information
+ARG BUILD_DATE=date
+ARG VCS_REF=vcs
+ENV BUILD_DATE=${BUILD_DATE}
+ENV VCS_REF=${VCS_REF}
+
 WORKDIR /opt/app
 COPY lib /opt/app/lib/
 COPY priv /opt/app/priv/

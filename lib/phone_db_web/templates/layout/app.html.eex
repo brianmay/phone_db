@@ -55,6 +55,14 @@
         <% end) %>
         <%= render @view_module, @view_template, assigns %>
     </main>
+
+    <footer class="text-muted small">
+        <div class="container">
+            Version <%= Application.get_env(:phone_db, :vcs_ref) %>
+            built on <%= Application.get_env(:phone_db, :build_date) %>
+        </div>
+    </footer>
+
     <%= csrf_meta_tag() %>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
