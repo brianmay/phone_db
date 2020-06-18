@@ -11,7 +11,7 @@
     "bootstrap": "^4.5.0",
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
-    "formdata-polyfill": "^3.0.19",
+    "formdata-polyfill": "^3.0.20",
     "jquery": "^3.5.1",
     "mdn-polyfills": "^5.20.0",
     "phoenix": "file:../deps/phoenix",
