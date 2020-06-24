@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.4.2",
-    "autoprefixer": "^9.8.3",
+    "autoprefixer": "^9.8.4",
     "bootstrap": "^4.5.0",
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
