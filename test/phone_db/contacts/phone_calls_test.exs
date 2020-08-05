@@ -7,7 +7,7 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
   describe "phone_calls" do
     alias PhoneDb.Contacts.PhoneCall
 
-    @valid_attrs %{action: "some action"}
+    @valid_attrs %{action: "some action", destination_number: "0412345678"}
     @invalid_attrs %{action: nil}
 
     def contact_fixture(attrs \\ %{}) do
@@ -115,7 +115,7 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
     end
 
     test "incoming_phone_call/1 creates a contact and a phone_call" do
-      response = Contacts.incoming_phone_call("0312345678")
+      response = Contacts.incoming_phone_call("0312345678", "0412345678")
 
       assert response == %{
                action: "allow",
@@ -147,7 +147,7 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
           regexp: "^03"
         })
 
-      response = Contacts.incoming_phone_call("0312345678")
+      response = Contacts.incoming_phone_call("0312345678", "0412345678")
 
       assert response == %{
                action: "some action",
@@ -178,7 +178,7 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
           phone_number: "0312345678"
         })
 
-      response = Contacts.incoming_phone_call("0312345678")
+      response = Contacts.incoming_phone_call("0312345678", "0412345678")
 
       assert response == %{
                action: "voicemail",
@@ -202,11 +202,11 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
       contact1 = Contacts.get_contact_for_phone_number("0312345678")
       contact2 = Contacts.get_contact_for_phone_number("0387654321")
 
-      Contacts.incoming_phone_call("0312345678")
-      Contacts.incoming_phone_call("0312345678")
-      Contacts.incoming_phone_call("0312345678")
-      Contacts.incoming_phone_call("0387654321")
-      Contacts.incoming_phone_call("0387654321")
+      Contacts.incoming_phone_call("0312345678", "0412345678")
+      Contacts.incoming_phone_call("0312345678", "0412345678")
+      Contacts.incoming_phone_call("0312345678", "0412345678")
+      Contacts.incoming_phone_call("0387654321", "0412345678")
+      Contacts.incoming_phone_call("0387654321", "0412345678")
 
       contacts = Contacts.list_contacts()
       results = Contacts.get_phone_call_stats_for_contacts(contacts)
@@ -221,11 +221,11 @@ defmodule PhoneDb.Contacts.PhoneCallsTest do
       contact1 = Contacts.get_contact_for_phone_number("0312345678")
       contact2 = Contacts.get_contact_for_phone_number("0387654321")
 
-      Contacts.incoming_phone_call("0312345678")
-      Contacts.incoming_phone_call("0312345678")
-      Contacts.incoming_phone_call("0312345678")
-      Contacts.incoming_phone_call("0387654321")
-      Contacts.incoming_phone_call("0387654321")
+      Contacts.incoming_phone_call("0312345678", "0412345678")
+      Contacts.incoming_phone_call("0312345678", "0412345678")
+      Contacts.incoming_phone_call("0312345678", "0412345678")
+      Contacts.incoming_phone_call("0387654321", "0412345678")
+      Contacts.incoming_phone_call("0387654321", "0412345678")
 
       phone_calls = Contacts.list_phone_calls([{:asc, :id}]) |> Enum.take(2)
       results = Contacts.get_phone_call_stats_for_phone_calls(phone_calls)

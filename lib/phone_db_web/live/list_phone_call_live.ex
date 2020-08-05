@@ -24,6 +24,9 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
           <th phx-click="sort" phx-value-column="name">
             Name <%= sort_order_icon("name", @sort_by, @sort_order) %>
           </th>
+          <th phx-click="sort" phx-value-column="destination_number">
+            Destination <%= sort_order_icon("destination_number", @sort_by, @sort_order) %>
+          </th>
           <th phx-click="sort" phx-value-column="action">
             Action <%= sort_order_icon("action", @sort_by, @sort_order) %>
           </th>
@@ -40,6 +43,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
             <td><%= format_timestamp(row.inserted_at) %></td>
             <td><%= row.contact.phone_number %></td>
             <td><%= row.contact.name %></td>
+            <td><%= row.destination_number %></td>
             <td>
                 <%= Contacts.show_action row.action %>
                 <%= if row.action != row.contact.action do %>
@@ -138,6 +142,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
         "time" -> :inserted_at
         "name" -> :name
         "phone_number" -> :phone_number
+        "destination_number" -> :destination_number
         "action" -> :action
         _ -> :name
       end

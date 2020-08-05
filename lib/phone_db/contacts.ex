@@ -60,6 +60,13 @@ defmodule PhoneDb.Contacts do
     |> phone_call_order(tail)
   end
 
+  defp phone_call_order(q, [{dir, :destination_number} | tail]) do
+    q
+    |> order_by([p, c], {^dir, p.destination_number})
+    |> phone_call_order(tail)
+  end
+
+
   defp phone_call_order(q, [{dir, :action} | tail]) do
     q
     |> order_by([p, c], {^dir, p.action})
@@ -274,13 +281,17 @@ defmodule PhoneDb.Contacts do
 
   ## Examples
 
-      iex> incoming_phone_call("12345768")
+      iex> incoming_phone_call("12345768", "12345678")
       "voicemail"
 
   """
-  def incoming_phone_call(phone_number) do
+  def incoming_phone_call(phone_number, destination_number) do
     contact = get_contact_for_phone_number(phone_number)
-    {:ok, _} = create_phone_call(%{action: contact.action}, contact)
+    phone_call = %{
+        action: contact.action,
+        destination_number: destination_number
+    }
+    {:ok, _} = create_phone_call(phone_call, contact)
 
     %{
       action: contact.action,

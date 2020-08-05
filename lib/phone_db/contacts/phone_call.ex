@@ -6,6 +6,7 @@ defmodule PhoneDb.Contacts.PhoneCall do
   schema "phone_calls" do
     field :action, :string
     belongs_to :contact, PhoneDb.Contacts.Contact
+    field :destination_number, :string
 
     timestamps()
   end
@@ -13,7 +14,7 @@ defmodule PhoneDb.Contacts.PhoneCall do
   @doc false
   def changeset(phone_call, attrs) do
     phone_call
-    |> cast(attrs, [:action])
-    |> validate_required([:action])
+    |> cast(attrs, [:action, :destination_number])
+    |> validate_required([:action, :destination_number])
   end
 end

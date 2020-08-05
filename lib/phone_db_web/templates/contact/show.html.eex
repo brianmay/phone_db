@@ -33,6 +33,7 @@
   <thead class="thead-dark" >
     <tr>
       <th>Date/Time</th>
+      <th>Destination</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -40,6 +41,7 @@
 <%= for phone_call <- @contact.phone_calls do %>
     <tr>
       <td><%= format_timestamp(phone_call.inserted_at) %></td>
+      <td><%= phone_call.destination_number %></td>
       <td><%= Contacts.show_action phone_call.action %></td>
     </tr>
 <% end %>

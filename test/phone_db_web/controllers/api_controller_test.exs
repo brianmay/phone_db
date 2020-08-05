@@ -49,7 +49,7 @@ defmodule PhoneDbWeb.ApiControllerTest do
       conn = using_basic_auth(conn, "user", "some password")
 
       url = Routes.api_path(conn, :incoming_call)
-      data = %{"phone_number" => "0312345678"}
+      data = %{"phone_number" => "0312345678", "destination_number" => "0412345678"}
       conn = post(conn, url, data)
       json_response(conn, 401)
     end
@@ -59,7 +59,7 @@ defmodule PhoneDbWeb.ApiControllerTest do
       conn = using_basic_auth(conn, "user", "some password")
 
       url = Routes.api_path(conn, :incoming_call)
-      data = %{"phone_number" => "0312345678"}
+      data = %{"phone_number" => "0312345678", "destination_number" => "0412345678"}
       conn = post(conn, url, data)
       expected = %{"action" => "allow", "name" => nil}
       assert json_response(conn, 200) == expected
