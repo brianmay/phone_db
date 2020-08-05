@@ -69,6 +69,7 @@ defmodule PhoneDbWeb.ListContactLive do
   end
 
   def mount(_params, session, socket) do
+    PhoneDb.Reloader.register(self())
     {:ok,
      assign(socket,
        query: session["query"],
@@ -152,5 +153,9 @@ defmodule PhoneDbWeb.ListContactLive do
     |> assign(:contacts, contacts)
     |> assign(:stats, stats)
     |> assign(:number_of_pages, number_of_pages(socket.assigns))
+  end
+
+  def handle_cast({:reload}, socket) do
+    {:noreply, socket |> load_data()}
   end
 end

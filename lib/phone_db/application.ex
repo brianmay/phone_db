@@ -11,9 +11,9 @@ defmodule PhoneDb.Application do
       # Start the Ecto repository
       PhoneDb.Repo,
       # Start the endpoint when the application starts
-      PhoneDbWeb.Endpoint
+      PhoneDbWeb.Endpoint,
       # Starts a worker by calling: PhoneDb.Worker.start_link(arg)
-      # {PhoneDb.Worker, arg},
+      PhoneDb.Reloader
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

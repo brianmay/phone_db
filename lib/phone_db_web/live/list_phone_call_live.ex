@@ -82,6 +82,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
   end
 
   def mount(_params, session, socket) do
+    PhoneDb.Reloader.register(self())
     {:ok,
      assign(socket,
        query: session["query"],
@@ -186,5 +187,9 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
   defp shift_zone!(timestamp, time_zone) do
     timestamp
     |> Calendar.DateTime.shift_zone!(time_zone)
+  end
+
+  def handle_cast({:reload}, socket) do
+    {:noreply, socket |> load_data()}
   end
 end
