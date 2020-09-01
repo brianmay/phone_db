@@ -24,7 +24,7 @@
     "url-search-params-polyfill": "^8.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
+    "@babel/core": "^7.11.5",
     "@babel/preset-env": "^7.11.0",
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^6.0.3",
