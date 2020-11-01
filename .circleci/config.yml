@@ -58,13 +58,13 @@ jobs:
       - run:
           name: Build and upload docker image
           command: |
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             docker build \
               --file "Dockerfile" \
               --tag "brianmay/phone_db:latest" \
               --build-arg "BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
               --build-arg "VCS_REF=$CIRCLE_SHA1" \
               .
-            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             docker push "brianmay/phone_db:latest"
 
   verify-version:
@@ -82,13 +82,13 @@ jobs:
       - run:
           name: Build and upload docker image
           command: |
+            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             docker build \
               --file "Dockerfile" \
               --tag "brianmay/phone_db:$CIRCLE_TAG" \
               --build-arg "BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"`" \
               --build-arg "VCS_REF=$CIRCLE_SHA1" \
               .
-            docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"
             docker push "brianmay/phone_db:$CIRCLE_TAG"
 
 workflows:
