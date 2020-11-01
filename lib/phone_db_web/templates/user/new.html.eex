@@ -16,7 +16,7 @@
 
 
   <div>
-      <span><%= submit "save", class: "btn btn-primary" %></span>
+      <span><%= submit "Save", class: "btn btn-primary" %></span>
       <span><%= link "Back", to: Routes.user_path(@conn, :index), class: "btn btn-secondary" %></span>
   </div>
 <% end %>
