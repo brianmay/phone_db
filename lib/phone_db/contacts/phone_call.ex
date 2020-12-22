@@ -1,4 +1,5 @@
 defmodule PhoneDb.Contacts.PhoneCall do
+  @moduledoc "A phone call that has been made"
   use Ecto.Schema
   import Ecto.Changeset
   @timestamps_opts [type: :utc_datetime, usec: true]

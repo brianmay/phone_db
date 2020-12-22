@@ -3,11 +3,11 @@ defmodule PhoneDb.ContactsTest do
 
   alias PhoneDb.Contacts
 
-  @actions Application.get_env(:phone_db, :actions)
+  defp get_actions, do: Application.get_env(:phone_db, :actions)
 
   describe "actions" do
     test "show_action/0 returns correct values" do
-      Enum.each(@actions, fn {word, key} ->
+      Enum.each(get_actions(), fn {word, key} ->
         assert word == Contacts.show_action(key)
       end)
 

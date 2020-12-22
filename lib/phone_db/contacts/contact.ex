@@ -1,4 +1,5 @@
 defmodule PhoneDb.Contacts.Contact do
+  @moduledoc "A recorded telephone number"
   use Ecto.Schema
   import Ecto.Changeset
   @timestamps_opts [type: :utc_datetime, usec: true]

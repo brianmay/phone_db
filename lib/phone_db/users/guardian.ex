@@ -1,4 +1,5 @@
 defmodule PhoneDb.Users.Guardian do
+  @moduledoc false
   use Guardian, otp_app: :phone_db
 
   alias PhoneDb.Users

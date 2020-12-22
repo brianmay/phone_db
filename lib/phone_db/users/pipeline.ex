@@ -1,4 +1,5 @@
 defmodule PhoneDb.Users.Pipeline do
+  @moduledoc "Guardian authentication pipeline"
   use Guardian.Plug.Pipeline,
     otp_app: :phone_db,
     error_handler: PhoneDb.Users.ErrorHandler,

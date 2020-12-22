@@ -1,4 +1,5 @@
 defmodule PhoneDb.Contacts.Default do
+  @moduledoc "Default action to take if no contact found"
   use Ecto.Schema
   import Ecto.Changeset
   @timestamps_opts [type: :utc_datetime, usec: true]

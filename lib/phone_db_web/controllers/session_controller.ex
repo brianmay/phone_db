@@ -1,7 +1,7 @@
 defmodule PhoneDbWeb.SessionController do
   use PhoneDbWeb, :controller
 
-  alias PhoneDb.{Users, Users.User, Users.Guardian}
+  alias PhoneDb.{Users, Users.Guardian, Users.User}
   alias PhoneDbWeb.Router.Helpers, as: Routes
 
   def new(conn, _) do

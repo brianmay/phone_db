@@ -1,10 +1,12 @@
 defmodule PhoneDb.Contacts.Ldap do
+  @moduledoc "LDAP methods"
   alias PhoneDb.Contacts.Contact
   @behaviour PhoneDb.Contacts.SyncBehaviour
 
   require Paddle.Class.Helper
+  alias Paddle.Class.Helper
 
-  Paddle.Class.Helper.gen_class_from_schema(
+  Helper.gen_class_from_schema(
     PhoneDb.Contacts.Ldap.Person,
     ["person"],
     "ou=people",
@@ -13,7 +15,7 @@ defmodule PhoneDb.Contacts.Ldap do
 
   alias PhoneDb.Contacts.Ldap.Person
 
-  defp authenticate() do
+  defp authenticate do
     config = Application.get_env(:paddle, Paddle)
     username = Keyword.fetch!(config, :username)
     password = Keyword.fetch!(config, :password)
@@ -56,7 +58,7 @@ defmodule PhoneDb.Contacts.Ldap do
   def update_contact(%Contact{} = contact) do
     authenticate()
 
-    case Paddle.get(%PhoneDb.Contacts.Ldap.Person{telephoneNumber: contact.phone_number}) do
+    case Paddle.get(%PhoneDb.Contacts.Ldap.Person{telephoneNumber: contact.phone_number}, nil) do
       {:error, :noSuchObject} -> do_create_contact(contact)
       {:ok, [person]} -> do_update_contact(person, contact)
     end

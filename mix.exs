@@ -10,7 +10,8 @@ defmodule PhoneDb.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      dialyzer: dialyzer()
     ]
   end
 
@@ -48,7 +49,9 @@ defmodule PhoneDb.MixProject do
       {:bcrypt_elixir, "~> 2.0"},
       {:basic_auth, "~> 2.2"},
       {:phoenix_live_view, "~> 0.1"},
-      {:paddle, "~> 0.1.0"}
+      {:paddle, "~> 0.1.0"},
+      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -63,6 +66,14 @@ defmodule PhoneDb.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]
+    ]
+  end
+
+  defp dialyzer do
+    [
+      warnings: "dialyzer.ignore-warnings",
+      plt_core_path: "priv/plts",
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
     ]
   end
 end

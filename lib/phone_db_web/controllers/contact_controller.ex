@@ -7,7 +7,7 @@ defmodule PhoneDbWeb.ContactController do
 
   alias Phoenix.LiveView
 
-  @actions Application.get_env(:phone_db, :actions)
+  defp get_actions, do: Application.get_env(:phone_db, :actions)
 
   def index(conn, params) do
     LiveView.Controller.live_render(conn, PhoneDbWeb.ListContactLive,
@@ -17,7 +17,7 @@ defmodule PhoneDbWeb.ContactController do
 
   def new(conn, _params) do
     changeset = Contacts.change_contact(%Contact{})
-    render(conn, "new.html", changeset: changeset, actions: @actions, active: "contacts")
+    render(conn, "new.html", changeset: changeset, actions: get_actions(), active: "contacts")
   end
 
   def create(conn, %{"contact" => contact_params}) do
@@ -28,7 +28,7 @@ defmodule PhoneDbWeb.ContactController do
         |> redirect(to: Routes.contact_path(conn, :show, contact))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, actions: @actions, active: "contacts")
+        render(conn, "new.html", changeset: changeset, actions: get_actions(), active: "contacts")
     end
   end
 
@@ -44,7 +44,7 @@ defmodule PhoneDbWeb.ContactController do
     render(conn, "edit.html",
       contact: contact,
       changeset: changeset,
-      actions: @actions,
+      actions: get_actions(),
       active: "contacts"
     )
   end
@@ -62,7 +62,7 @@ defmodule PhoneDbWeb.ContactController do
         render(conn, "edit.html",
           contact: contact,
           changeset: changeset,
-          actions: @actions,
+          actions: get_actions(),
           active: "contacts"
         )
     end

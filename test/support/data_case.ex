@@ -13,6 +13,7 @@ defmodule PhoneDb.DataCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -26,10 +27,10 @@ defmodule PhoneDb.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PhoneDb.Repo)
+    :ok = Sandbox.checkout(PhoneDb.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PhoneDb.Repo, {:shared, self()})
+      Sandbox.mode(PhoneDb.Repo, {:shared, self()})
     end
 
     :ok

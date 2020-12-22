@@ -1,4 +1,5 @@
 defmodule PhoneDbWeb.ListPhoneCallLive do
+  @moduledoc false
   use Phoenix.LiveView
 
   import Phoenix.HTML.Link
@@ -83,6 +84,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
 
   def mount(_params, session, socket) do
     PhoneDb.Reloader.register(self())
+
     {:ok,
      assign(socket,
        query: session["query"],

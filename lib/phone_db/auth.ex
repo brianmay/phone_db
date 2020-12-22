@@ -1,4 +1,5 @@
 defmodule PhoneDb.Auth do
+  @moduledoc "Guardian authentication"
   def current_user(conn) do
     Guardian.Plug.current_resource(conn)
   end

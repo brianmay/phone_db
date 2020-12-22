@@ -1,10 +1,11 @@
 defmodule PhoneDb.Reloader do
-  @moduledoc false
+  @moduledoc "Signal live views to reload as required"
 
   use GenServer
   require Logger
 
   defmodule State do
+    @moduledoc false
     @type t :: %__MODULE__{
             scenes: list(GenServer.server())
           }
@@ -19,12 +20,12 @@ defmodule PhoneDb.Reloader do
     {:ok, %State{}}
   end
 
-  @spec register(GenServer.server()) :: nil
+  @spec register(GenServer.server()) :: :ok
   def register(pid) do
     GenServer.cast(__MODULE__, {:register, pid})
   end
 
-  def reload() do
+  def reload do
     GenServer.cast(__MODULE__, {:reload})
   end
 

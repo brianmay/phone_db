@@ -1,4 +1,5 @@
 defmodule PhoneDb.Users.ErrorHandler do
+  @moduledoc "Error handlers"
   import Plug.Conn
   use PhoneDbWeb, :controller
 

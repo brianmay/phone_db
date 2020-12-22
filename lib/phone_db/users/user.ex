@@ -1,4 +1,5 @@
 defmodule PhoneDb.Users.User do
+  @moduledoc "User db methods"
   use Ecto.Schema
   import Ecto.Changeset
   @timestamps_opts [type: :utc_datetime, usec: true]

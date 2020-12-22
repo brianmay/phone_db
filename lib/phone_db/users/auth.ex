@@ -1,4 +1,5 @@
 defmodule PhoneDb.Users.Auth do
+  @moduledoc "Authentication functions"
   alias PhoneDb.Users
 
   @spec find_by_username_and_password(Plug.Conn.t(), String.t(), String.t()) :: Plug.Conn.t()

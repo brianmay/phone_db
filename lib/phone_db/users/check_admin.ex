@@ -1,5 +1,8 @@
 defmodule PhoneDb.Users.CheckAdmin do
+  @moduledoc "Check user is admin"
   import Plug.Conn
+
+  alias PhoneDb.Users.Auth
 
   def init(_params) do
   end
@@ -7,12 +10,12 @@ defmodule PhoneDb.Users.CheckAdmin do
   def call(conn, _params) do
     user = Guardian.Plug.current_resource(conn)
 
-    if not user.is_admin do
+    if user.is_admin do
       conn
-      |> PhoneDb.Users.Auth.unauthorized_response()
-      |> halt()
     else
       conn
+      |> Auth.unauthorized_response()
+      |> halt()
     end
   end
 end

@@ -9,11 +9,11 @@ defmodule PhoneDb.Contacts do
   alias PhoneDb.Contacts.Contact
   alias PhoneDb.Contacts.PhoneCall
 
-  @sync_services Application.get_env(:phone_db, :sync_services)
-  @actions Application.get_env(:phone_db, :actions)
+  defp get_sync_services, do: Application.get_env(:phone_db, :sync_services)
+  defp get_actions, do: Application.get_env(:phone_db, :actions)
 
   defp sync_contact(%Contact{} = contact) do
-    Enum.each(@sync_services, fn service ->
+    Enum.each(get_sync_services(), fn service ->
       service.update_contact(contact)
     end)
   end
@@ -65,7 +65,6 @@ defmodule PhoneDb.Contacts do
     |> order_by([p, c], {^dir, p.destination_number})
     |> phone_call_order(tail)
   end
-
 
   defp phone_call_order(q, [{dir, :action} | tail]) do
     q
@@ -287,10 +286,12 @@ defmodule PhoneDb.Contacts do
   """
   def incoming_phone_call(phone_number, destination_number) do
     contact = get_contact_for_phone_number(phone_number)
+
     phone_call = %{
-        action: contact.action,
-        destination_number: destination_number
+      action: contact.action,
+      destination_number: destination_number
     }
+
     {:ok, _} = create_phone_call(phone_call, contact)
     PhoneDb.Reloader.reload()
 
@@ -464,7 +465,7 @@ defmodule PhoneDb.Contacts do
   """
   def show_action(action) do
     result =
-      Enum.find(@actions, fn
+      Enum.find(get_actions(), fn
         {_, ^action} -> true
         _ -> false
       end)

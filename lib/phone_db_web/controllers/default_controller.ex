@@ -4,7 +4,7 @@ defmodule PhoneDbWeb.DefaultController do
   alias PhoneDb.Contacts
   alias PhoneDb.Contacts.Default
 
-  @actions Application.get_env(:phone_db, :actions)
+  defp get_actions, do: Application.get_env(:phone_db, :actions)
 
   def index(conn, _params) do
     defaults = Contacts.list_defaults()
@@ -13,7 +13,7 @@ defmodule PhoneDbWeb.DefaultController do
 
   def new(conn, _params) do
     changeset = Contacts.change_default(%Default{})
-    render(conn, "new.html", changeset: changeset, actions: @actions, active: "defaults")
+    render(conn, "new.html", changeset: changeset, actions: get_actions(), active: "defaults")
   end
 
   def create(conn, %{"default" => default_params}) do
@@ -24,7 +24,7 @@ defmodule PhoneDbWeb.DefaultController do
         |> redirect(to: Routes.default_path(conn, :show, default))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset, actions: @actions, active: "defaults")
+        render(conn, "new.html", changeset: changeset, actions: get_actions(), active: "defaults")
     end
   end
 
@@ -40,7 +40,7 @@ defmodule PhoneDbWeb.DefaultController do
     render(conn, "edit.html",
       default: default,
       changeset: changeset,
-      actions: @actions,
+      actions: get_actions(),
       active: "defaults"
     )
   end
@@ -58,7 +58,7 @@ defmodule PhoneDbWeb.DefaultController do
         render(conn, "edit.html",
           default: default,
           changeset: changeset,
-          actions: @actions,
+          actions: get_actions(),
           active: "defaults"
         )
     end
