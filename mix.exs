@@ -71,7 +71,7 @@ defmodule PhoneDb.MixProject do
 
   defp dialyzer do
     [
-      warnings: "dialyzer.ignore-warnings",
+      ignore_warnings: "dialyzer.ignore-warnings",
       plt_core_path: "priv/plts",
       plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
     ]
