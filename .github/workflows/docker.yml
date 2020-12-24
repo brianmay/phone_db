@@ -8,7 +8,6 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-    container: node:10.18-jessie
 
     # Service containers to run with `container-job`
     services:
@@ -16,6 +15,7 @@ jobs:
       postgres:
         # Docker Hub image
         image: postgres
+        ports: ['5432:5432']
         # Provide the password for postgres
         env:
           POSTGRES_USER: postgres
@@ -34,7 +34,7 @@ jobs:
         otp: [22.2.8]
 
     env:
-      DATABASE_URL_TEST: postgresql://postgres:postgres@postgres/test?sslmode=disable
+      DATABASE_URL_TEST: postgresql://postgres:postgres@localhost/test?sslmode=disable
       LDAP_SERVER: "localhost"
       MIX_ENV: test
 
