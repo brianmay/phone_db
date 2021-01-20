@@ -19,7 +19,7 @@
     "phoenix_live_view": "file:../deps/phoenix_live_view",
     "popper.js": "^1.16.1",
     "postcss-loader": "^4.1.0",
-    "sass": "^1.32.4",
+    "sass": "^1.32.5",
     "sass-loader": "^10.1.1",
     "url-search-params-polyfill": "^8.1.0"
   },
