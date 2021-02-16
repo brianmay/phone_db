@@ -6,7 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
-    "@popperjs/core": "^2.6.0",
+    "@popperjs/core": "^2.7.0",
     "autoprefixer": "^10.2.4",
     "bootstrap": "^4.6.0",
     "child-replace-with-polyfill": "^1.0.1",
