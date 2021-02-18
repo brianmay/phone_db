@@ -50,7 +50,7 @@ defmodule PhoneDb.MixProject do
       {:basic_auth, "~> 2.2"},
       {:phoenix_live_view, "~> 0.1"},
       {:paddle, "~> 0.1.0"},
-      {:dialyxir, "~> 1.0.0-rc.3", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
   end
