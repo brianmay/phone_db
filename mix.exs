@@ -34,9 +34,10 @@ defmodule PhoneDb.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.3"},
-      {:phoenix_pubsub, "~> 1.1"},
+      {:phoenix, "~> 1.5.4"},
+      {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
+      {:plug, "~> 1.11.1"},
       {:ecto_sql, "~> 3.0"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
@@ -47,7 +48,6 @@ defmodule PhoneDb.MixProject do
       {:calendar, "~> 1.0"},
       {:guardian, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.0"},
-      {:basic_auth, "~> 2.2"},
       {:phoenix_live_view, "~> 0.1"},
       {:paddle, "~> 0.1.0"},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},

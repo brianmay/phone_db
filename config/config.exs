@@ -27,7 +27,7 @@ config :phone_db, PhoneDbWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: PhoneDbWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2],
+  pubsub_server: PhoneDb.PubSub,
   live_view: [
     signing_salt: System.get_env("SIGNING_SALT")
   ]

@@ -41,7 +41,7 @@ defmodule PhoneDbWeb.ApiControllerTest do
       url = Routes.api_path(conn, :incoming_call)
       data = %{"phone_number" => "0312345678"}
       conn = post(conn, url, data)
-      json_response(conn, 401)
+      assert response(conn, 401) == "Unauthorized"
     end
 
     test "as normal user fails", %{conn: conn} do
