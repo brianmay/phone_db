@@ -30,8 +30,8 @@ jobs:
 
     strategy:
       matrix:
-        elixir: [1.10.2]
-        otp: [22.2.8]
+        elixir: [1.11.3]
+        otp: [23.2.7]
 
     env:
       DATABASE_URL_TEST: postgresql://postgres:postgres@localhost/test?sslmode=disable
@@ -41,7 +41,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup elixir
-      uses: actions/setup-elixir@v1
+      uses: erlef/setup-elixir@v1
       with:
         elixir-version: ${{ matrix.elixir }}
         otp-version: ${{ matrix.otp }}
@@ -73,13 +73,13 @@ jobs:
 
     strategy:
       matrix:
-        elixir: [1.10.2]
-        otp: [22.2.8]
+        elixir: [1.11.3]
+        otp: [23.2.7]
 
     steps:
     - uses: actions/checkout@v2
     - name: Setup elixir
-      uses: actions/setup-elixir@v1
+      uses: erlef/setup-elixir@v1
       with:
         elixir-version: ${{ matrix.elixir }}
         otp-version: ${{ matrix.otp }}

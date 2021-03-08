@@ -1,8 +1,6 @@
 defmodule PhoneDbWeb.Router do
   use PhoneDbWeb, :router
 
-  alias PhoneDb.Users.Auth
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -28,10 +26,7 @@ defmodule PhoneDbWeb.Router do
   pipeline :api do
     plug :accepts, ["json"]
 
-    plug BasicAuth,
-      callback: &Auth.find_by_username_and_password/3,
-      realm: "Phone DB",
-      custom_response: &Auth.unauthorized_response/1
+    plug PhoneDb.Users.AuthUser
   end
 
   scope "/", PhoneDbWeb do

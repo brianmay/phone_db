@@ -53,7 +53,7 @@
         <%= Enum.map(get_flash(@conn), fn {flash_key, flash_message} -> %>
             <p class="alert alert-<%= flash_key %>"><%= flash_message %></p>
         <% end) %>
-        <%= render @view_module, @view_template, assigns %>
+        <%= @inner_content %>
     </main>
 
     <footer class="text-muted small">
