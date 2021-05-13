@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.9.2",
-    "bootstrap": "^5.0.0-alpha1",
+    "bootstrap": "^5.0.1",
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
     "formdata-polyfill": "^4.0.0",
