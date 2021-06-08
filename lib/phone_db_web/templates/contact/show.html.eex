@@ -1,7 +1,6 @@
 <h1>Show Contact</h1>
 
 <ul>
-
   <li>
     <strong>Phone number:</strong>
     <%= @contact.phone_number %>
@@ -21,16 +20,15 @@
     <strong>Action:</strong>
     <%= Contacts.show_action @contact.action %>
   </li>
-
 </ul>
 
 <div class="mb-2">
-    <span><%= link "Edit", to: Routes.contact_path(@conn, :edit, @contact), class: "btn btn-secondary" %></span>
-    <span><%= link "Back", to: Routes.contact_path(@conn, :index), class: "btn btn-secondary" %></span>
+  <span><%= link "Edit", to: Routes.contact_path(@conn, :edit, @contact), class: "btn btn-secondary" %></span>
+  <span><%= link "Back", to: Routes.contact_path(@conn, :index), class: "btn btn-secondary" %></span>
 </div>
 
 <table class="table table-hover">
-  <thead class="thead-dark" >
+  <thead class="thead-dark">
     <tr>
       <th>Date/Time</th>
       <th>Destination</th>
@@ -38,12 +36,12 @@
     </tr>
   </thead>
   <tbody>
-<%= for phone_call <- @contact.phone_calls do %>
-    <tr>
-      <td><%= format_timestamp(phone_call.inserted_at) %></td>
-      <td><%= phone_call.destination_number %></td>
-      <td><%= Contacts.show_action phone_call.action %></td>
-    </tr>
-<% end %>
+    <%= for phone_call <- @contact.phone_calls do %>
+      <tr>
+        <td><%= format_timestamp(phone_call.inserted_at) %></td>
+        <td><%= phone_call.destination_number %></td>
+        <td><%= Contacts.show_action phone_call.action %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

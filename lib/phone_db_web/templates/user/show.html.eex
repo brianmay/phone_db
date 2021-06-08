@@ -1,7 +1,6 @@
 <h1>Show User</h1>
 
 <ul>
-
   <li>
     <strong>Username:</strong>
     <%= @user.username %>
@@ -21,7 +20,6 @@
     <strong>Is phone:</strong>
     <%= @user.is_phone %>
   </li>
-
 </ul>
 
 <span><%= link "Edit", to: Routes.user_path(@conn, :edit, @user), class: "btn btn-secondary" %></span>

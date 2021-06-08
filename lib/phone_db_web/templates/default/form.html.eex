@@ -1,7 +1,7 @@
 <%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-        <p>Oops, something went wrong! Please check the errors below.</p>
+      <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
@@ -11,7 +11,7 @@
   <%= select_field(f, :action, @actions) %>
 
   <div>
-      <span><%= submit "Save", class: "btn btn-primary" %></span>
-      <span><%= link "Back", to: Routes.default_path(@conn, :index), class: "btn btn-secondary" %></span>
+    <span><%= submit "Save", class: "btn btn-primary" %></span>
+    <span><%= link "Back", to: Routes.default_path(@conn, :index), class: "btn btn-secondary" %></span>
   </div>
 <% end %>

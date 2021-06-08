@@ -12,20 +12,20 @@
     </tr>
   </thead>
   <tbody>
-<%= for default <- @defaults do %>
-    <tr>
-      <td><%= default.order %></td>
-      <td><%= default.regexp %></td>
-      <td><%= default.name %></td>
-      <td><%= default.action %></td>
+    <%= for default <- @defaults do %>
+      <tr>
+        <td><%= default.order %></td>
+        <td><%= default.regexp %></td>
+        <td><%= default.name %></td>
+        <td><%= default.action %></td>
 
-      <td>
+        <td>
           <span><%= link "Show", to: Routes.default_path(@conn, :show, default), class: "btn btn-secondary" %></span>
           <span><%= link "Edit", to: Routes.default_path(@conn, :edit, default), class: "btn btn-secondary" %></span>
           <span><%= link "Delete", to: Routes.default_path(@conn, :delete, default), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></span>
-      </td>
-    </tr>
-<% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 

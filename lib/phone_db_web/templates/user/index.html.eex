@@ -12,21 +12,21 @@
     </tr>
   </thead>
   <tbody>
-<%= for user <- @users do %>
-    <tr>
-      <td><%= user.username %></td>
-      <td><%= user.is_admin %></td>
-      <td><%= user.is_trusted %></td>
-      <td><%= user.is_phone %></td>
+    <%= for user <- @users do %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><%= user.is_admin %></td>
+        <td><%= user.is_trusted %></td>
+        <td><%= user.is_phone %></td>
 
-      <td>
+        <td>
           <span><%= link "Show", to: Routes.user_path(@conn, :show, user), class: "btn btn-secondary" %></span>
           <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user), class: "btn btn-secondary" %></span>
           <span><%= link "Password", to: Routes.user_path(@conn, :password_edit, user), class: "btn btn-secondary" %></span>
           <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger" %></span>
-      </td>
-    </tr>
-<% end %>
+        </td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
