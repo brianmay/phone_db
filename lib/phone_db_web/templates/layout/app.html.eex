@@ -47,6 +47,8 @@
                 class="nav-link dropdown-toggle"
                 href="#"
                 data-toggle="dropdown"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
                 <%= PhoneDb.Auth.current_user(@conn).username %>
               </a>
