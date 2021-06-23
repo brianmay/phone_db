@@ -8,7 +8,7 @@ config :phone_db, PhoneDb.Repo,
 
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [:inet6, port: port],
-  url: [host: System.get_env("HOST"), port: port],
+  url: [host: System.get_env("HTTP_HOST") || System.get_env("HOST"), port: port],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   live_view: [
     signing_salt: System.get_env("SIGNING_SALT")
