@@ -30,3 +30,17 @@ config :paddle, Paddle,
 if System.get_env("IPV6") != nil do
   config :paddle, Paddle, ipv6: true
 end
+
+config :libcluster,
+  topologies: [
+    k8s: [
+      strategy: Elixir.Cluster.Strategy.Kubernetes,
+      config: [
+        mode: :dns,
+        kubernetes_node_basename: "phone_db",
+        kubernetes_selector: System.get_env("KUBERNETES_SELECTOR"),
+        kubernetes_namespace: System.get_env("NAMESPACE"),
+        polling_interval: 10_000
+      ]
+    ]
+  ]

@@ -6,8 +6,11 @@ defmodule PhoneDb.Application do
   use Application
 
   def start(_type, _args) do
+    topologies = Application.get_env(:libcluster, :topologies)
+
     # List all child processes to be supervised
     children = [
+      {Cluster.Supervisor, [topologies, [name: PhoneDb.ClusterSupervisor]]},
       # Start the Ecto repository
       PhoneDb.Repo,
       # Start the endpoint when the application starts

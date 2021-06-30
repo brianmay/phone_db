@@ -50,6 +50,7 @@ defmodule PhoneDb.MixProject do
       {:bcrypt_elixir, "~> 2.0"},
       {:phoenix_live_view, "~> 0.1"},
       {:paddle, "~> 0.1.0"},
+      {:libcluster, "~> 3.3"},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
     ]
