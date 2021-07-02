@@ -2,6 +2,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
   @moduledoc false
   use Phoenix.LiveView
 
+  import PhoneDbWeb.LiveHelpers
   import Phoenix.HTML.Link
   alias PhoneDb.Contacts
 
@@ -83,6 +84,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
   end
 
   def mount(_params, session, socket) do
+    socket = assign_defaults(socket, session)
     PhoneDb.Reloader.register(self())
 
     {:ok,

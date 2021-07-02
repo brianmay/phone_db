@@ -39,16 +39,6 @@ defmodule PhoneDbWeb.ContactControllerTest do
     contact
   end
 
-  describe "index" do
-    test "lists all contacts", %{conn: conn} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
-      conn = get(conn, Routes.contact_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Contacts"
-    end
-  end
-
   describe "new contact" do
     test "renders form", %{conn: conn} do
       token = fixture(:trusted_token)
@@ -120,15 +110,5 @@ defmodule PhoneDbWeb.ContactControllerTest do
   defp create_contact(_) do
     contact = fixture(:contact)
     {:ok, contact: contact}
-  end
-
-  describe "phone call index" do
-    test "lists all phone calls", %{conn: conn} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
-      conn = get(conn, Routes.phone_call_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Phone Calls"
-    end
   end
 end

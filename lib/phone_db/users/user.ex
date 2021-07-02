@@ -4,6 +4,18 @@ defmodule PhoneDb.Users.User do
   import Ecto.Changeset
   @timestamps_opts [type: :utc_datetime, usec: true]
 
+  @type t :: %__MODULE__{
+          is_admin: boolean,
+          is_phone: boolean,
+          is_trusted: boolean,
+          password: String.t(),
+          password_confirmation: String.t(),
+          password_hash: binary(),
+          username: String.t(),
+          inserted_at: DateTime.t(),
+          updated_at: DateTime.t()
+        }
+
   schema "users" do
     field :is_admin, :boolean, default: false
     field :is_phone, :boolean, default: false

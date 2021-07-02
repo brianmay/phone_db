@@ -26,6 +26,12 @@ defmodule PhoneDbWeb.SessionController do
   end
 
   def logout(conn, _) do
+    user = Guardian.Plug.current_resource(conn)
+
+    if user do
+      PhoneDbWeb.Endpoint.broadcast("users_socket:#{user.id}", "disconnect", %{})
+    end
+
     conn
     |> Guardian.Plug.sign_out()
     |> redirect(to: Routes.session_path(conn, :new))
@@ -41,6 +47,7 @@ defmodule PhoneDbWeb.SessionController do
 
     conn
     |> put_flash(:info, "Welcome back!")
+    |> put_session(:live_socket_id, "users_socket:#{user.id}")
     |> Guardian.Plug.sign_in(user)
     |> redirect(to: next)
   end
