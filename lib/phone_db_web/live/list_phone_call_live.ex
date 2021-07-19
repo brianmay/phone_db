@@ -62,24 +62,34 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
       </tbody>
     </table>
 
-    <nav class="float-left">
-      <%= for page <- (1..number_of_pages(assigns)) do %>
-        <%= if page == @page do %>
-          <strong><%= page %></strong>
-        <% else %>
-          <a href="#" phx-click="goto-page" phx-value-page=<%= page %>><%= page %></a>
+    <nav class="page_nav">
+      <%    
+            num_pages = number_of_pages(assigns)
+            pages = [{"|<", 1}, {"<", @page-1}, {"#{@page}", @page}, {">", @page+1}, {">|", num_pages}]
+            |> Enum.reject(fn {_, page} -> page < 1 end)
+            |> Enum.reject(fn {_, page} -> page > num_pages end)
+      %>
+
+      <div phx-change="change-page-size" class="pages">
+        <%= for {text, page} <- pages do %>
+          <%= if page == @page do %>
+            <a href="#" class="btn btn-light"><%= text %></a>
+          <% else %>
+            <a href="#" class="btn btn-secondary" phx-click="goto-page" phx-value-page=<%= page %>><%= text %></a>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
+
+      <form phx-change="change-page-size" class="page-size">
+        <select name="page_size">
+          <%= for page_size <- [5, 10, 25, 50] do %>
+            <option value="<%= page_size %>" <%= page_size == @page_size && "selected" || "" %>>
+              <%= page_size %> per page
+             </option>
+          <% end %>
+        </select>
+      </form>
     </nav>
-    <form phx-change="change-page-size" class="float-right">
-      <select name="page_size">
-        <%= for page_size <- [5, 10, 25, 50] do %>
-          <option value="<%= page_size %>" <%= page_size == @page_size && "selected" || "" %>>
-            <%= page_size %> per page
-           </option>
-        <% end %>
-      </select>
-    </form>
     """
   end
 
