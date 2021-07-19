@@ -50,16 +50,9 @@ defmodule PhoneDbWeb.ListContactLive do
     </table>
 
     <nav class="page_nav">
-      <%    
-            num_pages = number_of_pages(assigns)
-            pages = [{"|<", 1}, {"<", @page-1}, {"#{@page}", @page}, {">", @page+1}, {">|", num_pages}]
-            |> Enum.reject(fn {_, page} -> page < 1 end)
-            |> Enum.reject(fn {_, page} -> page > num_pages end)
-      %>
-
       <div phx-change="change-page-size" class="pages">
-        <%= for {text, page} <- pages do %>
-          <%= if page == @page do %>
+        <%= for {text, page, display} <- @pages do %>
+          <%= if display == :inactive do %>
             <a href="#" class="btn btn-light"><%= text %></a>
           <% else %>
             <a href="#" class="btn btn-secondary" phx-click="goto-page" phx-value-page=<%= page %>><%= text %></a>
@@ -163,10 +156,27 @@ defmodule PhoneDbWeb.ListContactLive do
     contacts = rows(socket.assigns)
     stats = Contacts.get_phone_call_stats_for_contacts(contacts)
 
+    num_pages = number_of_pages(socket.assigns)
+    page = socket.assigns.page
+
+    pages =
+      [{"|<", 1}, {"<", page - 1}, {"#{page}", page}, {">", page + 1}, {">|", num_pages}]
+      |> Enum.map(fn {text, this_page} ->
+        status =
+          cond do
+            this_page < 1 -> :inactive
+            this_page > num_pages -> :inactive
+            this_page == page -> :inactive
+            true -> :active
+          end
+
+        {text, this_page, status}
+      end)
+
     socket
     |> assign(:contacts, contacts)
     |> assign(:stats, stats)
-    |> assign(:number_of_pages, number_of_pages(socket.assigns))
+    |> assign(:pages, pages)
   end
 
   def handle_cast({:reload}, socket) do
