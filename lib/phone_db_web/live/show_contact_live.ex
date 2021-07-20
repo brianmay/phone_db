@@ -1,6 +1,7 @@
 defmodule PhoneDbWeb.ShowContactLive do
   @moduledoc false
   use Phoenix.LiveView
+  alias Phoenix.LiveView.Socket
 
   import PhoneDbWeb.LiveHelpers
   import Phoenix.HTML.Link
@@ -109,7 +110,7 @@ defmodule PhoneDbWeb.ShowContactLive do
 
   def mount(_params, session, socket) do
     socket = assign_defaults(socket, session)
-    PhoneDb.Reloader.register(self())
+    PhoneDbWeb.Endpoint.subscribe("refresh")
 
     id = session["id"]
     contact = Contacts.get_contact!(id)
@@ -239,7 +240,7 @@ defmodule PhoneDbWeb.ShowContactLive do
     |> Calendar.DateTime.shift_zone!(time_zone)
   end
 
-  def handle_cast({:reload}, socket) do
+  def handle_info(%{topic: "refresh"}, %Socket{} = socket) do
     {:noreply, socket |> load_data()}
   end
 end

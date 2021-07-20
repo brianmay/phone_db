@@ -1,6 +1,7 @@
 defmodule PhoneDbWeb.ListContactLive do
   @moduledoc false
   use Phoenix.LiveView
+  alias Phoenix.LiveView.Socket
 
   import PhoneDbWeb.LiveHelpers
   import Phoenix.HTML.Link
@@ -75,7 +76,7 @@ defmodule PhoneDbWeb.ListContactLive do
 
   def mount(_params, session, socket) do
     socket = assign_defaults(socket, session)
-    PhoneDb.Reloader.register(self())
+    PhoneDbWeb.Endpoint.subscribe("refresh")
 
     {:ok,
      assign(socket,
@@ -179,7 +180,7 @@ defmodule PhoneDbWeb.ListContactLive do
     |> assign(:pages, pages)
   end
 
-  def handle_cast({:reload}, socket) do
+  def handle_info(%{topic: "refresh"}, %Socket{} = socket) do
     {:noreply, socket |> load_data()}
   end
 end

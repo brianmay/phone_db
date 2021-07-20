@@ -15,9 +15,7 @@ defmodule PhoneDb.Application do
       PhoneDb.Repo,
       # Start the endpoint when the application starts
       PhoneDbWeb.Endpoint,
-      {Phoenix.PubSub, [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2]},
-      # Starts a worker by calling: PhoneDb.Worker.start_link(arg)
-      PhoneDb.Reloader
+      {Phoenix.PubSub, [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

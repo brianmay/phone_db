@@ -309,7 +309,7 @@ defmodule PhoneDb.Contacts do
     }
 
     {:ok, _} = create_phone_call(phone_call, contact)
-    PhoneDb.Reloader.reload()
+    PhoneDbWeb.Endpoint.broadcast("refresh", "refresh", %{})
 
     %{
       action: contact.action,
