@@ -3,7 +3,6 @@ defmodule PhoneDbWeb.ContactController do
 
   alias PhoneDb.Contacts
   alias PhoneDb.Contacts.Contact
-  alias PhoneDb.Repo
 
   alias Phoenix.LiveView
 
@@ -32,9 +31,10 @@ defmodule PhoneDbWeb.ContactController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    contact = Contacts.get_contact!(id) |> Repo.preload(:phone_calls)
-    render(conn, "show.html", contact: contact, active: "contacts")
+  def show(conn, %{"id" => id} = params) do
+    LiveView.Controller.live_render(conn, PhoneDbWeb.ShowContactLive,
+      session: %{"id" => id, "query" => Map.get(params, "query")}
+    )
   end
 
   def edit(conn, %{"id" => id}) do

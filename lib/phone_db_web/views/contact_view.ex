@@ -1,6 +1,5 @@
 defmodule PhoneDbWeb.ContactView do
   use PhoneDbWeb, :view
-  alias PhoneDb.Contacts
   require PhoneDb.Forms
   import PhoneDb.Forms
 

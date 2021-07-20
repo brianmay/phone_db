@@ -58,9 +58,6 @@ defmodule PhoneDbWeb.ContactControllerTest do
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.contact_path(conn, :show, id)
-
-      conn = get(conn, Routes.contact_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Contact"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -93,9 +90,6 @@ defmodule PhoneDbWeb.ContactControllerTest do
 
       conn = put(conn, Routes.contact_path(conn, :update, contact), contact: @update_attrs)
       assert redirected_to(conn) == Routes.contact_path(conn, :show, contact)
-
-      conn = get(conn, Routes.contact_path(conn, :show, contact))
-      assert html_response(conn, 200) =~ "some updated action"
     end
 
     test "renders errors when data is invalid", %{conn: conn, contact: contact} do

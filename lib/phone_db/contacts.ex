@@ -72,11 +72,20 @@ defmodule PhoneDb.Contacts do
     |> phone_call_order(tail)
   end
 
-  defp phone_calls_query(order_by, query) do
+  defp phone_calls_query(order_by, query, contact) do
     q =
       PhoneCall
       |> join(:inner, [p], c in Contact, on: p.contact_id == c.id)
       |> phone_call_order(order_by)
+
+    q =
+      case contact do
+        nil ->
+          q
+
+        %Contact{} = contact ->
+          where(q, [p], p.contact_id == ^contact.id)
+      end
 
     case query do
       nil ->
@@ -87,7 +96,13 @@ defmodule PhoneDb.Contacts do
 
       _ ->
         query = "%#{String.replace(query, "%", "\\%")}%"
-        where(q, [p, c], ilike(c.phone_number, ^query) or ilike(c.name, ^query))
+
+        where(
+          q,
+          [p, c],
+          ilike(c.phone_number, ^query) or ilike(c.name, ^query) or
+            ilike(p.destination_number, ^query)
+        )
     end
   end
 
@@ -215,12 +230,13 @@ defmodule PhoneDb.Contacts do
   def list_phone_calls(
         order_by \\ [{:asc, :id}],
         query \\ nil,
+        contact \\ nil,
         page_number \\ 1,
         page_size \\ 100
       ) do
     offset = page_size * (page_number - 1)
 
-    phone_calls_query(order_by, query)
+    phone_calls_query(order_by, query, contact)
     |> limit([_], ^page_size)
     |> offset([_], ^offset)
     |> preload([p, c], contact: c)
@@ -236,8 +252,8 @@ defmodule PhoneDb.Contacts do
       10
 
   """
-  def count_phone_calls(query \\ nil) do
-    phone_calls_query([], query) |> select([c], count(c.id)) |> Repo.one()
+  def count_phone_calls(query \\ nil, contact \\ nil) do
+    phone_calls_query([], query, contact) |> select([c], count(c.id)) |> Repo.one()
   end
 
   @doc """

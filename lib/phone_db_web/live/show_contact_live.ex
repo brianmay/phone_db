@@ -1,4 +1,4 @@
-defmodule PhoneDbWeb.ListPhoneCallLive do
+defmodule PhoneDbWeb.ShowContactLive do
   @moduledoc false
   use Phoenix.LiveView
 
@@ -10,7 +10,34 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
 
   def render(assigns) do
     ~L"""
-    <h1>Listing Phone Calls</h1>
+    <h1>Show Contact</h1>
+
+    <ul>
+      <li>
+        <strong>Phone number:</strong>
+        <%= @contact.phone_number %>
+      </li>
+
+      <li>
+        <strong>Name:</strong>
+        <%= @contact.name %>
+      </li>
+
+      <li>
+        <strong>Comments:</strong>
+        <%= @contact.comments %>
+      </li>
+
+      <li>
+        <strong>Action:</strong>
+        <%= Contacts.show_action @contact.action %>
+      </li>
+    </ul>
+
+    <div class="mb-2">
+      <span><%= link "Edit", to: Routes.contact_path(@socket, :edit, @contact), class: "btn btn-secondary" %></span>
+      <span><%= link "Back", to: Routes.contact_path(@socket, :index), class: "btn btn-secondary" %></span>
+    </div>
 
     <form phx-change="search"><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
 
@@ -35,8 +62,6 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
           <th>
             Calls
           </th>
-          <th>
-          </th>
         </tr>
       </thead>
       <tbody>
@@ -53,10 +78,6 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
                 <% end %>
             </td>
             <td><%= @stats[row.contact.id] %></td>
-            <td>
-              <%= link "Show", to: Routes.contact_path(@socket, :show, row.contact), class: "btn btn-secondary" %>
-              <%= link "Edit", to: Routes.contact_path(@socket, :edit, row.contact), class: "btn btn-secondary" %>
-            </td>
           </tr>
         <% end %>
       </tbody>
@@ -90,14 +111,18 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
     socket = assign_defaults(socket, session)
     PhoneDb.Reloader.register(self())
 
+    id = session["id"]
+    contact = Contacts.get_contact!(id)
+
     {:ok,
      assign(socket,
+       contact: contact,
        query: session["query"],
        sort_by: "time",
        sort_order: :desc,
        page: 1,
        page_size: 10,
-       active: "phone_calls"
+       active: "contacts"
      )
      |> load_data()}
   end
@@ -140,6 +165,7 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
 
   defp rows(%{
          query: query,
+         contact: contact,
          sort_by: sort_by,
          sort_order: sort_order,
          page: page,
@@ -155,11 +181,11 @@ defmodule PhoneDbWeb.ListPhoneCallLive do
         _ -> :name
       end
 
-    Contacts.list_phone_calls([{sort_order, sort_by}], query, nil, page, page_size)
+    Contacts.list_phone_calls([{sort_order, sort_by}], query, contact, page, page_size)
   end
 
-  defp number_of_pages(%{query: query, page_size: page_size}) do
-    number_of_rows = Contacts.count_phone_calls(query, nil)
+  defp number_of_pages(%{query: query, contact: contact, page_size: page_size}) do
+    number_of_rows = Contacts.count_phone_calls(query, contact)
     (number_of_rows / page_size + 1) |> trunc
   end
 
