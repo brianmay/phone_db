@@ -16,8 +16,8 @@
       <button
         class="navbar-toggler"
         type="button"
-        data-toggle="collapse"
-        data-target="#navbarsExampleDefault"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarsExampleDefault"
         aria-controls="navbarsExampleDefault"
         aria-expanded="false"
         aria-label="Toggle navigation"
@@ -28,25 +28,24 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <%= if PhoneDb.Auth.user_signed_in?(@conn) do %>
-            <li class="nav-item <%= active_class(@active, "contacts") %>">
-              <%= link("Contacts", to: Routes.contact_path(@conn, :index), class: "nav-link") %>
+            <li class="nav-item">
+              <%= link("Contacts", to: Routes.contact_path(@conn, :index), class: "nav-link " <> active_class(@active, "contacts")) %>
             </li>
-            <li class="nav-item <%= active_class(@active, "phone_calls") %>">
-              <%= link("Calls", to: Routes.phone_call_path(@conn, :index), class: "nav-link") %>
+            <li class="nav-item">
+              <%= link("Calls", to: Routes.phone_call_path(@conn, :index), class: "nav-link " <> active_class(@active, "phone_calls")) %>
             </li>
-            <li class="nav-item <%= active_class(@active, "defaults") %>">
-              <%= link("Defaults", to: Routes.default_path(@conn, :index), class: "nav-link") %>
+            <li class="nav-item">
+              <%= link("Defaults", to: Routes.default_path(@conn, :index), class: "nav-link " <> active_class(@active, "defaults")) %>
             </li>
             <%= if PhoneDb.Auth.user_is_admin?(@conn) do %>
               <li class="nav-item <%= active_class(@active, "users") %>">
-                <%= link("Users", to: Routes.user_path(@conn, :index), class: "nav-link") %>
+                <%= link("Users", to: Routes.user_path(@conn, :index), class: "nav-link " <> active_class(@active, "users")) %>
               </li>
             <% end %>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
-                data-toggle="dropdown"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
@@ -58,7 +57,7 @@
             </li>
           <% else %>
             <li class="nav-item <%= active_class(@active, "login") %>">
-              <%= link("Login", to: Routes.session_path(@conn, :login), class: "nav-link") %>
+              <%= link("Login", to: Routes.session_path(@conn, :login), class: "nav-link " <> active_class(@active, "login") ) %>
             </li>
           <% end %>
         </ul>

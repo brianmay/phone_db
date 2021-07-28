@@ -15,7 +15,7 @@ defmodule PhoneDbWeb.SessionController do
       render(conn, "new.html",
         changeset: changeset,
         action: Routes.session_path(conn, :login, next: next),
-        active: "index"
+        active: "login"
       )
     end
   end

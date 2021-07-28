@@ -3,7 +3,7 @@
 <%= form_for @changeset, Routes.user_path(@conn, :create), fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
-      <p>oops, something went wrong! please check the errors below.</p>
+      <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
