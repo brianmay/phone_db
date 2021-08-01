@@ -1,4 +1,4 @@
-defmodule PhoneDb.Users.AuthUser do
+defmodule PhoneDbWeb.Plug.AuthUser do
   @moduledoc "Authentication plugin"
   alias PhoneDb.Users
 

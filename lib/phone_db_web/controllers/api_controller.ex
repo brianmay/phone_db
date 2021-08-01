@@ -1,8 +1,6 @@
 defmodule PhoneDbWeb.ApiController do
   use PhoneDbWeb, :controller
 
-  alias PhoneDb.Users.Auth
-
   def incoming_call(conn, %{
         "phone_number" => phone_number,
         "destination_number" => destination_number
@@ -13,7 +11,11 @@ defmodule PhoneDbWeb.ApiController do
 
       render(conn, "incoming_call.json", action: action, name: name)
     else
-      Auth.unauthorized_response(conn)
+      # Don't redirect failures to login page here for API calls.
+      conn
+      |> Plug.Conn.put_resp_content_type("application/json")
+      |> Plug.Conn.send_resp(401, ~s[{"message": "Unauthorized"}])
+      |> halt()
     end
   end
 end

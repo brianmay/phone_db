@@ -10,7 +10,7 @@ defmodule PhoneDbWeb.Router do
   end
 
   pipeline :auth do
-    plug PhoneDb.Users.Pipeline
+    plug PhoneDbWeb.Plug.Auth
   end
 
   # We use ensure_auth to fail if there is no one logged in
@@ -20,13 +20,13 @@ defmodule PhoneDbWeb.Router do
 
   pipeline :ensure_admin do
     plug Guardian.Plug.EnsureAuthenticated
-    plug PhoneDb.Users.CheckAdmin
+    plug PhoneDbWeb.Plug.CheckAdmin
   end
 
   pipeline :api do
     plug :accepts, ["json"]
 
-    plug PhoneDb.Users.AuthUser
+    plug PhoneDbWeb.Plug.AuthUser
   end
 
   scope "/", PhoneDbWeb do
