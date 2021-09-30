@@ -7,7 +7,7 @@
   "dependencies": {
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
-    "formdata-polyfill": "^4.0.8",
+    "formdata-polyfill": "^4.0.10",
     "mdn-polyfills": "^5.20.0",
     "url-search-params-polyfill": "^8.1.1",
     "phoenix": "file:../deps/phoenix",
