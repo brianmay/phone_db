@@ -33,12 +33,12 @@ defmodule PhoneDbWeb.SessionControllerTest do
     end
 
     test "list contacts", %{conn: conn} do
-      conn = get(conn, Routes.contact_path(conn, :index))
+      conn = get(conn, Routes.list_contact_path(conn, :index))
       response(conn, 302)
     end
 
     test "list phone calls", %{conn: conn} do
-      conn = get(conn, Routes.phone_call_path(conn, :index))
+      conn = get(conn, Routes.list_phone_call_path(conn, :index))
       response(conn, 302)
     end
 

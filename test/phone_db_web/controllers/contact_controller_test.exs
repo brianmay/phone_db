@@ -57,7 +57,7 @@ defmodule PhoneDbWeb.ContactControllerTest do
       conn = post(conn, Routes.contact_path(conn, :create), contact: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.contact_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.show_contact_path(conn, :index, id)
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -89,7 +89,7 @@ defmodule PhoneDbWeb.ContactControllerTest do
       conn = put_req_header(conn, "authorization", "bearer: " <> token)
 
       conn = put(conn, Routes.contact_path(conn, :update, contact), contact: @update_attrs)
-      assert redirected_to(conn) == Routes.contact_path(conn, :show, contact)
+      assert redirected_to(conn) == Routes.show_contact_path(conn, :index, contact)
     end
 
     test "renders errors when data is invalid", %{conn: conn, contact: contact} do

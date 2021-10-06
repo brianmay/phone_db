@@ -9,6 +9,7 @@ defmodule PhoneDbWeb.ShowContactLive do
 
   alias PhoneDbWeb.Router.Helpers, as: Routes
 
+  @impl true
   def render(assigns) do
     ~L"""
     <h1>Show Contact</h1>
@@ -37,10 +38,10 @@ defmodule PhoneDbWeb.ShowContactLive do
 
     <div class="mb-2">
       <span><%= link "Edit", to: Routes.contact_path(@socket, :edit, @contact), class: "btn btn-secondary" %></span>
-      <span><%= link "Back", to: Routes.contact_path(@socket, :index), class: "btn btn-secondary" %></span>
+      <span><%= link "Back", to: Routes.list_contact_path(@socket, :index), class: "btn btn-secondary" %></span>
     </div>
 
-    <form phx-change="search"><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
+    <form phx-change="search" phx-submit="search" novalidate=""><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
 
     <table class="table table-hover">
       <thead class="thead-dark">
@@ -108,28 +109,108 @@ defmodule PhoneDbWeb.ShowContactLive do
     """
   end
 
+  @impl true
   def mount(_params, session, socket) do
     socket = assign_defaults(socket, session)
     PhoneDbWeb.Endpoint.subscribe("refresh")
 
-    id = session["id"]
-    contact = Contacts.get_contact!(id)
-
     {:ok,
      assign(socket,
-       contact: contact,
-       query: session["query"],
+       contact: nil,
+       query: nil,
        sort_by: "time",
        sort_order: :desc,
        page: 1,
        page_size: 10,
        active: "contacts"
-     )
-     |> load_data()}
+     )}
   end
 
+  defp set_from_string(socket, _key, nil) do
+    socket
+  end
+
+  defp set_from_string(socket, key, value) do
+    assign(socket, key, value)
+  end
+
+  defp set_from_sort_order(socket, key, "desc") do
+    assign(socket, key, :desc)
+  end
+
+  defp set_from_sort_order(socket, key, "asc") do
+    assign(socket, key, :asc)
+  end
+
+  defp set_from_sort_order(socket, _key, _value) do
+    socket
+  end
+
+  defp set_from_integer(socket, key, value, max \\ nil)
+
+  defp set_from_integer(socket, _key, nil, _max) do
+    socket
+  end
+
+  defp set_from_integer(socket, key, value, max) do
+    case Integer.parse(value) do
+      {integer, ""} ->
+        intger =
+          cond do
+            integer < 1 -> 1
+            max != nil and integer > max -> max
+            true -> integer
+          end
+
+        assign(socket, key, integer)
+
+      _ ->
+        socket
+    end
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    id = params["id"]
+    contact = Contacts.get_contact!(id)
+
+    socket =
+      socket
+      |> set_from_string(:query, params["query"])
+      |> set_from_string(:sort_by, params["sort_by"])
+      |> set_from_sort_order(:sort_order, params["sort_order"])
+      |> set_from_integer(:page, params["page"])
+      |> set_from_integer(:page_size, params["page_size"], 50)
+      |> assign(contact: contact)
+      |> load_data()
+
+    {:noreply, socket}
+  end
+
+  defp get_params(socket) do
+    [
+      query: socket.assigns.query,
+      sort_by: socket.assigns.sort_by,
+      sort_order: socket.assigns.sort_order,
+      page: socket.assigns.page,
+      page_size: socket.assigns.page_size
+    ]
+  end
+
+  defp set_params(socket, params) do
+    params =
+      socket
+      |> get_params()
+      |> Keyword.merge(params)
+
+    url = Routes.show_contact_path(socket, :index, socket.assigns.contact.id, params)
+    push_patch(socket, to: url)
+  end
+
+  @impl true
   def handle_event("search", %{"query" => query}, socket) do
-    {:noreply, assign(socket, query: query, page: 1) |> load_data()}
+    socket = set_params(socket, query: query, page: 1)
+    {:noreply, socket}
   end
 
   # When the column that is used for sorting is clicked again, we reverse the sort order
@@ -139,7 +220,8 @@ defmodule PhoneDbWeb.ShowContactLive do
         %{assigns: %{sort_by: sort_by, sort_order: :asc}} = socket
       )
       when column == sort_by do
-    {:noreply, assign(socket, sort_by: sort_by, sort_order: :desc) |> load_data()}
+    socket = set_params(socket, sort_by: sort_by, sort_order: :desc)
+    {:noreply, socket}
   end
 
   def handle_event(
@@ -148,20 +230,24 @@ defmodule PhoneDbWeb.ShowContactLive do
         %{assigns: %{sort_by: sort_by, sort_order: :desc}} = socket
       )
       when column == sort_by do
-    {:noreply, assign(socket, sort_by: sort_by, sort_order: :asc) |> load_data()}
+    socket = set_params(socket, sort_by: sort_by, sort_order: :asc)
+    {:noreply, socket}
   end
 
   # A new column has been clicked
   def handle_event("sort", %{"column" => column}, socket) do
-    {:noreply, assign(socket, sort_by: column) |> load_data()}
+    socket = set_params(socket, sort_by: column, sort_order: :asc)
+    {:noreply, socket}
   end
 
   def handle_event("goto-page", %{"page" => page}, socket) do
-    {:noreply, assign(socket, page: String.to_integer(page)) |> load_data()}
+    socket = set_params(socket, page: page)
+    {:noreply, socket}
   end
 
   def handle_event("change-page-size", %{"page_size" => page_size}, socket) do
-    {:noreply, assign(socket, page_size: String.to_integer(page_size), page: 1) |> load_data()}
+    socket = set_params(socket, page_size: page_size, page: 1)
+    {:noreply, socket}
   end
 
   defp rows(%{
@@ -240,6 +326,7 @@ defmodule PhoneDbWeb.ShowContactLive do
     |> Calendar.DateTime.shift_zone!(time_zone)
   end
 
+  @impl true
   def handle_info(%{topic: "refresh"}, %Socket{} = socket) do
     {:noreply, socket |> load_data()}
   end

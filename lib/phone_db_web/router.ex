@@ -5,6 +5,7 @@ defmodule PhoneDbWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
+    plug :put_root_layout, {PhoneDbWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -41,8 +42,10 @@ defmodule PhoneDbWeb.Router do
   scope "/", PhoneDbWeb do
     pipe_through [:browser, :auth, :ensure_auth]
 
-    get "/phone_calls", PhoneCallController, :index
-    resources "/contacts", ContactController
+    live "/phone_calls", ListPhoneCallLive, :index
+    resources "/contacts", ContactController, only: [:edit, :new, :create, :update]
+    live "/contacts", ListContactLive, :index
+    live "/contacts/:id", ShowContactLive, :index
     resources "/defaults", DefaultController
   end
 

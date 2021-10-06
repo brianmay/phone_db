@@ -4,15 +4,7 @@ defmodule PhoneDbWeb.ContactController do
   alias PhoneDb.Contacts
   alias PhoneDb.Contacts.Contact
 
-  alias Phoenix.LiveView
-
   defp get_actions, do: Application.get_env(:phone_db, :actions)
-
-  def index(conn, params) do
-    LiveView.Controller.live_render(conn, PhoneDbWeb.ListContactLive,
-      session: %{"query" => Map.get(params, "query")}
-    )
-  end
 
   def new(conn, _params) do
     changeset = Contacts.change_contact(%Contact{})
@@ -24,17 +16,11 @@ defmodule PhoneDbWeb.ContactController do
       {:ok, contact} ->
         conn
         |> put_flash(:info, "Contact created successfully.")
-        |> redirect(to: Routes.contact_path(conn, :show, contact))
+        |> redirect(to: Routes.show_contact_path(conn, :index, contact))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset, actions: get_actions(), active: "contacts")
     end
-  end
-
-  def show(conn, %{"id" => id} = params) do
-    LiveView.Controller.live_render(conn, PhoneDbWeb.ShowContactLive,
-      session: %{"id" => id, "query" => Map.get(params, "query")}
-    )
   end
 
   def edit(conn, %{"id" => id}) do
@@ -56,7 +42,7 @@ defmodule PhoneDbWeb.ContactController do
       {:ok, contact} ->
         conn
         |> put_flash(:info, "Contact updated successfully.")
-        |> redirect(to: Routes.contact_path(conn, :show, contact))
+        |> redirect(to: Routes.show_contact_path(conn, :index, contact))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html",
