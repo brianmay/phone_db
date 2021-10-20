@@ -1,5 +1,6 @@
 defmodule PhoneDbWeb.Router do
   use PhoneDbWeb, :router
+  import Phoenix.LiveDashboard.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -55,6 +56,8 @@ defmodule PhoneDbWeb.Router do
     resources "/users", UserController
     get "/users/:id/password", UserController, :password_edit
     put "/users/:id/password", UserController, :password_update
+
+    live_dashboard "/dashboard", metrics: PhoneDbWeb.Telemetry
   end
 
   scope "/api", PhoneDbWeb do

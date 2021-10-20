@@ -13,6 +13,7 @@ defmodule PhoneDb.Application do
       {Cluster.Supervisor, [topologies, [name: PhoneDb.ClusterSupervisor]]},
       # Start the Ecto repository
       PhoneDb.Repo,
+      PhoneDbWeb.Telemetry,
       # Start the endpoint when the application starts
       PhoneDbWeb.Endpoint,
       {Phoenix.PubSub, [name: PhoneDb.PubSub, adapter: Phoenix.PubSub.PG2]}
