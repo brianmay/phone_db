@@ -44,6 +44,7 @@ defmodule PhoneDb.MixProject do
       {:phoenix_ecto, "~> 4.0"},
       {:plug, "~> 1.12.0"},
       {:ecto_sql, "~> 3.0"},
+      {:ecto_psql_extras, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
