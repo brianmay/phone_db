@@ -11,7 +11,7 @@ defmodule PhoneDbWeb.ShowContactLive do
 
   @impl true
   def render(assigns) do
-    ~L"""
+    ~H"""
     <h1>Show Contact</h1>
 
     <ul>
@@ -41,7 +41,7 @@ defmodule PhoneDbWeb.ShowContactLive do
       <span><%= link "Back", to: Routes.list_contact_path(@socket, :index), class: "btn btn-secondary" %></span>
     </div>
 
-    <form phx-change="search" phx-submit="search" novalidate=""><input type="text" name="query" value="<%= @query %>" placeholder="Search..." /></form>
+    <form phx-change="search" phx-submit="search" novalidate=""><input type="text" name="query" value={@query} placeholder="Search..." /></form>
 
     <table class="table table-hover">
       <thead class="thead-dark">
@@ -91,7 +91,7 @@ defmodule PhoneDbWeb.ShowContactLive do
           <%= if display == :inactive do %>
             <a href="#" class="btn btn-light"><%= text %></a>
           <% else %>
-            <a href="#" class="btn btn-secondary" phx-click="goto-page" phx-value-page=<%= page %>><%= text %></a>
+            <a href="#" class="btn btn-secondary" phx-click="goto-page" phx-value-page={page}><%= text %></a>
           <% end %>
         <% end %>
       </div>
@@ -99,9 +99,10 @@ defmodule PhoneDbWeb.ShowContactLive do
       <form phx-change="change-page-size" class="page-size">
         <select name="page_size">
           <%= for page_size <- [5, 10, 25, 50] do %>
-            <option value="<%= page_size %>" <%= page_size == @page_size && "selected" || "" %>>
+            <% selected = if page_size == @page_size, do: "selected", else: nil %>
+            <option value={page_size} selected={selected}>
               <%= page_size %> per page
-             </option>
+            </option>
           <% end %>
         </select>
       </form>
