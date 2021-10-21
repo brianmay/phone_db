@@ -155,7 +155,7 @@ defmodule PhoneDbWeb.ShowContactLive do
   defp set_from_integer(socket, key, value, max) do
     case Integer.parse(value) do
       {integer, ""} ->
-        intger =
+        integer =
           cond do
             integer < 1 -> 1
             max != nil and integer > max -> max
