@@ -38,7 +38,7 @@
               <%= link("Defaults", to: Routes.default_path(@conn, :index), class: link_class(@active, "defaults")) %>
             </li>
             <%= if PhoneDb.Auth.user_is_admin?(@conn) do %>
-              <li class={item_class(@active, "users")}>
+              <li class="nav-item">
                 <%= link("Users", to: Routes.user_path(@conn, :index), class: link_class(@active, "users")) %>
               </li>
             <% end %>
@@ -56,7 +56,7 @@
               </div>
             </li>
           <% else %>
-            <li class={item_class(@active, "login")}>
+            <li class="nav-item"">
               <%= link("Login", to: Routes.session_path(@conn, :login), class: link_class(@active, "login") ) %>
             </li>
           <% end %>

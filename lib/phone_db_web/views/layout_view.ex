@@ -6,12 +6,6 @@ defmodule PhoneDbWeb.LayoutView do
     if condition, do: [item | list], else: list
   end
 
-  def item_class(active, item) do
-    ["nav-item"]
-    |> prepend_if(active == item, "active")
-    |> Enum.join(" ")
-  end
-
   def link_class(active, item) do
     ["nav-link"]
     |> prepend_if(active == item, "active")
