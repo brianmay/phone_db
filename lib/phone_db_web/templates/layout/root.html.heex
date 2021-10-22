@@ -7,7 +7,7 @@
     <title>PhoneDb</title>
     <link
       rel="stylesheet"
-      href="<%= Routes.static_path(@conn, "/css/app.css") %>"
+      href={Routes.static_path(@conn, "/css/app.css")}
     />
   </head>
   <body>
@@ -29,17 +29,17 @@
         <ul class="navbar-nav mr-auto">
           <%= if PhoneDb.Auth.user_signed_in?(@conn) do %>
             <li class="nav-item">
-              <%= link("Contacts", to: Routes.list_contact_path(@conn, :index), class: "nav-link " <> active_class(@active, "contacts")) %>
+              <%= link("Contacts", to: Routes.list_contact_path(@conn, :index), class: link_class(@active, "contacts")) %>
             </li>
             <li class="nav-item">
-              <%= link("Calls", to: Routes.list_phone_call_path(@conn, :index), class: "nav-link " <> active_class(@active, "phone_calls")) %>
+              <%= link("Calls", to: Routes.list_phone_call_path(@conn, :index), class: link_class(@active, "phone_calls")) %>
             </li>
             <li class="nav-item">
-              <%= link("Defaults", to: Routes.default_path(@conn, :index), class: "nav-link " <> active_class(@active, "defaults")) %>
+              <%= link("Defaults", to: Routes.default_path(@conn, :index), class: link_class(@active, "defaults")) %>
             </li>
             <%= if PhoneDb.Auth.user_is_admin?(@conn) do %>
-              <li class="nav-item <%= active_class(@active, "users") %>">
-                <%= link("Users", to: Routes.user_path(@conn, :index), class: "nav-link " <> active_class(@active, "users")) %>
+              <li class={item_class(@active, "users")}>
+                <%= link("Users", to: Routes.user_path(@conn, :index), class: link_class(@active, "users")) %>
               </li>
             <% end %>
             <li class="nav-item dropdown">
@@ -56,8 +56,8 @@
               </div>
             </li>
           <% else %>
-            <li class="nav-item <%= active_class(@active, "login") %>">
-              <%= link("Login", to: Routes.session_path(@conn, :login), class: "nav-link " <> active_class(@active, "login") ) %>
+            <li class={item_class(@active, "login")}>
+              <%= link("Login", to: Routes.session_path(@conn, :login), class: link_class(@active, "login") ) %>
             </li>
           <% end %>
         </ul>
@@ -66,7 +66,7 @@
 
     <main role="main" class="container">
       <%= for {flash_key, flash_message} <- get_flash(@conn) do %>
-        <p class="alert alert-<%= flash_key %>"><%= flash_message %></p>
+        <p class={"alert alert-#{flash_key}"}><%= flash_message %></p>
       <% end %>
       <%= @inner_content %>
     </main>
@@ -81,7 +81,7 @@
     <%= csrf_meta_tag() %>
     <script
       type="text/javascript"
-      src="<%= Routes.static_path(@conn, "/js/app.js") %>"
+      src={Routes.static_path(@conn, "/js/app.js")}
     ></script>
   </body>
 </html>
