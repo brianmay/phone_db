@@ -1,18 +1,19 @@
 <h1><%= gettext "Welcome to %{name}!", name: "Phone DB" %></h1>
 <p>A database of phone numbers for automatic filtering of calls.</p>
 
-<%= if PhoneDb.Auth.user_signed_in?(@conn) do %>
+<% user = PhoneDbWeb.Auth.current_user(@conn) %>
+<%= if user != nil do %>
   <ul>
     <li>
-      <%= link "List Contacts", to: Routes.list_contact_path(@conn, :index) %>
+      <%= live_redirect "List Contacts", to: Routes.list_contact_path(@conn, :index) %>
     </li>
     <li>
-      <%= link "List Phone Calls", to: Routes.list_phone_call_path(@conn, :index) %>
+      <%= live_redirect "List Phone Calls", to: Routes.list_phone_call_path(@conn, :index) %>
     </li>
     <li>
-      <%= link "Logout", to: Routes.session_path(@conn, :logout), method: :post %>
+      <%= link "Logout", to: Routes.page_path(@conn, :logout), method: :post %>
     </li>
   </ul>
 <% else %>
-  Please <%= link("Login", to: Routes.session_path(@conn, :login)) %>.
+  Please <%= live_redirect("Login", to: Routes.page_path(@conn, :login)) %>.
 <% end %>

@@ -3,7 +3,6 @@ defmodule PhoneDbWeb.ShowContactLive do
   use Phoenix.LiveView
   alias Phoenix.LiveView.Socket
 
-  import PhoneDbWeb.LiveHelpers
   import Phoenix.HTML.Link
   alias PhoneDb.Contacts
 
@@ -111,8 +110,7 @@ defmodule PhoneDbWeb.ShowContactLive do
   end
 
   @impl true
-  def mount(_params, session, socket) do
-    socket = assign_defaults(socket, session)
+  def mount(_params, _session, socket) do
     PhoneDbWeb.Endpoint.subscribe("refresh")
 
     {:ok,

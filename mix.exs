@@ -51,12 +51,13 @@ defmodule PhoneDb.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:calendar, "~> 1.0"},
-      {:guardian, "~> 2.0"},
       {:bcrypt_elixir, "~> 2.0"},
       {:paddle, "~> 0.1.0"},
       {:libcluster, "~> 3.3"},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
-      {:credo, "~> 1.4", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:plugoid, git: "https://github.com/tanguilp/plugoid.git", branch: "conn_callback"},
+      {:replug, "~> 0.1.0"}
     ]
   end
 

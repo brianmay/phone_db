@@ -12,7 +12,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <%= link("PhoneDb", to: Routes.page_path(@conn, :index), class: "navbar-brand") %>
+      <%= live_redirect("PhoneDb", to: Routes.page_path(@conn, :index), class: "navbar-brand") %>
       <button
         class="navbar-toggler"
         type="button"
@@ -27,19 +27,20 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <%= if PhoneDb.Auth.user_signed_in?(@conn) do %>
+          <% user = PhoneDbWeb.Auth.current_user(@conn) %>
+          <%= if user != nil do %>
             <li class="nav-item">
-              <%= link("Contacts", to: Routes.list_contact_path(@conn, :index), class: link_class(@active, "contacts")) %>
+              <%= live_redirect("Contacts", to: Routes.list_contact_path(@conn, :index), class: link_class(@active, "contacts")) %>
             </li>
             <li class="nav-item">
-              <%= link("Calls", to: Routes.list_phone_call_path(@conn, :index), class: link_class(@active, "phone_calls")) %>
+              <%= live_redirect("Calls", to: Routes.list_phone_call_path(@conn, :index), class: link_class(@active, "phone_calls")) %>
             </li>
             <li class="nav-item">
-              <%= link("Defaults", to: Routes.default_path(@conn, :index), class: link_class(@active, "defaults")) %>
+              <%= live_redirect("Defaults", to: Routes.default_path(@conn, :index), class: link_class(@active, "defaults")) %>
             </li>
-            <%= if PhoneDb.Auth.user_is_admin?(@conn) do %>
+            <%= if PhoneDbWeb.Auth.user_is_admin?(user) do %>
               <li class="nav-item">
-                <%= link("Users", to: Routes.user_path(@conn, :index), class: link_class(@active, "users")) %>
+                <%= live_redirect("Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: link_class(@active, "dashboard")) %>
               </li>
             <% end %>
             <li class="nav-item dropdown">
@@ -49,15 +50,15 @@
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <%= PhoneDb.Auth.current_user(@conn).username %>
+                <%= user["name"] %>
               </a>
               <div class="dropdown-menu">
-                <%= link "Logout", to: Routes.session_path(@conn, :logout), method: :post, class: "dropdown-item" %>
+                <%= link "Logout", to: Routes.page_path(@conn, :logout), method: :post, class: "dropdown-item" %>
               </div>
             </li>
           <% else %>
             <li class="nav-item"">
-              <%= link("Login", to: Routes.session_path(@conn, :login), class: link_class(@active, "login") ) %>
+              <%= live_redirect("Login", to: Routes.page_path(@conn, :login), class: link_class(@active, "login") ) %>
             </li>
           <% end %>
         </ul>

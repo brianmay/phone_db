@@ -2,6 +2,9 @@ defmodule PhoneDbWeb.Router do
   use PhoneDbWeb, :router
   import Phoenix.LiveDashboard.Router
 
+  use Plugoid.RedirectURI,
+    token_callback: &PhoneDbWeb.TokenCallback.callback/5
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -11,52 +14,67 @@ defmodule PhoneDbWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :auth do
-    plug PhoneDbWeb.Plug.Auth
+  defmodule PlugoidConfig do
+    def common do
+      config = Application.get_env(:phone_db, :oidc)
+
+      [
+        issuer: config.discovery_document_uri,
+        client_id: config.client_id,
+        scope: String.split(config.scope, " "),
+        client_config: PhoneDbWeb.ClientCallback
+      ]
+    end
   end
 
-  # We use ensure_auth to fail if there is no one logged in
+  defp phone_auth(conn, _opts) do
+    auth = Application.get_env(:phone_db, :phone_auth)
+    Plug.BasicAuth.basic_auth(conn, auth)
+  end
+
+  pipeline :auth do
+    plug Replug,
+      plug: {Plugoid, on_unauthenticated: :pass},
+      opts: {PlugoidConfig, :common}
+  end
+
   pipeline :ensure_auth do
-    plug Guardian.Plug.EnsureAuthenticated
+    plug Replug,
+      plug: {Plugoid, on_unauthenticated: :auth},
+      opts: {PlugoidConfig, :common}
   end
 
   pipeline :ensure_admin do
-    plug Guardian.Plug.EnsureAuthenticated
     plug PhoneDbWeb.Plug.CheckAdmin
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-
-    plug PhoneDbWeb.Plug.AuthUser
+    plug :phone_auth
   end
 
-  scope "/", PhoneDbWeb do
-    pipe_through [:browser, :auth]
+  live_session :default, on_mount: PhoenDbWeb.InitAssigns do
+    scope "/", PhoneDbWeb do
+      pipe_through [:browser, :auth]
 
-    get "/", PageController, :index
-    get "/login", SessionController, :new
-    post "/login", SessionController, :login
-    post "/logout", SessionController, :logout
-  end
+      get "/", PageController, :index
+      post "/logout", PageController, :logout
+    end
 
-  scope "/", PhoneDbWeb do
-    pipe_through [:browser, :auth, :ensure_auth]
+    scope "/", PhoneDbWeb do
+      pipe_through [:browser, :ensure_auth]
 
-    live "/phone_calls", ListPhoneCallLive, :index
-    resources "/contacts", ContactController, only: [:edit, :new, :create, :update]
-    live "/contacts", ListContactLive, :index
-    live "/contacts/:id", ShowContactLive, :index
-    resources "/defaults", DefaultController
+      get "/login", PageController, :login
+      live "/phone_calls", ListPhoneCallLive, :index
+      resources "/contacts", ContactController, only: [:edit, :new, :create, :update]
+      live "/contacts", ListContactLive, :index
+      live "/contacts/:id", ShowContactLive, :index
+      resources "/defaults", DefaultController
+    end
   end
 
   scope "/", PhoneDbWeb do
     pipe_through [:browser, :auth, :ensure_admin]
-
-    resources "/users", UserController
-    get "/users/:id/password", UserController, :password_edit
-    put "/users/:id/password", UserController, :password_update
-
     live_dashboard "/dashboard", metrics: PhoneDbWeb.Telemetry
   end
 

@@ -2,8 +2,6 @@ defmodule PhoneDbWeb.ContactControllerTest do
   use PhoneDbWeb.ConnCase
 
   alias PhoneDb.Contacts
-  alias PhoneDb.Users
-  alias PhoneDb.Users.Guardian
 
   @create_attrs %{
     action: "some action",
@@ -19,31 +17,22 @@ defmodule PhoneDbWeb.ContactControllerTest do
   }
   @invalid_attrs %{action: nil, name: nil, phone_number: nil}
 
-  def fixture(:trusted_token) do
-    {:ok, user} =
-      Users.create_user(%{
-        is_admin: false,
-        is_phone: false,
-        is_trusted: true,
-        password: "some password",
-        password_confirmation: "some password",
-        username: "trusted"
-      })
-
-    {:ok, token, _} = Guardian.encode_and_sign(user, %{}, token_type: :access)
-    token
-  end
-
   def fixture(:contact) do
     {:ok, contact} = Contacts.create_contact(@create_attrs)
     contact
   end
 
+  def fake_auth(conn) do
+    # Note if we don't recycle connection, it could get recycled anyway,
+    # and we lose the value we set here.
+    conn
+    |> ensure_recycled()
+    |> put_private(:plugoid_authenticated, true)
+  end
+
   describe "new contact" do
     test "renders form", %{conn: conn} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
+      conn = fake_auth(conn)
       conn = get(conn, Routes.contact_path(conn, :new))
       assert html_response(conn, 200) =~ "New Contact"
     end
@@ -51,9 +40,7 @@ defmodule PhoneDbWeb.ContactControllerTest do
 
   describe "create contact" do
     test "redirects to show when data is valid", %{conn: conn} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
+      conn = fake_auth(conn)
       conn = post(conn, Routes.contact_path(conn, :create), contact: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
@@ -61,9 +48,7 @@ defmodule PhoneDbWeb.ContactControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
+      conn = fake_auth(conn)
       conn = post(conn, Routes.contact_path(conn, :create), contact: @invalid_attrs)
       assert html_response(conn, 200) =~ "New Contact"
     end
@@ -73,9 +58,7 @@ defmodule PhoneDbWeb.ContactControllerTest do
     setup [:create_contact]
 
     test "renders form for editing chosen contact", %{conn: conn, contact: contact} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
+      conn = fake_auth(conn)
       conn = get(conn, Routes.contact_path(conn, :edit, contact))
       assert html_response(conn, 200) =~ "Edit Contact"
     end
@@ -85,17 +68,13 @@ defmodule PhoneDbWeb.ContactControllerTest do
     setup [:create_contact]
 
     test "redirects when data is valid", %{conn: conn, contact: contact} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
+      conn = fake_auth(conn)
       conn = put(conn, Routes.contact_path(conn, :update, contact), contact: @update_attrs)
       assert redirected_to(conn) == Routes.show_contact_path(conn, :index, contact)
     end
 
     test "renders errors when data is invalid", %{conn: conn, contact: contact} do
-      token = fixture(:trusted_token)
-      conn = put_req_header(conn, "authorization", "bearer: " <> token)
-
+      conn = fake_auth(conn)
       conn = put(conn, Routes.contact_path(conn, :update, contact), contact: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Contact"
     end

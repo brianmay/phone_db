@@ -15,16 +15,29 @@ config :phone_db,
   ],
   sync_services: [PhoneDb.Contacts.Ldap],
   build_date: System.get_env("BUILD_DATE"),
-  vcs_ref: System.get_env("VCS_REF")
+  vcs_ref: System.get_env("VCS_REF"),
+  phone_auth: [
+    username: System.get_env("PHONE_USERNAME"),
+    password: System.get_env("PHONE_PASSWORD")
+  ],
+  oidc: %{
+    discovery_document_uri: System.get_env("OIDC_DISCOVERY_URL"),
+    client_id: System.get_env("OIDC_CLIENT_ID"),
+    client_secret: System.get_env("OIDC_CLIENT_SECRET"),
+    scope: System.get_env("OIDC_AUTH_SCOPE")
+  }
 
 config :phone_db, PhoneDb.Repo,
   url: System.get_env("DATABASE_URL"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
+http_url = System.get_env("HTTP_URL") || "http://localhost:4000"
+http_uri = URI.parse(http_url)
+
 # Configures the endpoint
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
-  url: [host: "localhost"],
+  url: [scheme: http_uri.scheme, host: http_uri.host, port: http_uri.port],
   secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: PhoneDbWeb.ErrorView, accepts: ~w(html json)],
   pubsub_server: PhoneDb.PubSub,
@@ -61,6 +74,15 @@ end
 
 config :libcluster,
   topologies: []
+
+config :plugoid,
+  auth_cookie_store: Plug.Session.COOKIE,
+  auth_cookie_store_opts: [
+    signing_salt: System.get_env("SIGNING_SALT")
+  ],
+  state_cookie_store_opts: [
+    signing_salt: System.get_env("SIGNING_SALT")
+  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
