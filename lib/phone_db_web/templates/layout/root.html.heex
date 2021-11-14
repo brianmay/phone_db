@@ -28,19 +28,20 @@
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
           <% user = PhoneDbWeb.Auth.current_user(@conn) %>
+          <% active = assigns[:active] %>
           <%= if user != nil do %>
             <li class="nav-item">
-              <%= live_redirect("Contacts", to: Routes.list_contact_path(@conn, :index), class: link_class(@active, "contacts")) %>
+              <%= live_redirect("Contacts", to: Routes.list_contact_path(@conn, :index), class: link_class(active, "contacts")) %>
             </li>
             <li class="nav-item">
-              <%= live_redirect("Calls", to: Routes.list_phone_call_path(@conn, :index), class: link_class(@active, "phone_calls")) %>
+              <%= live_redirect("Calls", to: Routes.list_phone_call_path(@conn, :index), class: link_class(active, "phone_calls")) %>
             </li>
             <li class="nav-item">
-              <%= live_redirect("Defaults", to: Routes.default_path(@conn, :index), class: link_class(@active, "defaults")) %>
+              <%= live_redirect("Defaults", to: Routes.default_path(@conn, :index), class: link_class(active, "defaults")) %>
             </li>
             <%= if PhoneDbWeb.Auth.user_is_admin?(user) do %>
               <li class="nav-item">
-                <%= live_redirect("Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: link_class(@active, "dashboard")) %>
+                <%= live_redirect("Dashboard", to: Routes.live_dashboard_path(@conn, :home), class: link_class(active, "dashboard")) %>
               </li>
             <% end %>
             <li class="nav-item dropdown">
@@ -58,7 +59,7 @@
             </li>
           <% else %>
             <li class="nav-item"">
-              <%= live_redirect("Login", to: Routes.page_path(@conn, :login), class: link_class(@active, "login") ) %>
+              <%= live_redirect("Login", to: Routes.page_path(@conn, :login), class: link_class(active, "login") ) %>
             </li>
           <% end %>
         </ul>
