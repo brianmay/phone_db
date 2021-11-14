@@ -1,4 +1,4 @@
-defmodule PhoenDbWeb.InitAssigns do
+defmodule PhoneDbWeb.InitAssigns do
   @moduledoc """
   Hook to intercept liveview mount requests
   """
