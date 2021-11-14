@@ -1,12 +1,9 @@
 defmodule PhoneDbWeb.ShowContactLive do
   @moduledoc false
-  use Phoenix.LiveView
+  use PhoneDbWeb, :live_view
   alias Phoenix.LiveView.Socket
 
-  import Phoenix.HTML.Link
   alias PhoneDb.Contacts
-
-  alias PhoneDbWeb.Router.Helpers, as: Routes
 
   @impl true
   def render(assigns) do
