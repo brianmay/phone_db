@@ -13,9 +13,7 @@ config :phone_db,
     scope: ""
   }
 
-config :phone_db, PhoneDbWeb.Endpoint,
-  http: [port: 4002],
-  server: false
+config :phone_db, PhoneDbWeb.Endpoint, server: false
 
 # Print only warnings and errors during test
 config :logger, level: :warn
