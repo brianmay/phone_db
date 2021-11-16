@@ -3,6 +3,7 @@ defmodule PhoneDbWeb.Endpoint do
 
   @session_options [
     store: :cookie,
+    secure: true,
     key: "_phone_db_key",
     signing_salt: "4ZW6VJtx"
   ]
