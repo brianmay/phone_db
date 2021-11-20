@@ -18,6 +18,8 @@ config :phone_db, PhoneDbWeb.Endpoint, server: false
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :paddle, Paddle, host: "localhost"
+
 # Configure your database
 config :phone_db, PhoneDb.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
