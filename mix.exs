@@ -80,7 +80,8 @@ defmodule PhoneDb.MixProject do
     [
       ignore_warnings: "dialyzer.ignore-warnings",
       plt_core_path: "priv/plts",
-      plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+      plt_add_apps: [:ex_unit]
     ]
   end
 end
