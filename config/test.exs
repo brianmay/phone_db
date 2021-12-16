@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :phone_db,
   sync_services: [],
