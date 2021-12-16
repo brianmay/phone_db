@@ -45,7 +45,7 @@
                 </div>
             </li>
         <% else %>
-            <li class="nav-item"">
+            <li class="nav-item">
                 <%= live_redirect("Login", to: Routes.page_path(@socket, :login), class: link_class(active, "login") ) %>
             </li>
         <% end %>
