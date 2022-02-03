@@ -42,7 +42,7 @@ defmodule PhoneDb.MixProject do
       {:telemetry_poller, "~> 0.5"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
-      {:plug, "~> 1.12.0"},
+      {:plug, "~> 1.13.0"},
       {:ecto_sql, "~> 3.0"},
       {:ecto_psql_extras, "~> 0.2"},
       {:postgrex, ">= 0.0.0"},
