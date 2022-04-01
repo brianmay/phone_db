@@ -37,7 +37,10 @@ defmodule PhoneDbWeb.Endpoint do
     cookie_key: "request_logger"
 
   plug Plug.RequestId
-  plug Plug.Logger
+
+  plug Unplug,
+    if: {Unplug.Predicates.RequestPathNotIn, ["/health"]},
+    do: Plug.Logger
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

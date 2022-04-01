@@ -53,6 +53,10 @@ defmodule PhoneDbWeb.Router do
     plug :phone_auth
   end
 
+  scope "/health" do
+    get "/", PhoneDbWeb.PageController, :health
+  end
+
   live_session :default, on_mount: PhoneDbWeb.InitAssigns do
     scope "/", PhoneDbWeb do
       pipe_through [:browser, :auth]
