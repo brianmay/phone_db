@@ -51,7 +51,7 @@ defmodule PhoneDb.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:calendar, "~> 1.0"},
-      {:paddle, "~> 0.1.0"},
+      {:paddle, git: "https://github.com/brianmay/paddle.git", branch: "fix_82"},
       {:libcluster, "~> 3.3"},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
