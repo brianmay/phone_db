@@ -55,7 +55,7 @@ defmodule PhoneDb.MixProject do
       {:libcluster, "~> 3.3"},
       {:dialyxir, "~> 1.1.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
-      {:plugoid, git: "https://github.com/tanguilp/plugoid.git", branch: "conn_callback"},
+      {:plugoid, "~> 0.6.0"},
       {:replug, "~> 0.1.0"},
       {:unplug, "~> 0.2.1"}
     ]
