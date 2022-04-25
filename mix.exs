@@ -57,7 +57,7 @@ defmodule PhoneDb.MixProject do
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:plugoid, "~> 0.6.0"},
       {:replug, "~> 0.1.0"},
-      {:unplug, "~> 0.2.1"}
+      {:unplug, "~> 1.0.0"}
     ]
   end
 
