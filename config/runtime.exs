@@ -17,7 +17,7 @@ config :phone_db, PhoneDb.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 port = String.to_integer(System.get_env("PORT") || "4000")
-http_url = System.get_env("HTTP_URL")
+http_url = System.get_env("HTTP_URL") || "http://localhost:#{port}"
 http_uri = URI.parse(http_url)
 
 config :phone_db, PhoneDbWeb.Endpoint,
