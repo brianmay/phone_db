@@ -7,7 +7,7 @@ defmodule PhoneDb.MixProject do
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -51,13 +51,14 @@ defmodule PhoneDb.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:calendar, "~> 1.0"},
-      {:paddle, git: "https://github.com/brianmay/paddle.git", branch: "fix_82"},
+      {:penguin_paddle, "~> 0.1.4"},
       {:libcluster, "~> 3.3"},
       {:dialyxir, "~> 1.4.0", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:plugoid, "~> 0.6.0"},
       {:replug, "~> 0.1.0"},
-      {:unplug, "~> 1.0.0"}
+      {:unplug, "~> 1.0.0"},
+      {:tz, "~> 0.26.2"}
     ]
   end
 

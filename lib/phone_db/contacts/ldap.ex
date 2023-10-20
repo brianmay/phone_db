@@ -16,7 +16,7 @@ defmodule PhoneDb.Contacts.Ldap do
   alias PhoneDb.Contacts.Ldap.Person
 
   defp authenticate do
-    config = Application.get_env(:paddle, Paddle)
+    config = Application.get_env(:penguin_paddle, Paddle)
     username = Keyword.fetch!(config, :username)
     password = Keyword.fetch!(config, :password)
     :ok = Paddle.authenticate([cn: username], password)

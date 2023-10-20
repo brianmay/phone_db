@@ -36,7 +36,7 @@ config :phone_db, PhoneDb.Users.Guardian,
   issuer: "phone_db",
   secret_key: System.get_env("GUARDIAN_SECRET")
 
-config :paddle, Paddle,
+config :penguin_paddle, Paddle,
   host: System.get_env("LDAP_SERVER"),
   base: System.get_env("LDAP_BASE_DN"),
   account_subdn: "",
@@ -46,7 +46,7 @@ config :paddle, Paddle,
   password: System.get_env("LDAP_USER_PASSWORD")
 
 if System.get_env("IPV6") != nil do
-  config :paddle, Paddle, ipv6: true
+  config :penguin_paddle, Paddle, ipv6: true
 end
 
 config :plugoid,

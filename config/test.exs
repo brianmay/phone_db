@@ -18,7 +18,7 @@ config :phone_db, PhoneDbWeb.Endpoint, server: false
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-config :paddle, Paddle, host: "localhost"
+config :penguin_paddle, Paddle, host: "localhost"
 
 # Configure your database
 config :phone_db, PhoneDb.Repo,

@@ -14,6 +14,7 @@ ENV APP_VSN=${APP_VSN} \
 
 # By convention, /opt is typically used for applications
 WORKDIR /opt/app
+ENV TOP_SRC=/opt/app
 
 # This step installs all the build tools we'll need
 RUN apk update && \

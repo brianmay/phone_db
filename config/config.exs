@@ -51,7 +51,7 @@ config :phone_db, PhoneDbWeb.Endpoint,
     signing_salt: System.get_env("SIGNING_SALT")
   ]
 
-config :paddle, Paddle,
+config :penguin_paddle, Paddle,
   host: System.get_env("LDAP_SERVER"),
   base: System.get_env("LDAP_BASE_DN"),
   account_subdn: "",
@@ -60,7 +60,7 @@ config :paddle, Paddle,
   username: System.get_env("LDAP_USERNAME"),
   password: System.get_env("LDAP_USER_PASSWORD"),
   timeout: 1000,
-  schema_files: ["../../core.schema"]
+  schema_files: [System.get_env("TOP_SRC") <> "/core.schema"]
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -75,7 +75,7 @@ config :phone_db, PhoneDb.Users.Guardian,
   secret_key: System.get_env("GUARDIAN_SECRET")
 
 if System.get_env("IPV6") != nil do
-  config :paddle, Paddle, ipv6: true
+  config :penguin_paddle, Paddle, ipv6: true
 end
 
 config :libcluster,
@@ -97,6 +97,9 @@ config :plugoid,
   state_cookie_store_opts: [
     signing_salt: System.get_env("SIGNING_SALT")
   ]
+
+config :elixir, :time_zone_database, Tz.TimeZoneDatabase
+config :tzdata, :autoupdate, :disabled
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
