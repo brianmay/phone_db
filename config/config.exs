@@ -60,7 +60,7 @@ config :penguin_paddle, Paddle,
   username: System.get_env("LDAP_USERNAME"),
   password: System.get_env("LDAP_USER_PASSWORD"),
   timeout: 1000,
-  schema_files: [System.get_env("TOP_SRC") <> "/core.schema"]
+  schema_files: [System.get_env("TOP_SRC", "../..") <> "/core.schema"]
 
 # Configures Elixir's Logger
 config :logger, :console,
