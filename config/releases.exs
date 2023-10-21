@@ -56,3 +56,6 @@ config :plugoid,
   state_cookie_store_opts: [
     signing_salt: System.get_env("SIGNING_SALT")
   ]
+
+config :os_mon,
+  start_disksup: false
