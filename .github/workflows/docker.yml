@@ -16,5 +16,3 @@ jobs:
     uses: brianmay/workflows/.github/workflows/docker.yaml@main
     needs:
       - test
-    with:
-      deploy_servers: true
