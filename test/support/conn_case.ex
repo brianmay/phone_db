@@ -25,6 +25,8 @@ defmodule PhoneDbWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint PhoneDbWeb.Endpoint
+
+      use PhoneDbWeb, :verified_routes
     end
   end
 

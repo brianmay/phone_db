@@ -16,6 +16,7 @@ defmodule PhoneDbWeb do
   below. Instead, define any helper function in modules
   and import those modules here.
   """
+  def static_paths, do: ~w(css js fonts images favicon.ico robots.txt)
 
   def controller do
     quote do
@@ -24,6 +25,8 @@ defmodule PhoneDbWeb do
       import Plug.Conn
       import PhoneDbWeb.Gettext
       alias PhoneDbWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
@@ -92,6 +95,17 @@ defmodule PhoneDbWeb do
       import PhoneDbWeb.ErrorHelpers
       import PhoneDbWeb.Gettext
       alias PhoneDbWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: PhoneDbWeb.Endpoint,
+        router: PhoneDbWeb.Router,
+        statics: PhoneDbWeb.static_paths()
     end
   end
 
