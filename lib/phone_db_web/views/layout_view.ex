@@ -1,5 +1,5 @@
 defmodule PhoneDbWeb.LayoutView do
-  use PhoneDbWeb, :view
+  use PhoneDbWeb, :html
 
   @spec prepend_if(list :: list(), condition :: bool(), item :: any()) :: list()
   def prepend_if(list, condition, item) do

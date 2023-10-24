@@ -1,5 +1,5 @@
 defmodule PhoneDbWeb.ContactView do
-  use PhoneDbWeb, :view
+  use PhoneDbWeb, :html
   require PhoneDb.Forms
   import PhoneDb.Forms
 

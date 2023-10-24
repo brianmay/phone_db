@@ -502,7 +502,8 @@ defmodule PhoneDb.Contacts do
       from p in PhoneCall,
         group_by: [p.contact_id],
         join: c in Contact,
-        where: c.id == p.contact_id and c.id in ^contact_ids,
+        on: c.id == p.contact_id,
+        where: c.id in ^contact_ids,
         select: {p.contact_id, count(p.id)}
 
     Repo.all(query) |> Enum.into(%{})
@@ -518,7 +519,8 @@ defmodule PhoneDb.Contacts do
       from p in PhoneCall,
         group_by: [p.contact_id],
         join: c in Contact,
-        where: c.id == p.contact_id and c.id in ^contact_ids,
+        on: c.id == p.contact_id,
+        where: c.id in ^contact_ids,
         select: {p.contact_id, count(p.id)}
 
     Repo.all(query) |> Enum.into(%{})

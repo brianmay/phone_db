@@ -1,5 +1,5 @@
 defmodule PhoneDbWeb.ErrorView do
-  use PhoneDbWeb, :view
+  use PhoneDbWeb, :html
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

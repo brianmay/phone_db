@@ -5,15 +5,15 @@
 <%= if user != nil do %>
   <ul>
     <li>
-      <%= live_redirect "List Contacts", to: Routes.list_contact_path(@conn, :index) %>
+      <%= link "List Contacts", to: Routes.list_contact_path(@conn, :index), method: :get %>
     </li>
     <li>
-      <%= live_redirect "List Phone Calls", to: Routes.list_phone_call_path(@conn, :index) %>
+      <%= link "List Phone Calls", to: Routes.list_phone_call_path(@conn, :index), method: :get %>
     </li>
     <li>
       <%= link "Logout", to: Routes.page_path(@conn, :logout), method: :post %>
     </li>
   </ul>
 <% else %>
-  Please <%= live_redirect("Login", to: Routes.page_path(@conn, :login)) %>.
+  Please <.link navigate={Routes.page_path(@conn, :login)}>Login</.link>.
 <% end %>

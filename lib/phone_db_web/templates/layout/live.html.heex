@@ -18,17 +18,25 @@
         <% active = assigns[:active] %>
         <%= if user != nil do %>
             <li class="nav-item">
-                <%= live_redirect("Contacts", to: Routes.list_contact_path(@socket, :index), class: link_class(active, "contacts")) %>
+                <.link navigate={Routes.list_contact_path(@socket, :index)} class={link_class(active, "contacts")}>
+                    Contacts
+                </.link>
             </li>
             <li class="nav-item">
-                <%= live_redirect("Calls", to: Routes.list_phone_call_path(@socket, :index), class: link_class(active, "phone_calls")) %>
+                <.link navigate={Routes.list_phone_call_path(@socket, :index)} class={link_class(active, "phone_calls")}>
+                    Calls
+                </.link>
             </li>
             <li class="nav-item">
-                <%= live_redirect("Defaults", to: Routes.default_path(@socket, :index), class: link_class(active, "defaults")) %>
+                <.link navigate={Routes.default_path(@socket, :index)} class={link_class(active, "defaults")}>
+                    Calls
+                </.link>
             </li>
             <%= if PhoneDbWeb.Auth.user_is_admin?(user) do %>
                 <li class="nav-item">
-                <%= live_redirect("Dashboard", to: Routes.live_dashboard_path(@socket, :home), class: link_class(active, "dashboard")) %>
+                    <.link navigate={Routes.live_dashboard_path(@socket, :home)} class={link_class(active, "dashboard")}>
+                        Dashboard
+                    </.link>
                 </li>
             <% end %>
             <li class="nav-item dropdown">
@@ -46,7 +54,9 @@
             </li>
         <% else %>
             <li class="nav-item">
-                <%= live_redirect("Login", to: Routes.page_path(@socket, :login), class: link_class(active, "login") ) %>
+                <.link navigate={Routes.page_path(@socket, :login)} class={link_class(active, "login")}>
+                    Login
+                </.link>
             </li>
         <% end %>
     </ul>

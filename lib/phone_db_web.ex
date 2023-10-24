@@ -27,7 +27,7 @@ defmodule PhoneDbWeb do
     end
   end
 
-  def view do
+  def html do
     quote do
       use Phoenix.View,
         root: "lib/phone_db_web/templates",
@@ -46,7 +46,7 @@ defmodule PhoneDbWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {PhoneDbWeb.LayoutView, "live.html"}
+        layout: {PhoneDbWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
@@ -87,6 +87,7 @@ defmodule PhoneDbWeb do
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
+      import Phoenix.Component
 
       import PhoneDbWeb.ErrorHelpers
       import PhoneDbWeb.Gettext

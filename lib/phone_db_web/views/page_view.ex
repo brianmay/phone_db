@@ -1,3 +1,3 @@
 defmodule PhoneDbWeb.PageView do
-  use PhoneDbWeb, :view
+  use PhoneDbWeb, :html
 end

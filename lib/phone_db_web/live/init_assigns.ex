@@ -2,7 +2,7 @@ defmodule PhoneDbWeb.InitAssigns do
   @moduledoc """
   Hook to intercept liveview mount requests
   """
-  import Phoenix.LiveView
+  use PhoneDbWeb, :controller
 
   alias PhoneDbWeb.Router.Helpers, as: Routes
 
@@ -14,7 +14,7 @@ defmodule PhoneDbWeb.InitAssigns do
       socket = redirect(socket, to: Routes.page_path(socket, :index))
       {:halt, socket}
     else
-      socket = assign(socket, :current_user, user)
+      socket = Phoenix.Component.assign(socket, :current_user, user)
       {:cont, socket}
     end
   end
