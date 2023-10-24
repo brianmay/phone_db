@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <%= live_redirect("PhoneDb", to: Routes.page_path(@conn, :index), class: "navbar-brand") %>
+    <.link navigate={Routes.page_path(@conn, :index)} class="navbar-brand">
+        PhoneDb
+    </.link>
     <button
     class="navbar-toggler"
     type="button"
