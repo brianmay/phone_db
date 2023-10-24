@@ -10,6 +10,7 @@ defmodule PhoneDb.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      elixirc_options: [warnings_as_errors: true],
       dialyzer: dialyzer()
     ]
   end
