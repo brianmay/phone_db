@@ -5,15 +5,15 @@
 <%= if user != nil do %>
   <ul>
     <li>
-      <%= link "List Contacts", to: Routes.list_contact_path(@conn, :index), method: :get %>
+      <%= link "List Contacts", to: ~p"/contacts/", method: :get %>
     </li>
     <li>
-      <%= link "List Phone Calls", to: Routes.list_phone_call_path(@conn, :index), method: :get %>
+      <%= link "List Phone Calls", to: ~p"/phone_calls/", method: :get %>
     </li>
     <li>
-      <%= link "Logout", to: Routes.page_path(@conn, :logout), method: :post %>
+      <%= link "Logout", to: ~p"/logout", method: :post %>
     </li>
   </ul>
 <% else %>
-  Please <.link navigate={Routes.page_path(@conn, :login)}>Login</.link>.
+  Please <.link navigate={~p"/login"}>Login</.link>.
 <% end %>

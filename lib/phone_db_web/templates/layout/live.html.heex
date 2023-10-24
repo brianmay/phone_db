@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <.link navigate={Routes.page_path(@socket, :index)} class="navbar-brand">
+    <.link navigate={~p"/"} class="navbar-brand">
         PhoneDb
     </.link>
     <button
@@ -20,23 +20,23 @@
         <% active = assigns[:active] %>
         <%= if user != nil do %>
             <li class="nav-item">
-                <.link navigate={Routes.list_contact_path(@socket, :index)} class={link_class(active, "contacts")}>
+                <.link navigate={~p"/contacts/"} class={link_class(active, "contacts")}>
                     Contacts
                 </.link>
             </li>
             <li class="nav-item">
-                <.link navigate={Routes.list_phone_call_path(@socket, :index)} class={link_class(active, "phone_calls")}>
+                <.link navigate={~p"/phone_calls/"} class={link_class(active, "phone_calls")}>
                     Calls
                 </.link>
             </li>
             <li class="nav-item">
-                <.link navigate={Routes.default_path(@socket, :index)} class={link_class(active, "defaults")}>
+                <.link navigate={~p"/defaults/"} class={link_class(active, "defaults")}>
                     Defaults
                 </.link>
             </li>
             <%= if PhoneDbWeb.Auth.user_is_admin?(user) do %>
                 <li class="nav-item">
-                    <.link navigate={Routes.live_dashboard_path(@socket, :home)} class={link_class(active, "dashboard")}>
+                    <.link navigate={~p"/dashboard/home"} class={link_class(active, "dashboard")}>
                         Dashboard
                     </.link>
                 </li>
@@ -51,12 +51,12 @@
                 <%= user["name"] %>
                 </a>
                 <div class="dropdown-menu">
-                <%= link "Logout", to: Routes.page_path(@socket, :logout), method: :post, class: "dropdown-item" %>
+                <%= link "Logout", to: ~p"/logout", method: :post, class: "dropdown-item" %>
                 </div>
             </li>
         <% else %>
             <li class="nav-item">
-                <.link navigate={Routes.page_path(@socket, :login)} class={link_class(active, "login")}>
+                <.link navigate={~p"/login"} class={link_class(active, "login")}>
                     Login
                 </.link>
             </li>
