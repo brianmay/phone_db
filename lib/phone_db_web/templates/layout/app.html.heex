@@ -31,7 +31,7 @@
             </li>
             <li class="nav-item">
                 <.link navigate={Routes.default_path(@conn, :index)} class={link_class(active, "defaults")}>
-                    Calls
+                    Defaults
                 </.link>
             </li>
             <%= if PhoneDbWeb.Auth.user_is_admin?(user) do %>
