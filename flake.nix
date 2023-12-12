@@ -2,7 +2,7 @@
   description = "Phone Database";
 
   inputs = {
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
+    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-23.11"; };
     flake-utils = { url = "github:numtide/flake-utils"; };
   };
 
@@ -23,7 +23,7 @@
           TOP_SRC = src;
           pname = "${pname}-mix-deps";
           inherit src version;
-          hash = "sha256-Bi0nGFZcrR4dTo/0vVLGr/KmhMqzvttl+Tsw+CYxxJA=";
+          hash = "sha256-rxbmJofqN0Uggl3qGg64jZnqF1lid/GE9CiqJIYHrC4=";
           # hash = pkgs.lib.fakeHash;
         };
 
