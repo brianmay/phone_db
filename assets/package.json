@@ -14,7 +14,7 @@
     "formdata-polyfill": "^4.0.10",
     "mdn-polyfills": "^5.20.0",
     "url-search-params-polyfill": "^8.2.5",
-    "topbar": "^2.0.1"
+    "topbar": "^2.0.2"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
