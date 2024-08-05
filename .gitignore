@@ -43,3 +43,4 @@ npm-debug.log
 /priv/plts/
 /.direnv
 /result
+/.devenv
