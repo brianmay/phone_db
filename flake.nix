@@ -24,7 +24,7 @@
           TOP_SRC = src;
           pname = "${pname}-mix-deps";
           inherit src version;
-          hash = "sha256-rxbmJofqN0Uggl3qGg64jZnqF1lid/GE9CiqJIYHrC4=";
+          hash = "sha256-G5k+Ek0XQO0UQlyZ+j8rOG44eijUHL0jxdWubdxxWT8=";
           # hash = pkgs.lib.fakeHash;
         };
 
@@ -174,7 +174,8 @@
               }/phone_db"
               export IMAGE_DIR="/tmp/images"
 
-              export LDAP_SERVER="localhost:${toString ldap_port}"
+              export LDAP_SERVER="localhost"
+              export LDAP_PORT="${toString ldap_port}"
               export LDAP_BASE_DN="${dn_suffix}"
               export LDAP_USERNAME="root"
               export LDAP_USER_PASSWORD="your_secure_password_here"

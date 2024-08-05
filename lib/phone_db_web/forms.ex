@@ -1,6 +1,7 @@
 defmodule PhoneDb.Forms do
   @moduledoc "Form field help functions"
-  use Phoenix.HTML
+
+  use PhoenixHTMLHelpers
 
   def field_class(form, field, class) do
     errors = form.errors[field]

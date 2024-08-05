@@ -35,18 +35,19 @@ defmodule PhoneDb.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.7.9"},
-      {:phoenix_html, "~> 3.3.3"},
+      {:phoenix_html, "~> 4.1.1"},
+      {:phoenix_html_helpers, "~> 1.0"},
       {:phoenix_live_view, "~> 0.20.1"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:phoenix_view, "~> 2.0"},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.0.0"},
+      {:telemetry_metrics, "~> 1.0.0"},
+      {:telemetry_poller, "~> 1.1.0"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
-      {:plug, "~> 1.15.0"},
+      {:plug, "~> 1.16.1"},
       {:ecto_sql, "~> 3.0"},
-      {:ecto_psql_extras, "~> 0.2"},
-      {:postgrex, ">= 0.0.0"},
+      {:ecto_psql_extras, "~> 0.8"},
+      {:postgrex, ">= 0.18.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
@@ -58,8 +59,8 @@ defmodule PhoneDb.MixProject do
       {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:plugoid, "~> 0.6.0"},
       {:replug, "~> 0.1.0"},
-      {:unplug, "~> 1.0.0"},
-      {:tz, "~> 0.26.2"}
+      {:unplug, "~> 1.1.0"},
+      {:tz, "~> 0.27.1"}
     ]
   end
 

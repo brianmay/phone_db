@@ -37,6 +37,8 @@ port = String.to_integer(System.get_env("PORT") || default_port)
 http_url = System.get_env("HTTP_URL") || "http://localhost:#{port}"
 http_uri = URI.parse(http_url)
 
+ldap_port = String.to_integer(System.get_env("LDAP_PORT") || "389")
+
 config :phone_db, PhoneDbWeb.Endpoint,
   http: [
     :inet6,
@@ -55,7 +57,7 @@ config :penguin_paddle, Paddle,
   host: System.get_env("LDAP_SERVER"),
   base: System.get_env("LDAP_BASE_DN"),
   account_subdn: "",
-  port: 389,
+  port: ldap_port,
   ssl: false,
   username: System.get_env("LDAP_USERNAME"),
   password: System.get_env("LDAP_USER_PASSWORD"),
