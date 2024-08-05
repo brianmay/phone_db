@@ -15,5 +15,5 @@
     </li>
   </ul>
 <% else %>
-  Please <.link navigate={~p"/login"}>Login</.link>.
+  Please <%= link "Login", to: ~p"/login" %>.
 <% end %>
