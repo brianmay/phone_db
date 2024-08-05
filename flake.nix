@@ -201,7 +201,19 @@
                 CoreFoundation
                 CoreServices
               ]);
-            processes.slapd = { exec = "${start_ldap}/bin/start_ldap"; };
+            processes.slapd = {
+              exec = "${start_ldap}/bin/start_ldap";
+              process-compose = {
+                readiness_probe = {
+                  exec.command = "${pd_ldapsearch}/bin/pd_ldapsearch";
+                  initial_delay_seconds = 2;
+                  period_seconds = 10;
+                  timeout_seconds = 1;
+                  success_threshold = 1;
+                  failure_threshold = 3;
+                };
+              };
+            };
             services.postgres = {
               enable = true;
               package = pkgs.postgresql_15.withPackages (ps: [ ps.postgis ]);
