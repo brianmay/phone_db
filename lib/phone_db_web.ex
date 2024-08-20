@@ -23,7 +23,7 @@ defmodule PhoneDbWeb do
       use Phoenix.Controller, namespace: PhoneDbWeb
 
       import Plug.Conn
-      import PhoneDbWeb.Gettext
+      use Gettext, backend: PhoneDbWeb.Gettext
       alias PhoneDbWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())
@@ -76,7 +76,7 @@ defmodule PhoneDbWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import PhoneDbWeb.Gettext
+      use Gettext, backend: PhoneDbWeb.Gettext
     end
   end
 
@@ -95,7 +95,7 @@ defmodule PhoneDbWeb do
       import Phoenix.Component
 
       import PhoneDbWeb.ErrorHelpers
-      import PhoneDbWeb.Gettext
+      use Gettext, backend: PhoneDbWeb.Gettext
       alias PhoneDbWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())
