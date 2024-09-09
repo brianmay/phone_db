@@ -60,7 +60,7 @@ defmodule PhoneDb.MixProject do
       {:plugoid, "~> 0.6.0"},
       {:replug, "~> 0.1.0"},
       {:unplug, "~> 1.1.0"},
-      {:tz, "~> 0.27.1"}
+      {:tz, "~> 0.28.1"}
     ]
   end
 
