@@ -43,7 +43,8 @@ in {
     users.groups.phone_db = { };
 
     systemd.services.phone_db = {
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
+      after = ["network.target" "postgresql.service"];
       serviceConfig = {
         User = "phone_db";
         ExecStart = "${wrapper}/bin/phone_db start";
