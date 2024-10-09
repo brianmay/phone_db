@@ -3919,13 +3919,13 @@ let
         sha512 = "d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==";
       };
     };
-    "webpack-5.94.0" = {
+    "webpack-5.95.0" = {
       name = "webpack";
       packageName = "webpack";
-      version = "5.94.0";
+      version = "5.95.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/webpack/-/webpack-5.94.0.tgz";
-        sha512 = "KcsGn50VT+06JH/iunZJedYGUJS5FGjow8wb9c0v5n1Om8O1g4L6LjtfxwlXIATopoQu+vOXXa7gYisWxCoPyg==";
+        url = "https://registry.npmjs.org/webpack/-/webpack-5.95.0.tgz";
+        sha512 = "2t3XstrKULz41MNMBF+cJ97TyHdyQ8HCt//pqErqDvNjU9YQBnZxIHa11VXsi7F3mb5/aO2tuDxdeTPdU7xu9Q==";
       };
     };
     "webpack-cli-5.1.4" = {
@@ -4634,7 +4634,7 @@ let
       sources."validate-npm-package-license-3.0.4"
       sources."watchpack-2.4.1"
       sources."web-streams-polyfill-3.3.3"
-      (sources."webpack-5.94.0" // {
+      (sources."webpack-5.95.0" // {
         dependencies = [
           sources."ajv-6.12.6"
           sources."ajv-keywords-3.5.2"
