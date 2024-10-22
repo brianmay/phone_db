@@ -1,7 +1,10 @@
-{ self }:
-{ lib, pkgs, config, ... }:
-with lib;
-let
+{self}: {
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+with lib; let
   cfg = config.services.phone_db;
 
   system = pkgs.stdenv.system;
@@ -18,13 +21,12 @@ let
     mkdir -p "${cfg.data_dir}/tmp"
     exec "${phone_db_pkg}/bin/phone_db" "$@"
   '';
-
 in {
   options.services.phone_db = {
     enable = mkEnableOption "phone_db service";
-    secrets = mkOption { type = types.path; };
-    http_url = mkOption { type = types.str; };
-    port = mkOption { type = types.int; };
+    secrets = mkOption {type = types.path;};
+    http_url = mkOption {type = types.str;};
+    port = mkOption {type = types.int;};
     data_dir = mkOption {
       type = types.str;
       default = "/var/lib/phone_db";
@@ -40,7 +42,7 @@ in {
       home = "${cfg.data_dir}";
     };
 
-    users.groups.phone_db = { };
+    users.groups.phone_db = {};
 
     systemd.services.phone_db = {
       wantedBy = ["multi-user.target"];
