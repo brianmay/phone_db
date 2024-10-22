@@ -44,7 +44,7 @@ in {
 
     systemd.services.phone_db = {
       wantedBy = ["multi-user.target"];
-      after = ["network.target" "postgresql.service"];
+      after = ["network.target" "postgresql.service" "openldap.service"];
       serviceConfig = {
         User = "phone_db";
         ExecStart = "${wrapper}/bin/phone_db start";
