@@ -25,9 +25,4 @@ defmodule PhoneDbWeb.PageController do
   def login(conn, _params) do
     redirect(conn, to: Routes.page_path(conn, :index))
   end
-
-  @spec health(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def health(conn, _params) do
-    send_resp(conn, 200, "healthy")
-  end
 end

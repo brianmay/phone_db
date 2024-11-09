@@ -3,8 +3,9 @@
   pkgs,
   config,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkEnableOption mkOption types mkIf;
+
   cfg = config.services.phone_db;
 
   system = pkgs.stdenv.system;
@@ -26,7 +27,10 @@ in {
     enable = mkEnableOption "phone_db service";
     secrets = mkOption {type = types.path;};
     http_url = mkOption {type = types.str;};
-    port = mkOption {type = types.int;};
+    port = mkOption {
+      type = types.int;
+      default = 4000;
+    };
     data_dir = mkOption {
       type = types.str;
       default = "/var/lib/phone_db";
@@ -49,6 +53,7 @@ in {
       after = ["network.target" "postgresql.service" "openldap.service"];
       serviceConfig = {
         User = "phone_db";
+        ExecStartPre = ''${wrapper}/bin/phone_db eval "PhoneDb.Release.migrate"'';
         ExecStart = "${wrapper}/bin/phone_db start";
         ExecStop = "${wrapper}/bin/phone_db stop";
         ExecReload = "${wrapper}/bin/phone_db reload";

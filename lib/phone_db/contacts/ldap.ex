@@ -55,6 +55,15 @@ defmodule PhoneDb.Contacts.Ldap do
     end
   end
 
+  def get_contact(%Contact{} = contact) do
+    authenticate()
+
+    case Paddle.get(%PhoneDb.Contacts.Ldap.Person{telephoneNumber: contact.phone_number}, nil) do
+      {:error, :noSuchObject} -> nil
+      {:ok, [person]} -> person
+    end
+  end
+
   def update_contact(%Contact{} = contact) do
     authenticate()
 

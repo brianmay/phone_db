@@ -176,7 +176,6 @@
               export DATABASE_URL="postgres://phone_db:your_secure_password_here@localhost:${
                 toString postgres_port
               }/phone_db"
-              export IMAGE_DIR="/tmp/images"
 
               export LDAP_SERVER="localhost"
               export LDAP_PORT="${toString ldap_port}"
@@ -221,7 +220,7 @@
             };
             services.postgres = {
               enable = true;
-              package = pkgs.postgresql_15.withPackages (ps: [ps.postgis]);
+              package = pkgs.postgresql_15;
               listen_addresses = "127.0.0.1";
               port = postgres_port;
               initialDatabases = [{name = "phone_db";}];
@@ -229,13 +228,154 @@
                 \c phone_db;
                 CREATE USER phone_db with encrypted password 'your_secure_password_here';
                 GRANT ALL PRIVILEGES ON DATABASE phone_db TO phone_db;
-                ALTER USER phone_db WITH SUPERUSER;
               '';
             };
           }
         ];
       };
+
+      test = pkgs.nixosTest {
+        name = "phone_db";
+        nodes.machine = {...}: {
+          imports = [
+            self.nixosModules.default
+          ];
+          services.phone_db = {
+            enable = true;
+            http_url = "http://localhost:4000";
+            port = 4000;
+            secrets = pkgs.writeText "secrets.txt" ''
+              export RELEASE_COOKIE="12345678901234567890123456789012345678901234567890123456"
+              export DATABASE_URL="postgres://phone_db:your_secure_password_here@localhost/phone_db"
+              export GUARDIAN_SECRET="1234567890123456789012345678901234567890123456789012345678901234"
+              export SECRET_KEY_BASE="1234567890123456789012345678901234567890123456789012345678901234"
+              export SIGNING_SALT="12345678901234567890123456789012"
+              export OIDC_DISCOVERY_URL="http://localhost"
+              export OIDC_CLIENT_ID="photos"
+              export OIDC_CLIENT_SECRET="12345678901234567890123456789012"
+              export OIDC_AUTH_SCOPE="openid profile groups"
+
+              export DATABASE_URL_TEST="postgres://phone_db:your_secure_password_here@localhost:${
+                toString postgres_port
+              }/phone_db_test"
+              export DATABASE_URL="postgres://phone_db:your_secure_password_here@localhost:${
+                toString postgres_port
+              }/phone_db"
+
+              export LDAP_SERVER="localhost"
+              export LDAP_PORT="${toString ldap_port}"
+              export LDAP_BASE_DN="${dn_suffix}"
+              export LDAP_USERNAME="root"
+              export LDAP_USER_PASSWORD="your_secure_password_here"
+
+              export PHONE_USERNAME="${phone_username}"
+              export PHONE_PASSWORD="${phone_password}"
+            '';
+          };
+          system.stateVersion = "24.05";
+
+          services.postgresql = {
+            enable = true;
+            package = pkgs.postgresql_15;
+            settings.port = postgres_port;
+            initialScript = pkgs.writeText "init.psql" ''
+              CREATE DATABASE phone_db;
+              CREATE USER phone_db with encrypted password 'your_secure_password_here';
+              ALTER DATABASE phone_db OWNER TO phone_db;
+            '';
+          };
+
+          services.openldap = {
+            enable = true;
+
+            /*
+            enable plain and secure connections
+            */
+            urlList = [ldap_url];
+
+            settings = {
+              attrs = {
+                olcLogLevel = "conns config";
+              };
+
+              children = {
+                "cn=schema".includes = [
+                  "${pkgs.openldap}/etc/schema/core.ldif"
+                  "${pkgs.openldap}/etc/schema/cosine.ldif"
+                  "${pkgs.openldap}/etc/schema/inetorgperson.ldif"
+                ];
+
+                "olcDatabase={1}mdb" = {
+                  attrs = {
+                    objectClass = ["olcDatabaseConfig" "olcMdbConfig"];
+
+                    olcDatabase = "{1}mdb";
+                    olcDbDirectory = "/var/lib/openldap/test";
+
+                    olcSuffix = dn_suffix;
+
+                    /*
+                    your admin account, do not use writeText on a production system
+                    */
+                    olcRootDN = root_dn;
+                    olcRootPW.path = pkgs.writeText "olcRootPW" "your_secure_password_here";
+
+                    olcAccess = [
+                      /*
+                      custom access rules for userPassword attributes
+                      */
+                      ''
+                        {0}to attrs=userPassword
+                          by self write
+                          by anonymous auth
+                          by * none
+                      ''
+
+                      /*
+                      allow read on anything else
+                      */
+                      ''
+                        {1}to *
+                          by * read
+                      ''
+                    ];
+                  };
+                  children = {
+                    "olcOverlay={2}ppolicy".attrs = {
+                      objectClass = ["olcOverlayConfig" "olcPPolicyConfig" "top"];
+                      olcOverlay = "{2}ppolicy";
+                      olcPPolicyHashCleartext = "TRUE";
+                    };
+                    "olcOverlay={3}memberof".attrs = {
+                      objectClass = ["olcOverlayConfig" "olcMemberOf" "top"];
+                      olcOverlay = "{3}memberof";
+                      olcMemberOfRefInt = "TRUE";
+                      olcMemberOfDangling = "ignore";
+                      olcMemberOfGroupOC = "groupOfNames";
+                      olcMemberOfMemberAD = "member";
+                      olcMemberOfMemberOfAD = "memberOf";
+                    };
+                    "olcOverlay={4}refint".attrs = {
+                      objectClass = ["olcOverlayConfig" "olcRefintConfig" "top"];
+                      olcOverlay = "{4}refint";
+                      olcRefintAttribute = ["memberof" "member" "manager" "owner"];
+                    };
+                  };
+                };
+              };
+            };
+          };
+        };
+
+        testScript = ''
+          machine.wait_for_unit("phone_db.service")
+          machine.wait_for_open_port(4000)
+          machine.succeed("${pkgs.curl}/bin/curl --fail -v http://localhost:4000/_health")
+          machine.succeed("${test_phone_call}/bin/test_phone_call")
+        '';
+      };
     in {
+      checks.nixosModules = test;
       packages = {
         devenv-up = devShell.config.procfileScript;
         default = pkg;
