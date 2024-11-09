@@ -9,6 +9,7 @@ defmodule PhoneDb.Release do
   alias Ecto.Adapters.SQL
   import Ecto.Query
   alias PhoneDb.Contacts.Contact
+  alias PhoneDb.Contacts.Ldap
   alias PhoneDb.Repo
 
   def migrate do
@@ -74,7 +75,7 @@ defmodule PhoneDb.Release do
   def ldap_check do
     contact = %Contact{phone_number: "000"}
     # This probably will fail because the contact doesn't exist.
-    PhoneDb.Contacts.Ldap.get_contact(contact)
+    Ldap.get_contact(contact)
     :ok
   rescue
     e ->
