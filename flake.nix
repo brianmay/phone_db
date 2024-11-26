@@ -2,7 +2,7 @@
   description = "Phone Database";
 
   inputs = {
-    nixpkgs = {url = "github:NixOS/nixpkgs/nixos-24.05";};
+    nixpkgs = {url = "github:NixOS/nixpkgs/nixos-24.11";};
     flake-utils = {url = "github:numtide/flake-utils";};
     devenv = {url = "github:cachix/devenv";};
   };
@@ -28,13 +28,29 @@
         TOP_SRC = src;
         pname = "${pname}-mix-deps";
         inherit src version;
-        hash = "sha256-muyFmrGnbEu7X+Yu+d98++/Dyu5eSHbErCM7xLqruJw=";
+        hash = "sha256-SO9eHTS+Xs7QnuZv5LaGrF8ErRhJuU6iv8WjnbtQ4+U=";
         # hash = pkgs.lib.fakeHash;
       };
 
       nodejs = pkgs.nodejs;
-      nodePackages =
-        import assets/default.nix {inherit pkgs system nodejs;};
+
+      nodePackages = pkgs.buildNpmPackage {
+        name = "phone_db_assets";
+        src = ./assets;
+        npmDepsHash = builtins.readFile ./npm-deps-hash;
+        dontNpmBuild = true;
+        inherit nodejs;
+
+        nativeBuildInputs = [
+          (pkgs.python3.withPackages (ps: [ps.setuptools])) # Used by gyp
+        ];
+
+        installPhase = ''
+          mkdir $out
+          cp -r node_modules $out
+          ln -s $out/node_modules/.bin $out/bin
+        '';
+      };
 
       pkg = beamPackages.mixRelease {
         TOP_SRC = src;
@@ -42,8 +58,8 @@
 
         postBuild = ''
           ln -sf ${mixFodDeps}/deps deps
-          ln -sf ${nodePackages.nodeDependencies}/lib/node_modules assets/node_modules
-          export PATH="${nodePackages.nodeDependencies}/bin:$PATH"
+          ln -sf ${nodePackages}/node_modules assets/node_modules
+          export PATH="${nodePackages}/bin:$PATH"
           ${nodejs}/bin/npm run deploy --prefix ./assets
 
           # for external task you need a workaround for the no deps check flag
@@ -198,6 +214,7 @@
                 glibcLocales
                 node2nix
                 nodejs
+                pkgs.prefetch-npm-deps
               ]
               ++ optional stdenv.isLinux inotify-tools
               ++ optional stdenv.isDarwin terminal-notifier
