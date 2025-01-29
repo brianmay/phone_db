@@ -8,7 +8,7 @@
   "dependencies": {
     "phoenix": "1.7.18",
     "phoenix_html": "4.2.0",
-    "phoenix_live_view": "1.0.2",
+    "phoenix_live_view": "1.0.3",
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
     "formdata-polyfill": "^4.0.10",
