@@ -10,9 +10,3 @@ jobs:
     uses: brianmay/workflows/.github/workflows/elixir.yaml@main
     with:
       plts_cache_postfix: "-1"
-
-  push:
-    name: Push
-    uses: brianmay/workflows/.github/workflows/docker.yaml@main
-    needs:
-      - test
