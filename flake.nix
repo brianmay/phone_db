@@ -58,6 +58,15 @@
             mkdir $out
             cp -r node_modules $out
             ln -s $out/node_modules/.bin $out/bin
+
+            rm $out/node_modules/phoenix
+            ln -s ${mixFodDeps}/phoenix $out/node_modules
+
+            rm $out/node_modules/phoenix_html
+            ln -s ${mixFodDeps}/phoenix_html $out/node_modules
+
+            rm $out/node_modules/phoenix_live_view
+            ln -s ${mixFodDeps}/phoenix_live_view $out/node_modules
           '';
         };
 
