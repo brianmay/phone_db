@@ -41,7 +41,7 @@ defmodule PhoneDb.MixProject do
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:phoenix_view, "~> 2.0"},
       {:telemetry_metrics, "~> 1.1.0"},
-      {:telemetry_poller, "~> 1.1.0"},
+      {:telemetry_poller, "~> 1.2.0"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
       {:plug, "~> 1.16.1"},
