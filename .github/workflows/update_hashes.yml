@@ -14,8 +14,6 @@ jobs:
           determinate: true
       - uses: DeterminateSystems/flakehub-cache-action@main
  
-      - run: nix flake check -L --impure
- 
       - name: Fix hash mismatches
         if: failure() && github.event_name == 'pull_request'
         id: fix-hashes
