@@ -9,4 +9,4 @@ jobs:
     name: Setup, Build, Test
     uses: brianmay/workflows/.github/workflows/elixir.yaml@main
     with:
-      plts_cache_postfix: "-1"
+      plts_cache_postfix: "-2"
