@@ -44,7 +44,7 @@ defmodule PhoneDb.MixProject do
       {:telemetry_poller, "~> 1.2.0"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.0"},
-      {:plug, "~> 1.17.0"},
+      {:plug, "~> 1.18.0"},
       {:ecto_sql, "~> 3.0"},
       {:ecto_psql_extras, "~> 0.8"},
       {:postgrex, ">= 0.18.0"},
