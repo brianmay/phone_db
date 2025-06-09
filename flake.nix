@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-24.11";
+      url = "github:NixOS/nixpkgs/nixos-25.05";
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -46,7 +46,8 @@
         nodePackages = pkgs.buildNpmPackage {
           name = "phone_db_assets";
           src = ./assets;
-          npmDepsHash = "sha256-aZrtxfb505O7FoksMRu1Z2Ia0M920vY7zkaMJZRA6Is=";
+          npmDepsHash = "sha256-f39BroBt50KNrf7qHyq+C+uocTBkpYhjXBZJqSjr9fA=";
+          # npmDepsHash = pkgs.lib.fakeHash;
           dontNpmBuild = true;
           inherit nodejs;
 
