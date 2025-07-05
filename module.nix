@@ -58,6 +58,10 @@ in
 
     systemd.services.phone_db = {
       wantedBy = [ "multi-user.target" ];
+      wants = [
+        "postgresql.service"
+        "openldap.service"
+      ];
       after = [
         "network.target"
         "postgresql.service"
