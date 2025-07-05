@@ -1,10 +1,17 @@
-{self}: {
+{ self }:
+{
   lib,
   pkgs,
   config,
   ...
-}: let
-  inherit (lib) mkEnableOption mkOption types mkIf;
+}:
+let
+  inherit (lib)
+    mkEnableOption
+    mkOption
+    types
+    mkIf
+    ;
 
   cfg = config.services.phone_db;
 
@@ -22,11 +29,12 @@
     mkdir -p "${cfg.data_dir}/tmp"
     exec "${phone_db_pkg}/bin/phone_db" "$@"
   '';
-in {
+in
+{
   options.services.phone_db = {
     enable = mkEnableOption "phone_db service";
-    secrets = mkOption {type = types.path;};
-    http_url = mkOption {type = types.str;};
+    secrets = mkOption { type = types.path; };
+    http_url = mkOption { type = types.str; };
     port = mkOption {
       type = types.int;
       default = 4000;
@@ -46,11 +54,15 @@ in {
       home = "${cfg.data_dir}";
     };
 
-    users.groups.phone_db = {};
+    users.groups.phone_db = { };
 
     systemd.services.phone_db = {
-      wantedBy = ["multi-user.target"];
-      after = ["network.target" "postgresql.service" "openldap.service"];
+      wantedBy = [ "multi-user.target" ];
+      after = [
+        "network.target"
+        "postgresql.service"
+        "openldap.service"
+      ];
       serviceConfig = {
         User = "phone_db";
         ExecStartPre = ''${wrapper}/bin/phone_db eval "PhoneDb.Release.migrate"'';
