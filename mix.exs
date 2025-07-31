@@ -37,7 +37,7 @@ defmodule PhoneDb.MixProject do
       {:phoenix, "~> 1.7.9"},
       {:phoenix_html, "~> 4.2.0"},
       {:phoenix_html_helpers, "~> 1.0"},
-      {:phoenix_live_view, "~> 1.0.0"},
+      {:phoenix_live_view, "~> 1.1.2"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:phoenix_view, "~> 2.0"},
       {:telemetry_metrics, "~> 1.1.0"},
