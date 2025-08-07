@@ -20,7 +20,7 @@ defmodule PhoneDbWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: PhoneDbWeb
+      use Phoenix.Controller, formats: [html: "View", json: "View"]
 
       import Plug.Conn
       use Gettext, backend: PhoneDbWeb.Gettext
