@@ -26,7 +26,7 @@
     "webpack-cli": "^6.0.1",
     "sass": "^1.91.0",
     "sass-loader": "^16.0.5",
-    "bootstrap": "^5.3.7",
+    "bootstrap": "^5.3.8",
     "@popperjs/core": "^2.11.8"
   },
   "engines": {
