@@ -50,7 +50,7 @@ defmodule PhoneDb.MixProject do
       {:ecto_psql_extras, "~> 0.8"},
       {:postgrex, ">= 0.18.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:gettext, "~> 0.11"},
+      {:gettext, "~> 1.0"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:calendar, "~> 1.0"},
