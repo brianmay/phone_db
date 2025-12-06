@@ -431,7 +431,7 @@
           devenv-up = devShell.config.procfileScript;
           default = pkg;
         };
-        inherit devShell;
+        devShells.default = devShell;
       }
     )
     // {
