@@ -15,7 +15,7 @@ let
 
   cfg = config.services.phone_db;
 
-  system = pkgs.stdenv.system;
+  system = pkgs.stdenv.hostPlatform.system;
   phone_db_pkg = self.packages.${system}.default;
 
   wrapper = pkgs.writeShellScriptBin "phone_db" ''

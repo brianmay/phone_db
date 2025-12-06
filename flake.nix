@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs/nixos-25.05";
+      url = "github:NixOS/nixpkgs/nixos-25.11";
     };
     flake-utils = {
       url = "github:numtide/flake-utils";
@@ -230,7 +230,7 @@
                   pd_ldapsearch
                   test_phone_call
                   elixir
-                  elixir_ls
+                  elixir-ls
                   glibcLocales
                   node2nix
                   nodejs
@@ -274,7 +274,7 @@
           ];
         };
 
-        test = pkgs.nixosTest {
+        test = pkgs.testers.nixosTest {
           name = "phone_db";
           nodes.machine =
             { ... }:
