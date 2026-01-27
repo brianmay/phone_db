@@ -46,7 +46,7 @@
         nodePackages = pkgs.buildNpmPackage {
           name = "phone_db_assets";
           src = ./assets;
-          npmDepsHash = "sha256-/bQZCN4sbvCXsOD9C1Kwd8OLKyVe/ur5/bE+81vsGB8=";
+          npmDepsHash = "sha256-dPtGuwkgAeKN+bGgfD1ocKmJ5cMWpxZ6qCWalAGUOv4=";
           # npmDepsHash = pkgs.lib.fakeHash;
           dontNpmBuild = true;
           inherit nodejs;
